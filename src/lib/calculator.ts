@@ -67,7 +67,7 @@ export function calcCandidates(data: AppData, attribute: Attribute): Candidate[]
       // Saltar ranks que el jugador ya tiene o son inferiores
       if (RANK_ORDER[rank] <= currentOrder) continue;
 
-      const qty    = seal.qty[rank] ?? 0;
+      const totalQtyNeeded = seal.qty[rank] ?? 0;
       const statTo = attrStats[rank] ?? 0;
 
       // Stat del rank inmediatamente anterior (lo que ya tiene el jugador en este sello)
@@ -78,7 +78,11 @@ export function calcCandidates(data: AppData, attribute: Attribute): Candidate[]
       // Ejemplo: Bronze=40, Silver=80 → subir a Silver da +40, no +80
       const statBonus = statTo - statFrom;
 
-      // Si no tiene cantidad o no da mejora real, ignorar
+      // Cantidad ADICIONAL necesaria (restar la cantidad que ya tiene en su rank actual)
+      const currentRankQty = seal.currentRank ? (seal.qty[seal.currentRank] ?? 0) : 0;
+      const qty = totalQtyNeeded - currentRankQty;
+
+      // Si no tiene cantidad adicional o no da mejora real, ignorar
       if (qty <= 0 || statBonus <= 0) continue;
 
       // El precio del sello podría ser 0 si no se ha configurado aún

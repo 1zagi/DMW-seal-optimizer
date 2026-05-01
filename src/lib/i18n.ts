@@ -23,6 +23,13 @@ export const TRANSLATIONS = {
 
     // RankingTab
     attribute: "Atributo",
+    modeSimple: "Modo Simple",
+    modeAdvanced: "Modo Avanzado",
+    bestBuy: "🎯 Compra esto",
+    nextBuy: "🥈 Siguiente",
+    bestValue: "Mejor valor ahora mismo",
+    buySeals: "Compra",
+    requiresSeals: "sellos",
     showTop: "Mostrar top",
     optionsFound: (n: number) => `${n} opciones encontradas`,
     noSealsAvail: "No hay sellos disponibles.",
@@ -97,6 +104,13 @@ export const TRANSLATIONS = {
     tabProgress: "📊 My Progress",
 
     attribute: "Attribute",
+    modeSimple: "Simple Mode",
+    modeAdvanced: "Advanced Mode",
+    bestBuy: "🎯 Buy this",
+    nextBuy: "🥈 Next",
+    bestValue: "Best value right now",
+    buySeals: "Buy",
+    requiresSeals: "seals",
     showTop: "Show top",
     optionsFound: (n: number) => `${n} options found`,
     noSealsAvail: "No seals available.",
