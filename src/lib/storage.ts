@@ -49,6 +49,20 @@ export function emptyAppData(): AppData {
   };
 }
 
+// Carga datos predeterminados desde /seals_data.json (carpeta public/).
+// Devuelve null si el archivo no existe o no tiene el formato correcto.
+export async function loadDefaultData(): Promise<AppData | null> {
+  try {
+    const res = await fetch("/seals_data.json");
+    if (!res.ok) return null;
+    const json = await res.json();
+    if (!json.seals) return null;
+    return json as AppData;
+  } catch {
+    return null;
+  }
+}
+
 // Crea un sello vacío con todos los campos en 0
 export function emptySeal(name: string) {
   return {

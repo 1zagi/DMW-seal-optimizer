@@ -1,10 +1,10 @@
-﻿// ============================================================
+// ============================================================
 //  App.tsx  —  Componente raíz de la aplicación
 // ============================================================
 
 import { useState, useEffect, useRef } from "react";
 import type { AppData } from "./lib/types";
-import { loadData, saveData, clearData, emptyAppData } from "./lib/storage";
+import { loadData, saveData, clearData, emptyAppData, loadDefaultData } from "./lib/storage";
 import { computeAttrProgress } from "./lib/calculator";
 import { RankingTab } from "./components/RankingTab";
 import { ManageTab } from "./components/ManageTab";
@@ -34,11 +34,21 @@ export default function App() {
   ];
 
   useEffect(() => {
-    const saved = loadData();
-    if (saved) {
-      setData({ ...saved, attrProgress: computeAttrProgress(saved) });
-    }
-    setReady(true);
+    const init = async () => {
+      const saved = loadData();
+      if (saved) {
+        setData({ ...saved, attrProgress: computeAttrProgress(saved) });
+      } else {
+        const fallback = await loadDefaultData();
+        if (fallback) {
+          const withProgress = { ...fallback, attrProgress: computeAttrProgress(fallback) };
+          setData(withProgress);
+          saveData(withProgress);
+        }
+      }
+      setReady(true);
+    };
+    init();
   }, []);
 
   // Guarda en historial ANTES de aplicar el cambio
