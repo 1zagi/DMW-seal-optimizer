@@ -148,7 +148,7 @@ You can fully customize the app:
 ## 🧭 Usage Guide
 
 1. Load the app
-2. Import the json file
+2. Import the json file(Optional now)
 3. Select current ranks
 4. change prices if needed
 5. Apply filters if needed
