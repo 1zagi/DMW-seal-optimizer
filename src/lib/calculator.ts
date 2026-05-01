@@ -53,61 +53,74 @@ export interface Candidate {
   fEfficiency:string;
 }
 
-// Devuelve todos los candidatos para un atributo, ordenados por eficiencia (menor primero)
-// Solo incluye ranks SUPERIORES al rank actual del jugador
-export function calcCandidates(data: AppData, attribute: Attribute): Candidate[] {
+// Devuelve UN candidato por sello para el Build Planner.
+// Para cada sello elige el rank destino que maximiza stat/costo
+// (más AT por cada M gastado), tomando en cuenta el rank actual del jugador.
+export function calcCandidates(data: AppData, attribute: Attribute, forRanking: boolean = false): Candidate[] {
   const results: Candidate[] = [];
 
   for (const seal of Object.values(data.seals)) {
     const currentOrder = seal.currentRank ? RANK_ORDER[seal.currentRank] : -1;
     const attrStats = seal.stats[attribute];
     if (!attrStats) continue;
+    if (seal.priceM <= 0) continue;
+    if (seal.currentRank === "Master") continue;
+
+    const currentStat    = seal.currentRank ? (attrStats[seal.currentRank] ?? 0) : 0;
+    const currentRankQty = seal.currentRank ? (seal.qty[seal.currentRank] ?? 0) : 0;
+
+    // Evaluar todos los ranks superiores al actual
+    let bestCandidate: Candidate | null = null;
 
     for (const rank of RANKS) {
-      // Saltar ranks que el jugador ya tiene o son inferiores
       if (RANK_ORDER[rank] <= currentOrder) continue;
 
       const totalQtyNeeded = seal.qty[rank] ?? 0;
-      const statTo = attrStats[rank] ?? 0;
+      const statTo         = attrStats[rank] ?? 0;
+      const statBonus      = statTo - currentStat;
+      const qty            = totalQtyNeeded - currentRankQty;
 
-      // Stat del rank inmediatamente anterior (lo que ya tiene el jugador en este sello)
-      const prevRank  = RANKS[RANK_ORDER[rank] - 1] as Rank | undefined;
-      const statFrom  = prevRank ? (attrStats[prevRank] ?? 0) : 0;
-
-      // La mejora REAL es la diferencia entre el rank objetivo y el anterior
-      // Ejemplo: Bronze=40, Silver=80 → subir a Silver da +40, no +80
-      const statBonus = statTo - statFrom;
-
-      // Cantidad ADICIONAL necesaria (restar la cantidad que ya tiene en su rank actual)
-      const currentRankQty = seal.currentRank ? (seal.qty[seal.currentRank] ?? 0) : 0;
-      const qty = totalQtyNeeded - currentRankQty;
-
-      // Si no tiene cantidad adicional o no da mejora real, ignorar
       if (qty <= 0 || statBonus <= 0) continue;
 
-      // El precio del sello podría ser 0 si no se ha configurado aún
-      if (seal.priceM <= 0) continue;
-
       const totalCostM = seal.priceM * qty;
-      const efficiency = totalCostM / statBonus;
 
-      results.push({
-        name:        seal.name,
+      // Métrica: stat ganado por M invertido (mayor = mejor rank destino)
+      // statBonus / totalCostM = (statTo - currentStat) / (priceM * qty_adicional)
+      // statBonus / totalCostM = (statTo - currentStat) / (priceM * qty_adicional)
+
+      const efficiency = totalCostM / statBonus; // para UI y ranking tab (menor = mejor)
+
+      const candidate: Candidate = {
+        name: seal.name,
         rank,
         priceM:      seal.priceM,
         qty,
         totalCostM,
         statBonus,
-        statFrom,
+        statFrom:    currentStat,
         statTo,
         efficiency,
         fPrice:      formatM(seal.priceM),
         fTotal:      formatM(totalCostM),
         fEfficiency: formatM(efficiency),
-      });
+      };
+
+      // Para el Builder: Elegir el rank con MAYOR statBonus absoluto.
+      // Para el Ranking: Elegir el rank con MEJOR eficiencia (menor costo por stat).
+      if (forRanking) {
+        if (!bestCandidate || efficiency < bestCandidate.efficiency) {
+          bestCandidate = candidate;
+        }
+      } else {
+        if (!bestCandidate || statBonus > bestCandidate.statBonus) {
+          bestCandidate = candidate;
+        }
+      }
     }
+
+    if (bestCandidate) results.push(bestCandidate);
   }
 
-  // Ordenar por eficiencia ascendente (más barato por punto = mejor)
+  // Ordenar por efficiency (menor costo/stat = mejor) para el ranking tab
   return results.sort((a, b) => a.efficiency - b.efficiency);
 }

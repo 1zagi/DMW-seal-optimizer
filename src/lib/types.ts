@@ -96,7 +96,7 @@ export function parseStat(attr: Attribute, raw: string): number {
 
 // Colores por rank para la UI
 export const RANK_COLOR: Record<Rank, string> = {
-  Unopened: "#000000",
+  Unopened: "#4b4b4bff",
   Normal: "#1f68c7",
   Bronze: "#cd7f32",
   Silver: "#b5c4c0",
@@ -124,6 +124,39 @@ export interface Seal {
 
   // Rank que el jugador ya tiene comprado (null = ninguno)
   currentRank: Rank | null;
+}
+
+/**
+ * ── NEW: Base data (immutable, controlled by developer) ──
+ * Contains all static seal information: stats, ranks, requirements
+ */
+export interface SealBase {
+  id: string; // Unique identifier
+  name: string; // Display name (Cherrymon, Patamon, etc)
+
+  // Stats por rank (inmutable)
+  stats: Record<Attribute, Record<Rank, number>>;
+
+  // Cuántos sellos se necesitan para completar cada rank
+  qty: Record<Rank, number>;
+}
+
+/**
+ * ── NEW: User data (mutable, edited by player) ──
+ * Only contains what users can modify: rank and price
+ */
+export interface SealUserData {
+  sealId: string;
+  currentRank: Rank | null;
+  priceM: number;
+}
+
+/**
+ * ── NEW: Merged seal (combines base + user) ──
+ * This is what the app actually uses for display/logic
+ */
+export interface MergedSeal extends Seal {
+  id: string; // Added from base for reference
 }
 
 // ── Progreso del jugador en cada atributo ──

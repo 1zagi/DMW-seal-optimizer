@@ -1,4 +1,4 @@
-﻿// ============================================================
+// ============================================================
 //  RankingTab.tsx  —  Pestaña principal de eficiencia
 // ============================================================
 
@@ -20,7 +20,7 @@ export function RankingTab({ data, lang }: Props) {
   const [simpleMode, setSimpleMode] = useState(false);
 
   const candidates = useMemo(
-    () => calcCandidates(data, selectedAttr),
+    () => calcCandidates(data, selectedAttr, true),
     [data, selectedAttr]
   );
 

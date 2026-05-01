@@ -4,15 +4,27 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Analytics } from "@vercel/analytics/react";
-import type { AppData } from "./lib/types";
-import { loadData, saveData, clearData, emptyAppData, loadDefaultData } from "./lib/storage";
+import type { AppData, SealBase, SealUserData } from "./lib/types";
+import {
+  loadData,
+  clearData,
+  emptyAppData,
+  loadDefaultData,
+  loadBaseData,
+  loadUserData,
+  saveUserData,
+  mergeStorageToAppData,
+  smartImportData,
+} from "./lib/storage";
+import { extractUserData } from "./lib/sealMerger";
 import { computeAttrProgress } from "./lib/calculator";
 import { RankingTab } from "./components/RankingTab";
 import { ManageTab } from "./components/ManageTab";
 import { ProgressTab } from "./components/ProgressTab";
+import { BuilderTab } from "./components/BuilderTab";
 import { TRANSLATIONS, type Lang } from "./lib/i18n";
 
-type Tab = "ranking" | "manage" | "progress";
+type Tab = "ranking" | "manage" | "progress" | "builder";
 const MAX_HISTORY = 20;
 const LANG_KEY = "izagi-lang";
 
@@ -29,23 +41,28 @@ export default function App() {
   const t = TRANSLATIONS[lang];
 
   const TABS: { key: Tab; label: string }[] = [
+    { key: "progress", label: t.tabProgress },
+    { key: "builder", label: t.tabBuilder },
     { key: "ranking", label: t.tabRanking },
     { key: "manage", label: t.tabManage },
-    { key: "progress", label: t.tabProgress },
   ];
 
   useEffect(() => {
     const init = async () => {
+      // Cargar datos guardados
       const saved = loadData();
       if (saved) {
         setData({ ...saved, attrProgress: computeAttrProgress(saved) });
+        setReady(true);
+        return;
+      }
+
+      // Si no hay datos, cargar datos predeterminados
+      const fallback = await loadDefaultData();
+      if (fallback) {
+        setData({ ...fallback, attrProgress: computeAttrProgress(fallback) });
       } else {
-        const fallback = await loadDefaultData();
-        if (fallback) {
-          const withProgress = { ...fallback, attrProgress: computeAttrProgress(fallback) };
-          setData(withProgress);
-          saveData(withProgress);
-        }
+        setData(emptyAppData());
       }
       setReady(true);
     };
@@ -53,11 +70,18 @@ export default function App() {
   }, []);
 
   // Guarda en historial ANTES de aplicar el cambio
+  // Ahora solo guarda userData
   const updateData = (next: AppData) => {
     setHistory(prev => [...prev.slice(-MAX_HISTORY + 1), data]);
     const withProgress = { ...next, attrProgress: computeAttrProgress(next) };
     setData(withProgress);
-    saveData(withProgress);
+
+    // NEW: Guardar solo user data
+    const userData = new Map<string, SealUserData>();
+    for (const [name, seal] of Object.entries(next.seals)) {
+      userData.set(seal.name || name, extractUserData(seal, seal.name || name));
+    }
+    saveUserData(userData);
   };
 
   const handleUndo = () => {
@@ -66,7 +90,13 @@ export default function App() {
     setHistory(h => h.slice(0, -1));
     const withProgress = { ...prev, attrProgress: computeAttrProgress(prev) };
     setData(withProgress);
-    saveData(withProgress);
+
+    // Guardar user data
+    const userData = new Map<string, SealUserData>();
+    for (const [name, seal] of Object.entries(prev.seals)) {
+      userData.set(seal.name || name, extractUserData(seal, seal.name || name));
+    }
+    saveUserData(userData);
   };
 
   const handleReset = () => {
@@ -83,17 +113,57 @@ export default function App() {
   };
 
   // ── Importar JSON ──
+  // SMART IMPORT: agrega sellos nuevos Y actualiza ranks/precios de los existentes
   const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
     reader.onload = (ev) => {
       try {
-        const parsed = JSON.parse(ev.target?.result as string) as AppData;
-        if (!parsed.seals) throw new Error("JSON inválido: falta 'seals'");
-        parsed.lastUpdated = Date.now();
-        updateData(parsed);
-        alert(`✅ ${lang === "es" ? "Importados" : "Imported"} ${Object.keys(parsed.seals).length} ${lang === "es" ? "sellos correctamente." : "seals successfully."}`);
+        const parsed = JSON.parse(ev.target?.result as string);
+
+        // ── Formato nuevo: { base: SealBase[] } ──
+        if (parsed.base && Array.isArray(parsed.base)) {
+          const newBase = parsed.base as SealBase[];
+          smartImportData(newBase);
+          const merged = mergeStorageToAppData(loadBaseData(), loadUserData());
+          updateData(merged);
+          alert(`✅ ${lang === "es" ? "Procesados" : "Processed"} ${newBase.length} ${lang === "es" ? "sellos." : "seals."}`);
+          return;
+        }
+
+        // ── Formato exportado por la app: { seals: Record<string, Seal> } ──
+        if (parsed.seals) {
+          const sealEntries = Object.values(parsed.seals) as any[];
+
+          // Separar base y user data
+          const baseToImport: SealBase[] = sealEntries.map((s: any) => ({
+            id:    s.name,
+            name:  s.name,
+            stats: s.stats,
+            qty:   s.qty,
+          }));
+
+          // Extraer userData (currentRank + priceM) de cada sello exportado
+          const userToImport = new Map<string, SealUserData>();
+          for (const s of sealEntries) {
+            if (s.name) {
+              userToImport.set(s.name, {
+                sealId:      s.name,
+                currentRank: s.currentRank ?? null,
+                priceM:      s.priceM ?? 0,
+              });
+            }
+          }
+
+          smartImportData(baseToImport, userToImport);
+          const merged = mergeStorageToAppData(loadBaseData(), loadUserData());
+          updateData(merged);
+          alert(`✅ ${lang === "es" ? "Importados" : "Imported"} ${sealEntries.length} ${lang === "es" ? "sellos (ranks y precios actualizados)." : "seals (ranks & prices updated)."}`);
+          return;
+        }
+
+        throw new Error(lang === "es" ? "JSON inv\u00e1lido: falta 'seals' o 'base'" : "Invalid JSON: missing 'seals' or 'base'");
       } catch (err) {
         alert(`❌ ${lang === "es" ? "Error al leer el JSON:" : "Error reading JSON:"} ` + (err as Error).message);
       }
@@ -205,6 +275,7 @@ export default function App() {
         {tab === "ranking" && <RankingTab data={data} lang={lang} />}
         {tab === "manage" && <ManageTab data={data} onUpdate={updateData} lang={lang} />}
         {tab === "progress" && <ProgressTab data={data} onUpdate={updateData} lang={lang} />}
+        {tab === "builder" && <BuilderTab data={data} lang={lang} />}
       </main>
       <Analytics />
     </div>

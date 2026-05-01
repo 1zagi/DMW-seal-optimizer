@@ -20,6 +20,7 @@ export const TRANSLATIONS = {
     tabRanking: "🏆 Ranking",
     tabManage: "🗂️ Gestionar Sellos",
     tabProgress: "📊 Mi Progreso",
+    tabBuilder: "🔨 Build Planner",
 
     // RankingTab
     attribute: "Atributo",
@@ -85,6 +86,17 @@ export const TRANSLATIONS = {
     actualLabel: "Actual",
     maxLabel: "Máximo",
 
+    // BuilderTab
+    builderSubtitle: "Elige tu meta de stats y te mostramos qué comprar",
+    builderTarget: "Tu meta",
+    builderCurrent: "Tienes ahora",
+    builderCheapest: "💰 Más barato",
+    builderCheapestDesc: "La opción que gasta menos dinero",
+    builderFewest: "📦 Menos compras",
+    builderFewestDesc: "La opción con menos sellos",
+    builderNoSeals: "Sin sellos disponibles.",
+    builderAddSeals: 'Agrega sellos en "Gestionar" con precios y cantidades.',
+
     // Confirm reset
     confirmReset: "¿Borrar todos los datos? Esta acción no se puede deshacer.",
   },
@@ -102,6 +114,7 @@ export const TRANSLATIONS = {
     tabRanking: "🏆 Ranking",
     tabManage: "🗂️ Manage Seals",
     tabProgress: "📊 My Progress",
+    tabBuilder: "🔨 Build Planner",
 
     attribute: "Attribute",
     modeSimple: "Simple Mode",
@@ -163,6 +176,17 @@ export const TRANSLATIONS = {
     noData: "no data",
     actualLabel: "Current",
     maxLabel: "Maximum",
+
+    // BuilderTab
+    builderSubtitle: "Set your target stat and we'll tell you what to buy",
+    builderTarget: "Your target",
+    builderCurrent: "You have now",
+    builderCheapest: "💰 Cheapest",
+    builderCheapestDesc: "Spend the least amount of money",
+    builderFewest: "📦 Fewer seals",
+    builderFewestDesc: "Buy the fewest seals",
+    builderNoSeals: "No seals available.",
+    builderAddSeals: 'Add seals in "Manage" with prices and quantities.',
 
     confirmReset: "Delete all data? This action cannot be undone.",
   },

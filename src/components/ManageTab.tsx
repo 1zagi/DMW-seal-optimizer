@@ -108,7 +108,7 @@ export function ManageTab({ data, onUpdate, lang }: Props) {
     if (!name || data.seals[name]) return;
     onUpdate({
       ...data,
-      seals: { ...data.seals, [name]: emptySeal(name) as typeof data.seals[string] },
+      seals: { ...data.seals, [name]: emptySeal(name) as unknown as typeof data.seals[string] },
       lastUpdated: Date.now(),
     });
     setNewName("");
@@ -321,18 +321,10 @@ export function ManageTab({ data, onUpdate, lang }: Props) {
                     />
                   </div>
 
-                  {/* ── Rank actual del jugador ── */}
+                  {/* ── Rank actual del jugador — Unopened es el mínimo ── */}
                   <div>
                     <p className="text-[#5a8aaa] text-xs font-mono uppercase tracking-wider mb-2">{t.myRank}</p>
                     <div className="flex gap-1 flex-wrap">
-                      <button
-                        onClick={() => updateSeal(seal.name, { currentRank: null })}
-                        className={`px-3 py-1 rounded text-xs font-mono border transition-all ${
-                          seal.currentRank === null
-                            ? "border-[#00c8f0] text-[#00c8f0] bg-[#00c8f0]/15"
-                            : "border-[#1a3f6e] text-[#2a4558] hover:text-white"
-                        }`}
-                      >{t.rankNone}</button>
                       {RANKS.map(rank => (
                         <button
                           key={rank}
