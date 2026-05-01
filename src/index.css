@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── DMO-inspired color tokens ───────────────────────────── */
+:root {
+  --dmo-bg:          #060d18;  /* fondo principal */
+  --dmo-panel:       #09141f;  /* panel/header */
+  --dmo-deep:        #060e17;  /* panel expandido */
+  --dmo-card:        #081522;  /* card de info */
+  --dmo-border:      #1a3f6e;  /* borde estructural */
+  --dmo-cyan:        #00c8f0;  /* accent principal */
+  --dmo-teal:        #00aed0;  /* teal secundario */
+  --dmo-muted2:      #5a8aaa;  /* texto secundario */
+  --dmo-muted3:      #2a4558;  /* texto muy tenue */
+  --dmo-light:       #7ab0cc;  /* texto claro */
+  --dmo-stat-green:  #00e676;  /* stats HP/AT/DS/DE */
+  --dmo-stat-purple: #cc55ff;  /* stats CT/BL/EV */
+}
+
+body {
+  background-color: #060d18;
+  color: white;
+  font-family: 'Rajdhani', 'Segoe UI', sans-serif;
+}
+
+/* Scrollbar discreta estilo DMO */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #060d18; }
+::-webkit-scrollbar-thumb { background: #1a3f6e; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #00c8f0; }
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
