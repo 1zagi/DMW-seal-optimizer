@@ -3,6 +3,7 @@
 // ============================================================
 
 import { useState, useEffect, useRef } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import type { AppData } from "./lib/types";
 import { loadData, saveData, clearData, emptyAppData, loadDefaultData } from "./lib/storage";
 import { computeAttrProgress } from "./lib/calculator";
@@ -205,6 +206,7 @@ export default function App() {
         {tab === "manage" && <ManageTab data={data} onUpdate={updateData} lang={lang} />}
         {tab === "progress" && <ProgressTab data={data} onUpdate={updateData} lang={lang} />}
       </main>
+      <Analytics />
     </div>
   );
 }
