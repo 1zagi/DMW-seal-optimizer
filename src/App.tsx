@@ -4,7 +4,8 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Analytics } from "@vercel/analytics/react";
-import type { AppData, SealBase, SealUserData } from "./lib/types";
+import type { AppData, SealBase, SealUserData, Attribute } from "./lib/types";
+import { ATTRIBUTES } from "./lib/types";
 import {
   loadData,
   clearData,
@@ -34,6 +35,20 @@ export default function App() {
   const [tab, setTab] = useState<Tab>("ranking");
   const [ready, setReady] = useState(false);
   const [history, setHistory] = useState<AppData[]>([]);
+
+  // ── Estado persistente por tab ──
+  // RankingTab
+  const [rankAttr,      setRankAttr]      = useState<Attribute>(ATTRIBUTES[0]);
+  const [rankSimple,    setRankSimple]    = useState(false);
+  const [rankTopN,      setRankTopN]      = useState(5);
+  // BuilderTab
+  const [builderAttr,   setBuilderAttr]   = useState<Attribute>(ATTRIBUTES[0]);
+  const [builderTarget, setBuilderTarget] = useState("");
+  const [builderSlider, setBuilderSlider] = useState(false);
+  // ManageTab
+  const [manageSearch,  setManageSearch]  = useState("");
+  const [manageFilter,  setManageFilter]  = useState<Attribute | null>(null);
+  const [manageSort,    setManageSort]    = useState<"name-asc"|"name-desc"|"stat-desc"|"stat-asc">("name-asc");
   const [lang, setLang] = useState<Lang>(() =>
     (localStorage.getItem(LANG_KEY) as Lang | null) ?? "es"
   );
@@ -293,10 +308,22 @@ export default function App() {
       </nav>
 
       <main className="p-6">
-        {tab === "ranking" && <RankingTab data={data} lang={lang} />}
-        {tab === "manage" && <ManageTab data={data} onUpdate={updateData} lang={lang} />}
+        {tab === "ranking" && <RankingTab data={data} lang={lang}
+          selectedAttr={rankAttr} onAttrChange={setRankAttr}
+          simpleMode={rankSimple} onSimpleModeChange={setRankSimple}
+          topN={rankTopN} onTopNChange={setRankTopN}
+        />}
+        {tab === "manage" && <ManageTab data={data} onUpdate={updateData} lang={lang}
+          search={manageSearch} onSearchChange={setManageSearch}
+          attrFilter={manageFilter} onAttrFilterChange={setManageFilter}
+          sortKey={manageSort} onSortKeyChange={setManageSort}
+        />}
         {tab === "progress" && <ProgressTab data={data} onUpdate={updateData} lang={lang} />}
-        {tab === "builder" && <BuilderTab data={data} lang={lang} />}
+        {tab === "builder" && <BuilderTab data={data} lang={lang}
+          selectedAttr={builderAttr} onAttrChange={setBuilderAttr}
+          targetStat={builderTarget} onTargetStatChange={setBuilderTarget}
+          useSlider={builderSlider} onUseSliderChange={setBuilderSlider}
+        />}
       </main>
 
       {/* ── Modal de estrategia de import ── */}

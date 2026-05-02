@@ -2,7 +2,7 @@
 //  RankingTab.tsx  —  Pestaña principal de eficiencia
 // ============================================================
 
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import type { AppData, Attribute } from "../lib/types";
 import { ATTRIBUTES, ATTR_SHORT, ATTR_ICON, RANK_COLOR, PERCENT_ATTRS, formatStat } from "../lib/types";
 import { calcCandidates, type Candidate } from "../lib/calculator";
@@ -11,13 +11,16 @@ import { TRANSLATIONS, type Lang } from "../lib/i18n";
 interface Props {
   data: AppData;
   lang: Lang;
+  selectedAttr: Attribute;
+  onAttrChange: (a: Attribute) => void;
+  simpleMode: boolean;
+  onSimpleModeChange: (v: boolean) => void;
+  topN: number;
+  onTopNChange: (n: number) => void;
 }
 
-export function RankingTab({ data, lang }: Props) {
+export function RankingTab({ data, lang, selectedAttr, onAttrChange, simpleMode, onSimpleModeChange, topN, onTopNChange }: Props) {
   const t = TRANSLATIONS[lang];
-  const [selectedAttr, setSelectedAttr] = useState<Attribute>(ATTRIBUTES[0]);
-  const [topN, setTopN] = useState(5);
-  const [simpleMode, setSimpleMode] = useState(false);
 
   const candidates = useMemo(
     () => calcCandidates(data, selectedAttr),
@@ -37,7 +40,7 @@ export function RankingTab({ data, lang }: Props) {
           {ATTRIBUTES.map(attr => (
             <button
               key={attr}
-              onClick={() => setSelectedAttr(attr)}
+              onClick={() => onAttrChange(attr)}
               className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all text-left ${
                 selectedAttr === attr
                   ? "bg-[#00c8f0]/15 border border-[#00c8f0]/40 text-[#00c8f0]"
@@ -61,7 +64,7 @@ export function RankingTab({ data, lang }: Props) {
         {/* Toggle modo Simple/Avanzado */}
         <div className="flex items-center gap-2 mb-4">
           <button
-            onClick={() => setSimpleMode(false)}
+            onClick={() => onSimpleModeChange(false)}
             className={`px-4 py-2 text-xs font-semibold rounded-lg border transition-all ${
               !simpleMode
                 ? "bg-[#00c8f0]/15 border-[#00c8f0]/40 text-[#00c8f0]"
@@ -71,7 +74,7 @@ export function RankingTab({ data, lang }: Props) {
             {t.modeAdvanced}
           </button>
           <button
-            onClick={() => setSimpleMode(true)}
+            onClick={() => onSimpleModeChange(true)}
             className={`px-4 py-2 text-xs font-semibold rounded-lg border transition-all ${
               simpleMode
                 ? "bg-[#00c8f0]/15 border-[#00c8f0]/40 text-[#00c8f0]"
@@ -184,7 +187,7 @@ export function RankingTab({ data, lang }: Props) {
               {[3, 5, 10, 20].map(n => (
                 <button
                   key={n}
-                  onClick={() => setTopN(n)}
+                  onClick={() => onTopNChange(n)}
                   className={`px-3 py-1 text-xs font-mono rounded border transition-all ${
                     topN === n
                       ? "border-[#00c8f0] text-[#00c8f0] bg-[#00c8f0]/10"

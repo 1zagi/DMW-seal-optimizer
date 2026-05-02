@@ -2,7 +2,7 @@
 //  BuilderTab.tsx  —  Build Planner: compra inteligente
 // ============================================================
 
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import type { AppData, Attribute } from "../lib/types";
 import { ATTRIBUTES, ATTR_SHORT, ATTR_ICON, RANK_COLOR, PERCENT_ATTRS, formatStat } from "../lib/types";
 import { calcCandidates } from "../lib/calculator";
@@ -13,13 +13,16 @@ import { formatM } from "../lib/currency";
 interface Props {
   data: AppData;
   lang: Lang;
+  selectedAttr: Attribute;
+  onAttrChange: (a: Attribute) => void;
+  targetStat: string;
+  onTargetStatChange: (v: string) => void;
+  useSlider: boolean;
+  onUseSliderChange: (v: boolean) => void;
 }
 
-export function BuilderTab({ data, lang }: Props) {
+export function BuilderTab({ data, lang, selectedAttr, onAttrChange, targetStat, onTargetStatChange, useSlider, onUseSliderChange }: Props) {
   const t = TRANSLATIONS[lang];
-  const [selectedAttr, setSelectedAttr] = useState<Attribute>(ATTRIBUTES[0]);
-  const [targetStat, setTargetStat] = useState<string>("");
-  const [useSlider, setUseSlider] = useState(false);
 
   const candidates = useMemo(
     () => calcCandidates(data, selectedAttr),
@@ -52,7 +55,7 @@ export function BuilderTab({ data, lang }: Props) {
       return { cheapest: empty, fewest: empty };
     }
     return optimizeBuild(candidates, internalTarget, selectedAttr);
-  }, [candidates, internalTarget]);
+  }, [candidates, internalTarget, selectedAttr]);
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -72,8 +75,8 @@ export function BuilderTab({ data, lang }: Props) {
           <select
             value={selectedAttr}
             onChange={e => {
-              setSelectedAttr(e.target.value as Attribute);
-              setTargetStat(""); // Reset cuando cambias atributo
+              onAttrChange(e.target.value as Attribute);
+              onTargetStatChange("");
             }}
             className="w-full px-3 py-2 rounded bg-[#0a1520] border border-[#1a3f6e] text-white font-mono text-sm focus:border-[#00c8f0] focus:outline-none"
           >
@@ -88,13 +91,13 @@ export function BuilderTab({ data, lang }: Props) {
         {/* Current & Max stats */}
         <div className="grid grid-cols-2 gap-2 p-3 bg-black bg-opacity-30 rounded">
           <div>
-            <p className="text-[#5a8aaa] text-xs font-mono uppercase">Tienes ahora</p>
+            <p className="text-[#5a8aaa] text-xs font-mono uppercase">{t.builderCurrent}</p>
             <p className="text-[#00c8f0] font-semibold text-lg">
               {isPct ? `${currentDisplay}%` : currentStats.toLocaleString()}
             </p>
           </div>
           <div>
-            <p className="text-[#5a8aaa] text-xs font-mono uppercase">Máximo posible</p>
+            <p className="text-[#5a8aaa] text-xs font-mono uppercase">{lang === "es" ? "Máximo posible" : "Max possible"}</p>
             <p className="text-[#7ab0cc] font-semibold text-lg">
               {isPct ? `${maxDisplay}%` : maxStats.toLocaleString()}
             </p>
@@ -104,12 +107,12 @@ export function BuilderTab({ data, lang }: Props) {
         {/* Target: Slider */}
         <div>
           <div className="flex justify-between items-center mb-2">
-            <label className="text-[#5a8aaa] text-xs font-mono uppercase">Tu meta</label>
+            <label className="text-[#5a8aaa] text-xs font-mono uppercase">{t.builderTarget}</label>
             <button
-              onClick={() => setUseSlider(!useSlider)}
+              onClick={() => onUseSliderChange(!useSlider)}
               className="text-[#00c8f0] text-xs font-mono hover:text-white transition-colors"
             >
-              {useSlider ? "Cambiar a input" : "Usar slider"}
+              {useSlider ? (lang === "es" ? "Cambiar a input" : "Switch to input") : (lang === "es" ? "Usar slider" : "Use slider")}
             </button>
           </div>
 
@@ -121,7 +124,7 @@ export function BuilderTab({ data, lang }: Props) {
                 max={maxDisplay}
                 step={isPct ? 0.001 : 1}
                 value={displayTarget}
-                onChange={e => setTargetStat(e.target.value)}
+                onChange={e => onTargetStatChange(e.target.value)}
                 className="w-full"
               />
               <div className="flex justify-between items-center text-sm">
@@ -131,7 +134,7 @@ export function BuilderTab({ data, lang }: Props) {
               </div>
               <div className="text-center">
                 <p className="text-[#00c8f0] font-semibold text-xl">{isPct ? `${displayTarget}%` : displayTarget.toLocaleString()}</p>
-                <p className="text-[#2a4558] text-xs">+{isPct ? `${parseFloat((displayTarget - currentDisplay).toPrecision(4))}%` : (displayTarget - currentDisplay).toLocaleString()} desde ahora</p>
+                <p className="text-[#2a4558] text-xs">+{isPct ? `${parseFloat((displayTarget - currentDisplay).toPrecision(4))}%` : (displayTarget - currentDisplay).toLocaleString()} {lang === "es" ? "desde ahora" : "from now"}</p>
               </div>
             </div>
           ) : (
@@ -140,7 +143,7 @@ export function BuilderTab({ data, lang }: Props) {
                 <input
                   type="number"
                   value={targetStat}
-                  onChange={e => setTargetStat(e.target.value)}
+                  onChange={e => onTargetStatChange(e.target.value)}
                   min={0}
                   step={isPct ? 0.001 : 1}
                   className="w-full px-3 py-2 pr-10 rounded bg-[#0a1520] border border-[#1a3f6e] text-white font-mono text-sm focus:border-[#00c8f0] focus:outline-none"
@@ -152,8 +155,8 @@ export function BuilderTab({ data, lang }: Props) {
               </div>
               <p className="text-[#2a4558] text-xs">
                 {isPct
-                  ? `Escribe un % (ej: 0.5). Tienes ${currentDisplay}%, máximo es ${maxDisplay}%`
-                  : `Escribe un número. Tienes ${currentDisplay.toLocaleString()}, máximo es ${maxDisplay.toLocaleString()}`
+                  ? `${lang === "es" ? "Escribe un %" : "Enter a %"} (${lang === "es" ? "ej" : "e.g"}: 0.5). ${lang === "es" ? "Tienes" : "You have"} ${currentDisplay}%, ${lang === "es" ? "máximo es" : "max is"} ${maxDisplay}%`
+                  : `${lang === "es" ? "Escribe un número. Tienes" : "Enter a number. You have"} ${currentDisplay.toLocaleString()}, ${lang === "es" ? "máximo es" : "max is"} ${maxDisplay.toLocaleString()}`
                 }
               </p>
             </div>
@@ -174,6 +177,7 @@ export function BuilderTab({ data, lang }: Props) {
             targetValue={internalTarget}
             currentStats={currentStats}
             type="cost"
+            lang={lang}
           />
 
           {/* Solución 2: Menos sellos */}
@@ -186,6 +190,7 @@ export function BuilderTab({ data, lang }: Props) {
             targetValue={internalTarget}
             currentStats={currentStats}
             type="seals"
+            lang={lang}
           />
         </div>
       ) : (
@@ -200,14 +205,7 @@ export function BuilderTab({ data, lang }: Props) {
 
 // ── Tarjeta de solución ──
 function SolutionCard({
-  solution,
-  label,
-  sublabel,
-  attr,
-  isPct,
-  targetValue,
-  currentStats,
-  type,
+  solution, label, sublabel, attr, isPct, targetValue, currentStats, type, lang,
 }: {
   solution: BuildSolution;
   label: string;
@@ -217,6 +215,7 @@ function SolutionCard({
   targetValue: number;
   currentStats: number;
   type: "cost" | "seals";
+  lang: "es" | "en";
 }) {
   const finalStats = currentStats + solution.totalStats;
   const isMet = solution.isFeasible;
@@ -238,11 +237,11 @@ function SolutionCard({
       {/* Resumen rápido */}
       <div className="grid grid-cols-2 gap-2 mb-4 text-sm">
         <div className="bg-black bg-opacity-30 p-2 rounded">
-          <p className="text-[#5a8aaa] text-xs font-mono uppercase">Costo</p>
+          <p className="text-[#5a8aaa] text-xs font-mono uppercase">{lang === "es" ? "Costo" : "Cost"}</p>
           <p className="text-white font-semibold">{formatM(solution.totalCost)}</p>
         </div>
         <div className="bg-black bg-opacity-30 p-2 rounded">
-          <p className="text-[#5a8aaa] text-xs font-mono uppercase">{type === "cost" ? "Stats" : "Sellos"}</p>
+          <p className="text-[#5a8aaa] text-xs font-mono uppercase">{type === "cost" ? "Stats" : (lang === "es" ? "Sellos" : "Seals")}</p>
           <p className="text-white font-semibold">
             {type === "seals" ? `${solution.totalSeals}x` : isPct ? formatStat(attr, solution.totalStats) : solution.totalStats}
           </p>
@@ -254,7 +253,7 @@ function SolutionCard({
         <div className="flex justify-between items-center mb-2">
           <p className="text-[#5a8aaa] text-xs font-mono">Total: {formatStat(attr, finalStats)}</p>
           <p className={`text-xs font-mono ${isMet ? "text-[#00e676]" : "text-[#ffd700]"}`}>
-            {isMet ? "✓ Meta alcanzada" : "⚠ Incompleto"}
+            {isMet ? (lang === "es" ? "✓ Meta alcanzada" : "✓ Goal reached") : (lang === "es" ? "⚠ Incompleto" : "⚠ Incomplete")}
           </p>
         </div>
         {targetValue > 0 && (
@@ -275,7 +274,7 @@ function SolutionCard({
 
       {/* Lista de compras */}
       <div className="space-y-2 text-xs">
-        <p className="text-[#5a8aaa] font-mono uppercase text-xs">Compra:</p>
+        <p className="text-[#5a8aaa] font-mono uppercase text-xs">{lang === "es" ? "Compra:" : "Buy:"}</p>
         {solution.items.map((item, i) => (
           <div key={`${item.name}-${item.rank}-${i}`} className="flex justify-between items-start gap-2 bg-black bg-opacity-30 p-2 rounded">
             <div className="flex-1 min-w-0">
@@ -291,7 +290,7 @@ function SolutionCard({
                   background: `${(RANK_COLOR[item.rank] ?? "#fff")}20`,
                   border: `1px solid ${(RANK_COLOR[item.rank] ?? "#fff")}40`,
                 }}>{item.rank}</span>
-                <span className="text-[#2a4558] ml-1">{item.qty.toLocaleString()} sellos</span>
+                <span className="text-[#2a4558] ml-1">{item.qty.toLocaleString()} {lang === "es" ? "sellos" : "seals"}</span>
               </p>
             </div>
             <div className="text-right shrink-0">
