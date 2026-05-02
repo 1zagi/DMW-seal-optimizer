@@ -7,6 +7,7 @@ import type { AppData, Attribute } from "../lib/types";
 import { ATTRIBUTES, ATTR_SHORT, ATTR_ICON, RANK_COLOR, PERCENT_ATTRS, formatStat } from "../lib/types";
 import { calcCandidates, type Candidate } from "../lib/calculator";
 import { TRANSLATIONS, type Lang } from "../lib/i18n";
+import { formatM } from "../lib/currency";
 
 interface Props {
   data: AppData;
@@ -17,14 +18,16 @@ interface Props {
   onSimpleModeChange: (v: boolean) => void;
   topN: number;
   onTopNChange: (n: number) => void;
+  openerPrice: number;
+  includeOpener: boolean;
 }
 
-export function RankingTab({ data, lang, selectedAttr, onAttrChange, simpleMode, onSimpleModeChange, topN, onTopNChange }: Props) {
+export function RankingTab({ data, lang, selectedAttr, onAttrChange, simpleMode, onSimpleModeChange, topN, onTopNChange, openerPrice, includeOpener }: Props) {
   const t = TRANSLATIONS[lang];
 
   const candidates = useMemo(
-    () => calcCandidates(data, selectedAttr),
-    [data, selectedAttr]
+    () => calcCandidates(data, selectedAttr, includeOpener ? openerPrice : undefined),
+    [data, selectedAttr, includeOpener, openerPrice]
   );
 
   const progress = data.attrProgress.find(p => p.attribute === selectedAttr);
@@ -87,59 +90,85 @@ export function RankingTab({ data, lang, selectedAttr, onAttrChange, simpleMode,
 
         {simpleMode ? (
           <>
-            {/* ── MODO SIMPLE ── */}
+            {/* ── MODO SIMPLE (renombrado: Top Recommended) ── */}
             {candidates.length > 0 ? (
-              <div className="space-y-4">
-                {/* TOP 1: Compra esto */}
-                {candidates[0] && (
-                  <div className="p-5 bg-[#0a2a1a] border-2 border-[#00e676] rounded-xl">
-                    <p className="text-[#00e676] text-xs font-mono uppercase mb-2">{t.bestBuy}</p>
-                    <div className="space-y-3">
-                      <div>
-                        <p className="text-[#5a8aaa] text-xs font-mono mb-1">{candidates[0].name}</p>
-                        <div className="flex items-center gap-3">
-                          <span className="px-2 py-0.5 rounded text-xs font-bold" style={{
-                            color: RANK_COLOR[candidates[0].rank] ?? "#fff",
-                            border: `1px solid ${(RANK_COLOR[candidates[0].rank] ?? "#fff")}40`,
-                            background: `${(RANK_COLOR[candidates[0].rank] ?? "#fff")}15`,
-                          }}>{candidates[0].rank}</span>
-                          <span className="text-white font-semibold">
-                            {isPct ? `+${formatStat(selectedAttr, candidates[0].statBonus)}` : `+${candidates[0].statBonus}`}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-2xl font-bold text-[#00c8f0]">💰 {candidates[0].fTotal}</span>
-                        <span className="text-[#5a8aaa] text-xs">{t.bestValue}</span>
-                      </div>
-                    </div>
-                  </div>
-                )}
+              <div className="space-y-3">
+                {[candidates[0], candidates[1]].filter(Boolean).map((c, i) => {
+                  const isFirst = i === 0;
+                  const rankColor = RANK_COLOR[c.rank] ?? "#fff";
+                  const remaining = progress ? (progress.vMax - progress.vActual) : null;
+                  const pctGain = remaining && remaining > 0
+                    ? (c.statBonus / remaining) * 100
+                    : null;
 
-                {/* TOP 2: Siguiente */}
-                {candidates[1] && (
-                  <div className="p-5 bg-[#1a1a0a] border-2 border-[#ffd700] rounded-xl">
-                    <p className="text-[#ffd700] text-xs font-mono uppercase mb-2">{t.nextBuy}</p>
-                    <div className="space-y-3">
-                      <div>
-                        <p className="text-[#5a8aaa] text-xs font-mono mb-1">{candidates[1].name}</p>
-                        <div className="flex items-center gap-3">
-                          <span className="px-2 py-0.5 rounded text-xs font-bold" style={{
-                            color: RANK_COLOR[candidates[1].rank] ?? "#fff",
-                            border: `1px solid ${(RANK_COLOR[candidates[1].rank] ?? "#fff")}40`,
-                            background: `${(RANK_COLOR[candidates[1].rank] ?? "#fff")}15`,
-                          }}>{candidates[1].rank}</span>
-                          <span className="text-white font-semibold">
-                            {isPct ? `+${formatStat(selectedAttr, candidates[1].statBonus)}` : `+${candidates[1].statBonus}`}
-                          </span>
+                  return (
+                    <div
+                      key={c.name}
+                      className={`p-4 rounded-xl border-2 ${
+                        isFirst
+                          ? "bg-[#0a2a1a] border-[#00e676]"
+                          : "bg-[#1a1a0a] border-[#ffd700]"
+                      }`}
+                    >
+                      {/* Badge */}
+                      <p className={`text-xs font-mono uppercase mb-3 ${
+                        isFirst ? "text-[#00e676]" : "text-[#ffd700]"
+                      }`}>
+                        {isFirst ? t.bestBuy : t.nextBuy}
+                      </p>
+
+                      {/* Row principal */}
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex-1">
+                          <p className="text-white font-bold text-sm mb-1">{c.name}</p>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="px-2 py-0.5 rounded text-xs font-bold" style={{
+                              color: rankColor,
+                              border: `1px solid ${rankColor}40`,
+                              background: `${rankColor}15`,
+                            }}>{c.rank}</span>
+                            <span className="text-white font-semibold text-sm">
+                              {isPct ? `+${formatStat(selectedAttr, c.statBonus)}` : `+${c.statBonus.toLocaleString()}`}
+                            </span>
+                            {pctGain !== null && (
+                              <span className="text-[#5a8aaa] text-xs font-mono">
+                                (~{pctGain.toFixed(1)}% {lang === "es" ? "del restante" : "of remaining"})
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-[#5a8aaa] text-xs font-mono mt-1">
+                            {c.qty.toLocaleString()} {lang === "es" ? "sellos necesarios" : "seals needed"}
+                          </p>
+                        </div>
+                        <div className="text-right shrink-0">
+                          <p className="text-[#00c8f0] font-bold text-lg">{c.fTotal}</p>
+                          <p className="text-[#2a4558] text-xs font-mono">
+                            {formatM(c.priceM)}/{lang === "es" ? "sello" : "seal"}
+                          </p>
                         </div>
                       </div>
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-2xl font-bold text-[#00c8f0]">💰 {candidates[1].fTotal}</span>
-                      </div>
+
+                      {/* Extra info */}
+                      {isFirst && (
+                        <div className="mt-3 pt-3 border-t border-[#00e676]/20">
+                          <p className="text-[#5a8aaa] text-xs font-mono">{t.bestValue}</p>
+                        </div>
+                      )}
                     </div>
-                  </div>
-                )}
+                  );
+                })}
+
+                {/* Botón: ir al Build Planner */}
+                <button
+                  onClick={() => {
+                    // Navegar al builder — el padre maneja el tab
+                    document.dispatchEvent(new CustomEvent("goto-builder", { detail: { attr: selectedAttr } }));
+                  }}
+                  className="w-full py-3 rounded-xl border border-[#00c8f0]/40 text-[#00c8f0] text-xs font-mono hover:bg-[#00c8f0]/10 transition-all flex items-center justify-center gap-2"
+                >
+                  🔨 {lang === "es" ? "Planear build completo para" : "Plan full build for"} {selectedAttr.split(" ")[0]}
+                  <span className="text-[#2a4558]">→ Build Planner</span>
+                </button>
               </div>
             ) : (
               <div className="p-8 text-center text-[#5a8aaa] font-mono text-sm">
@@ -232,6 +261,12 @@ export function RankingTab({ data, lang, selectedAttr, onAttrChange, simpleMode,
 
             <p className="mt-3 text-[#2a4558] text-xs font-mono">
               {t.efficiencyNote}
+              {includeOpener && openerPrice > 0 && (
+                <>
+                  <br />
+                  💡 {lang === "es" ? "Incluye costo de opener:" : "Includes opener cost:"} {formatM(openerPrice / 50)}/sello
+                </>
+              )}
             </p>
           </>
         )}

@@ -13,6 +13,8 @@ import { mergeSealData, migrateOldSeal } from "./sealMerger";
 const STORAGE_KEY_BASE = "izagi-seals-v2-base";
 const STORAGE_KEY_USER = "izagi-seals-v2-user";
 const OLD_STORAGE_KEY = "izagi-seals-v1"; // Para migración
+const STORAGE_KEY_OPENER_PRICE = "izagi-opener-price";
+const STORAGE_KEY_INCLUDE_OPENER = "izagi-include-opener";
 
 /**
  * Carga user data desde localStorage
@@ -295,4 +297,31 @@ export function emptySeal(name: string) {
     ) as Record<string, Record<string, number>>,
     qty: Object.fromEntries(RANKS.map(r => [r, 0])) as Record<string, number>,
   } as SealBase;
+}
+
+// ── Seal Opener Price Settings ──
+
+export function saveOpenerPrice(priceM: number): void {
+  localStorage.setItem(STORAGE_KEY_OPENER_PRICE, String(priceM));
+}
+
+export function loadOpenerPrice(): number {
+  try {
+    const val = localStorage.getItem(STORAGE_KEY_OPENER_PRICE);
+    return val ? parseFloat(val) : 0;
+  } catch {
+    return 0;
+  }
+}
+
+export function saveIncludeOpener(include: boolean): void {
+  localStorage.setItem(STORAGE_KEY_INCLUDE_OPENER, include ? "1" : "0");
+}
+
+export function loadIncludeOpener(): boolean {
+  try {
+    return localStorage.getItem(STORAGE_KEY_INCLUDE_OPENER) === "1";
+  } catch {
+    return false;
+  }
 }

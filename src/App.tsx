@@ -17,6 +17,10 @@ import {
   mergeStorageToAppData,
   smartImportData,
   type ImportStrategy,
+  loadOpenerPrice,
+  saveOpenerPrice,
+  loadIncludeOpener,
+  saveIncludeOpener,
 } from "./lib/storage";
 import { extractUserData } from "./lib/sealMerger";
 import { computeAttrProgress } from "./lib/calculator";
@@ -45,6 +49,10 @@ export default function App() {
   const [builderAttr,   setBuilderAttr]   = useState<Attribute>(ATTRIBUTES[0]);
   const [builderTarget, setBuilderTarget] = useState("");
   const [builderSlider, setBuilderSlider] = useState(false);
+  const [builderMode,   setBuilderMode]   = useState<"total" | "add">("total");
+  // Global settings
+  const [openerPrice,   setOpenerPrice]   = useState(() => loadOpenerPrice());
+  const [includeOpener, setIncludeOpener] = useState(() => loadIncludeOpener());
   // ManageTab
   const [manageSearch,  setManageSearch]  = useState("");
   const [manageFilter,  setManageFilter]  = useState<Attribute | null>(null);
@@ -67,6 +75,17 @@ export default function App() {
     { key: "ranking", label: t.tabRanking },
     { key: "manage", label: t.tabManage },
   ];
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail as { attr: Attribute };
+      setBuilderAttr(detail.attr);
+      setBuilderTarget("");
+      setTab("builder");
+    };
+    document.addEventListener("goto-builder", handler);
+    return () => document.removeEventListener("goto-builder", handler);
+  }, []);
 
   useEffect(() => {
     const init = async () => {
@@ -208,6 +227,17 @@ export default function App() {
     setImportDialog({ show: false });
   };
 
+  // ── Handlers para opener price ──
+  const handleOpenerPriceChange = (newPrice: number) => {
+    setOpenerPrice(newPrice);
+    saveOpenerPrice(newPrice);
+  };
+
+  const handleIncludeOpenerChange = (newInclude: boolean) => {
+    setIncludeOpener(newInclude);
+    saveIncludeOpener(newInclude);
+  };
+
   // ── Exportar JSON ──
   const handleExport = () => {
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
@@ -308,10 +338,60 @@ export default function App() {
       </nav>
 
       <main className="p-6">
+        {/* ── Panel global: Seal Opener ── */}
+        {(tab === "ranking" || tab === "builder") && (
+          <div className="mb-6 p-3 bg-[#09141f] border border-[#1a3f6e] rounded-xl flex flex-wrap items-center gap-4">
+            <div className="flex items-center gap-2">
+              <span className="text-base">📦</span>
+              <span className="text-white text-xs font-bold font-mono uppercase tracking-wider">Seal Opener</span>
+              <span className="text-[#2a4558] text-xs font-mono">({lang === "es" ? "abre 50 sellos c/u" : "opens 50 seals each"})</span>
+            </div>
+
+            {/* Toggle */}
+            <div
+              onClick={() => { const n = !includeOpener; setIncludeOpener(n); saveIncludeOpener(n); }}
+              className="flex items-center gap-2 cursor-pointer select-none"
+            >
+              <div className={`w-9 h-5 rounded-full transition-all relative ${
+                includeOpener ? "bg-[#00c8f0]" : "bg-[#1a3f6e]"
+              }`}>
+                <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-all ${
+                  includeOpener ? "left-[18px]" : "left-0.5"
+                }`} />
+              </div>
+              <span className="text-xs font-mono text-[#5a8aaa]">
+                {lang === "es" ? "Incluir en costos" : "Include in costs"}
+              </span>
+            </div>
+
+            {/* Precio — solo visible cuando el toggle está activo */}
+            {includeOpener && (
+              <div className="flex items-center gap-2">
+                <span className="text-[#5a8aaa] text-xs font-mono">
+                  {lang === "es" ? "Precio del opener:" : "Opener price:"}
+                </span>
+                <input
+                  type="number"
+                  value={openerPrice || ""}
+                  onChange={e => { const v = parseFloat(e.target.value) || 0; setOpenerPrice(v); saveOpenerPrice(v); }}
+                  placeholder="500"
+                  className="w-24 px-2 py-1 rounded bg-[#0a1520] border border-[#1a3f6e] text-white font-mono text-xs focus:border-[#00c8f0] focus:outline-none"
+                />
+                <span className="text-[#5a8aaa] text-xs font-mono">M</span>
+                {openerPrice > 0 && (
+                  <span className="text-[#00c8f0] text-xs font-mono">
+                    → {(openerPrice / 50).toFixed(2)} M {lang === "es" ? "extra por sello" : "extra per seal"}
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
+        )}
         {tab === "ranking" && <RankingTab data={data} lang={lang}
           selectedAttr={rankAttr} onAttrChange={setRankAttr}
           simpleMode={rankSimple} onSimpleModeChange={setRankSimple}
           topN={rankTopN} onTopNChange={setRankTopN}
+          openerPrice={openerPrice} includeOpener={includeOpener}
         />}
         {tab === "manage" && <ManageTab data={data} onUpdate={updateData} lang={lang}
           search={manageSearch} onSearchChange={setManageSearch}
@@ -323,6 +403,8 @@ export default function App() {
           selectedAttr={builderAttr} onAttrChange={setBuilderAttr}
           targetStat={builderTarget} onTargetStatChange={setBuilderTarget}
           useSlider={builderSlider} onUseSliderChange={setBuilderSlider}
+          builderMode={builderMode} onBuilderModeChange={setBuilderMode}
+          openerPrice={openerPrice} includeOpener={includeOpener}
         />}
       </main>
 

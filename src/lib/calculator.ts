@@ -53,10 +53,25 @@ export interface Candidate {
   fEfficiency:string;
 }
 
+/**
+ * Calcula el costo efectivo de un sello, incluyendo el costo del opener si está habilitado.
+ * 
+ * @param sealPrice - Precio del sello individual en M
+ * @param qty - Cantidad de sellos para este rank
+ * @param openerPrice - Precio del opener (0 = deshabilitado)
+ * @returns { sealCost, totalCost, openerCostPerSeal }
+ */
+export function calcEffectiveCost(sealPrice: number, qty: number, openerPrice: number) {
+  const openerCostPerSeal = openerPrice > 0 ? openerPrice / 50 : 0;
+  const sealCost = sealPrice + openerCostPerSeal;
+  const totalCost = sealCost * qty;
+  return { sealCost, totalCost, openerCostPerSeal };
+}
+
 // Devuelve todos los candidatos disponibles para un atributo.
 // Genera UN candidato por cada combinacion (sello x rank destino) alcanzable.
 // El Knapsack en optimizer.ts se encarga de elegir como mucho 1 rank por sello.
-export function calcCandidates(data: AppData, attribute: Attribute): Candidate[] {
+export function calcCandidates(data: AppData, attribute: Attribute, openerPrice?: number): Candidate[] {
   const results: Candidate[] = [];
 
   for (const seal of Object.values(data.seals)) {
@@ -79,7 +94,7 @@ export function calcCandidates(data: AppData, attribute: Attribute): Candidate[]
 
       if (qty <= 0 || statBonus <= 0) continue;
 
-      const totalCostM = seal.priceM * qty;
+      const { totalCost: totalCostM } = calcEffectiveCost(seal.priceM, qty, openerPrice ?? 0);
       const efficiency = totalCostM / statBonus;
 
       results.push({

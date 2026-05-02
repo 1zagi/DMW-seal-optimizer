@@ -19,14 +19,21 @@ interface Props {
   onTargetStatChange: (v: string) => void;
   useSlider: boolean;
   onUseSliderChange: (v: boolean) => void;
+  builderMode: "total" | "add";
+  onBuilderModeChange: (mode: "total" | "add") => void;
+  openerPrice: number;
+  includeOpener: boolean;
 }
 
-export function BuilderTab({ data, lang, selectedAttr, onAttrChange, targetStat, onTargetStatChange, useSlider, onUseSliderChange }: Props) {
+export function BuilderTab({
+  data, lang, selectedAttr, onAttrChange, targetStat, onTargetStatChange, useSlider, onUseSliderChange,
+  builderMode, onBuilderModeChange, openerPrice, includeOpener
+}: Props) {
   const t = TRANSLATIONS[lang];
 
   const candidates = useMemo(
-    () => calcCandidates(data, selectedAttr),
-    [data, selectedAttr]
+    () => calcCandidates(data, selectedAttr, includeOpener ? openerPrice : undefined),
+    [data, selectedAttr, includeOpener, openerPrice]
   );
 
   const isPct = PERCENT_ATTRS.has(selectedAttr);
@@ -49,13 +56,18 @@ export function BuilderTab({ data, lang, selectedAttr, onAttrChange, targetStat,
   const displayTarget = targetStat !== "" ? parseFloat(targetStat) : defaultTargetDisplay;
   const internalTarget = toInternal(displayTarget);
 
+  // Calcular target needed según el modo
+  // - "total": el usuario especifica el total objetivo, necesitamos: targetTotal - current
+  // - "add": el usuario especifica cuánto agregar, necesitamos: inputValue directo
+  const targetNeeded = builderMode === "total" ? Math.max(0, internalTarget - currentStats) : internalTarget;
+
   const solution = useMemo(() => {
-    if (internalTarget <= 0) {
+    if (targetNeeded <= 0) {
       const empty = { items: [], totalCost: 0, totalStats: 0, totalSeals: 0, isFeasible: false };
       return { cheapest: empty, fewest: empty };
     }
-    return optimizeBuild(candidates, internalTarget, selectedAttr);
-  }, [candidates, internalTarget, selectedAttr]);
+    return optimizeBuild(candidates, targetNeeded, selectedAttr);
+  }, [candidates, targetNeeded, selectedAttr]);
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -104,10 +116,39 @@ export function BuilderTab({ data, lang, selectedAttr, onAttrChange, targetStat,
           </div>
         </div>
 
+        {/* Builder Mode Selector */}
+        <div>
+          <label className="text-[#5a8aaa] text-xs font-mono uppercase mb-2 block">
+            {lang === "es" ? "Modo de construcción" : "Build mode"}
+          </label>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => onBuilderModeChange("total")}
+              className={`px-3 py-2 rounded text-xs font-mono transition-all ${builderMode === "total"
+                  ? "bg-[#00c8f0]/20 border border-[#00c8f0] text-[#00c8f0]"
+                  : "border border-[#1a3f6e] text-[#5a8aaa] hover:border-[#00c8f0] hover:text-[#00c8f0]"
+                }`}
+            >
+              {lang === "es" ? "👁️ Objetivo total" : "👁️ Target total"}
+            </button>
+            <button
+              onClick={() => onBuilderModeChange("add")}
+              className={`px-3 py-2 rounded text-xs font-mono transition-all ${builderMode === "add"
+                  ? "bg-[#00c8f0]/20 border border-[#00c8f0] text-[#00c8f0]"
+                  : "border border-[#1a3f6e] text-[#5a8aaa] hover:border-[#00c8f0] hover:text-[#00c8f0]"
+                }`}
+            >
+              {lang === "es" ? "➕ Agregar stats" : "➕ Add stats"}
+            </button>
+          </div>
+        </div>
+
         {/* Target: Slider */}
         <div>
           <div className="flex justify-between items-center mb-2">
-            <label className="text-[#5a8aaa] text-xs font-mono uppercase">{t.builderTarget}</label>
+            <label className="text-[#5a8aaa] text-xs font-mono uppercase">
+              {builderMode === "total" ? t.builderTarget : (lang === "es" ? "Estadísticas a agregar" : "Stats to add")}
+            </label>
             <button
               onClick={() => onUseSliderChange(!useSlider)}
               className="text-[#00c8f0] text-xs font-mono hover:text-white transition-colors"
@@ -120,8 +161,8 @@ export function BuilderTab({ data, lang, selectedAttr, onAttrChange, targetStat,
             <div className="space-y-3">
               <input
                 type="range"
-                min={currentDisplay}
-                max={maxDisplay}
+                min={builderMode === "total" ? currentDisplay : 0}
+                max={builderMode === "total" ? maxDisplay : (maxDisplay - currentDisplay)}
                 step={isPct ? 0.001 : 1}
                 value={displayTarget}
                 onChange={e => onTargetStatChange(e.target.value)}
@@ -178,6 +219,9 @@ export function BuilderTab({ data, lang, selectedAttr, onAttrChange, targetStat,
             currentStats={currentStats}
             type="cost"
             lang={lang}
+            builderMode={builderMode}
+            openerPrice={openerPrice}
+            includeOpener={includeOpener}
           />
 
           {/* Solución 2: Menos sellos */}
@@ -191,6 +235,9 @@ export function BuilderTab({ data, lang, selectedAttr, onAttrChange, targetStat,
             currentStats={currentStats}
             type="seals"
             lang={lang}
+            builderMode={builderMode}
+            openerPrice={openerPrice}
+            includeOpener={includeOpener}
           />
         </div>
       ) : (
@@ -205,7 +252,7 @@ export function BuilderTab({ data, lang, selectedAttr, onAttrChange, targetStat,
 
 // ── Tarjeta de solución ──
 function SolutionCard({
-  solution, label, sublabel, attr, isPct, targetValue, currentStats, type, lang,
+  solution, label, sublabel, attr, isPct, targetValue, currentStats, type, lang, builderMode, openerPrice, includeOpener,
 }: {
   solution: BuildSolution;
   label: string;
@@ -216,18 +263,30 @@ function SolutionCard({
   currentStats: number;
   type: "cost" | "seals";
   lang: "es" | "en";
+  builderMode: "total" | "add";
+  openerPrice: number;
+  includeOpener: boolean;
 }) {
   const finalStats = currentStats + solution.totalStats;
   const isMet = solution.isFeasible;
 
+  // Progress bar: en modo "add" comparamos el delta logrado vs delta pedido
+  // En modo "total" comparamos el total final vs el total objetivo
+  const progressNumerator   = builderMode === "add" ? solution.totalStats : finalStats;
+  const progressDenominator = builderMode === "add"
+    ? (targetValue)           // targetValue ya ES el delta en modo add
+    : targetValue;            // targetValue es el total objetivo en modo total
+  const progressPct = progressDenominator > 0
+    ? Math.min((progressNumerator / progressDenominator) * 100, 100)
+    : 0;
+
   return (
-    <div className={`p-4 rounded-lg border ${
-      isMet
+    <div className={`p-4 rounded-lg border ${isMet
         ? type === "cost"
           ? "bg-[#0a2a1a] border-[#00e676]"
           : "bg-[#1a1a0a] border-[#ffd700]"
         : "bg-[#2a1a0a] border-[#ff6b6b]"
-    }`}>
+      }`}>
       {/* Header */}
       <div className="mb-4 pb-3 border-b border-current border-opacity-30">
         <p className="text-sm font-bold text-current">{label}</p>
@@ -235,7 +294,7 @@ function SolutionCard({
       </div>
 
       {/* Resumen rápido */}
-      <div className="grid grid-cols-2 gap-2 mb-4 text-sm">
+      <div className={`grid gap-2 mb-4 text-sm ${builderMode === "total" ? "grid-cols-3" : "grid-cols-2"}`}>
         <div className="bg-black bg-opacity-30 p-2 rounded">
           <p className="text-[#5a8aaa] text-xs font-mono uppercase">{lang === "es" ? "Costo" : "Cost"}</p>
           <p className="text-white font-semibold">{formatM(solution.totalCost)}</p>
@@ -246,12 +305,25 @@ function SolutionCard({
             {type === "seals" ? `${solution.totalSeals}x` : isPct ? formatStat(attr, solution.totalStats) : solution.totalStats}
           </p>
         </div>
+        {builderMode === "total" && (
+          <div className="bg-black bg-opacity-30 p-2 rounded">
+            <p className="text-[#5a8aaa] text-xs font-mono uppercase">{lang === "es" ? "Necesario" : "Needed"}</p>
+            <p className="text-[#00c8f0] font-semibold">
+              +{isPct ? `${parseFloat(((targetValue - currentStats) * 100).toPrecision(4))}%` : (targetValue - currentStats).toLocaleString()}
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Final stats + progress */}
       <div className="mb-4 pb-3 border-b border-current border-opacity-30">
         <div className="flex justify-between items-center mb-2">
-          <p className="text-[#5a8aaa] text-xs font-mono">Total: {formatStat(attr, finalStats)}</p>
+          <p className="text-[#5a8aaa] text-xs font-mono">
+            {builderMode === "add"
+              ? `+${formatStat(attr, solution.totalStats)} / +${formatStat(attr, targetValue)}`
+              : `Total: ${formatStat(attr, finalStats)}`
+            }
+          </p>
           <p className={`text-xs font-mono ${isMet ? "text-[#00e676]" : "text-[#ffd700]"}`}>
             {isMet ? (lang === "es" ? "✓ Meta alcanzada" : "✓ Goal reached") : (lang === "es" ? "⚠ Incompleto" : "⚠ Incomplete")}
           </p>
@@ -259,14 +331,13 @@ function SolutionCard({
         {targetValue > 0 && (
           <div className="w-full h-1.5 bg-black bg-opacity-30 rounded overflow-hidden">
             <div
-              className={`h-full rounded transition-all ${
-                isMet
+              className={`h-full rounded transition-all ${isMet
                   ? type === "cost"
                     ? "bg-[#00e676]"
                     : "bg-[#ffd700]"
                   : "bg-[#ff6b6b]"
-              }`}
-              style={{ width: `${Math.min((finalStats / targetValue) * 100, 100)}%` }}
+                }`}
+              style={{ width: `${progressPct}%` }}
             />
           </div>
         )}
@@ -299,6 +370,11 @@ function SolutionCard({
             </div>
           </div>
         ))}
+        {includeOpener && openerPrice > 0 && (
+          <p className="text-[#2a4558] text-[10px] font-mono text-center mt-2">
+            {lang === "es" ? "💡 Incluye costo de opener:" : "💡 Includes opener cost:"} {formatM(openerPrice / 50)}/sello
+          </p>
+        )}
       </div>
     </div>
   );
