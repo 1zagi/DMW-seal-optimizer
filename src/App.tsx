@@ -227,17 +227,6 @@ export default function App() {
     setImportDialog({ show: false });
   };
 
-  // ── Handlers para opener price ──
-  const handleOpenerPriceChange = (newPrice: number) => {
-    setOpenerPrice(newPrice);
-    saveOpenerPrice(newPrice);
-  };
-
-  const handleIncludeOpenerChange = (newInclude: boolean) => {
-    setIncludeOpener(newInclude);
-    saveIncludeOpener(newInclude);
-  };
-
   // ── Exportar JSON ──
   const handleExport = () => {
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
