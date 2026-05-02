@@ -20,7 +20,7 @@ export function RankingTab({ data, lang }: Props) {
   const [simpleMode, setSimpleMode] = useState(false);
 
   const candidates = useMemo(
-    () => calcCandidates(data, selectedAttr, true),
+    () => calcCandidates(data, selectedAttr),
     [data, selectedAttr]
   );
 

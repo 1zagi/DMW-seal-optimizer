@@ -15,6 +15,7 @@ import {
   saveUserData,
   mergeStorageToAppData,
   smartImportData,
+  type ImportStrategy,
 } from "./lib/storage";
 import { extractUserData } from "./lib/sealMerger";
 import { computeAttrProgress } from "./lib/calculator";
@@ -36,6 +37,11 @@ export default function App() {
   const [lang, setLang] = useState<Lang>(() =>
     (localStorage.getItem(LANG_KEY) as Lang | null) ?? "es"
   );
+  const [importDialog, setImportDialog] = useState<{
+    show: boolean;
+    baseData?: SealBase[];
+    userData?: Map<string, SealUserData>;
+  }>({ show: false });
   const fileRef = useRef<HTMLInputElement>(null);
 
   const t = TRANSLATIONS[lang];
@@ -125,10 +131,7 @@ export default function App() {
         // ── Formato nuevo: { base: SealBase[] } ──
         if (parsed.base && Array.isArray(parsed.base)) {
           const newBase = parsed.base as SealBase[];
-          smartImportData(newBase);
-          const merged = mergeStorageToAppData(loadBaseData(), loadUserData());
-          updateData(merged);
-          alert(`✅ ${lang === "es" ? "Procesados" : "Processed"} ${newBase.length} ${lang === "es" ? "sellos." : "seals."}`);
+          setImportDialog({ show: true, baseData: newBase });
           return;
         }
 
@@ -156,20 +159,38 @@ export default function App() {
             }
           }
 
-          smartImportData(baseToImport, userToImport);
-          const merged = mergeStorageToAppData(loadBaseData(), loadUserData());
-          updateData(merged);
-          alert(`✅ ${lang === "es" ? "Importados" : "Imported"} ${sealEntries.length} ${lang === "es" ? "sellos (ranks y precios actualizados)." : "seals (ranks & prices updated)."}`);
+          setImportDialog({ show: true, baseData: baseToImport, userData: userToImport });
           return;
         }
 
-        throw new Error(lang === "es" ? "JSON inv\u00e1lido: falta 'seals' o 'base'" : "Invalid JSON: missing 'seals' or 'base'");
+        throw new Error(lang === "es" ? "JSON invalido: falta 'seals' o 'base'" : "Invalid JSON: missing 'seals' or 'base'");
       } catch (err) {
         alert(`❌ ${lang === "es" ? "Error al leer el JSON:" : "Error reading JSON:"} ` + (err as Error).message);
       }
     };
     reader.readAsText(file);
     e.target.value = "";
+  };
+
+  // ── Confirmar import con estrategia ──
+  const confirmImport = (strategy: ImportStrategy) => {
+    if (!importDialog.baseData) return;
+    
+    smartImportData(importDialog.baseData, importDialog.userData, strategy);
+    const merged = mergeStorageToAppData(loadBaseData(), loadUserData());
+    updateData(merged);
+    
+    const sealCount = importDialog.baseData.length;
+    const strategyLabel = lang === "es" 
+      ? strategy === "preserve" ? "sin cambios en ranks existentes"
+        : strategy === "update-ranks" ? "actualizando ranks"
+        : "sobrescribiendo todo"
+      : strategy === "preserve" ? "without changing existing ranks"
+        : strategy === "update-ranks" ? "updating ranks"
+        : "overwriting all";
+    
+    alert(`✅ ${lang === "es" ? "Importados" : "Imported"} ${sealCount} ${lang === "es" ? "sellos" : "seals"} (${strategyLabel})`);
+    setImportDialog({ show: false });
   };
 
   // ── Exportar JSON ──
@@ -277,6 +298,77 @@ export default function App() {
         {tab === "progress" && <ProgressTab data={data} onUpdate={updateData} lang={lang} />}
         {tab === "builder" && <BuilderTab data={data} lang={lang} />}
       </main>
+
+      {/* ── Modal de estrategia de import ── */}
+      {importDialog.show && importDialog.baseData && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-[#09141f] border border-[#1a3f6e] rounded-lg p-6 max-w-md w-full">
+            <h2 className="text-lg font-bold text-[#00c8f0] mb-4">
+              {lang === "es" ? "Estrategia de Import" : "Import Strategy"}
+            </h2>
+            <p className="text-[#5a8aaa] text-sm font-mono mb-6">
+              {lang === "es" 
+                ? `Se importarán ${importDialog.baseData.length} sellos. ¿Cómo deseas actualizar los ranks existentes?`
+                : `Will import ${importDialog.baseData.length} seals. How do you want to update existing ranks?`}
+            </p>
+
+            <div className="space-y-2 mb-6">
+              {/* Option 1: Preserve */}
+              <button
+                onClick={() => confirmImport("preserve")}
+                className="w-full p-3 rounded-lg border border-[#1a3f6e] text-left hover:border-[#ffd700] hover:bg-[#ffd700]/10 transition-all"
+              >
+                <div className="font-bold text-[#ffd700]">
+                  {lang === "es" ? "🔒 Preservar totalmente" : "🔒 Fully Preserve"}
+                </div>
+                <div className="text-xs text-[#5a8aaa] mt-1">
+                  {lang === "es" 
+                    ? "Solo agregar sellos nuevos, sin cambiar ranks existentes"
+                    : "Only add new seals, don't change existing ranks"}
+                </div>
+              </button>
+
+              {/* Option 2: Update Ranks (DEFAULT) */}
+              <button
+                onClick={() => confirmImport("update-ranks")}
+                className="w-full p-3 rounded-lg border border-[#00c8f0] text-left hover:border-[#00c8f0] hover:bg-[#00c8f0]/10 transition-all bg-[#00c8f0]/5"
+              >
+                <div className="font-bold text-[#00c8f0]">
+                  {lang === "es" ? "📈 Actualizar ranks (Recomendado)" : "📈 Update Ranks (Recommended)"}
+                </div>
+                <div className="text-xs text-[#5a8aaa] mt-1">
+                  {lang === "es" 
+                    ? "Subir a ranks más altos, conservar precios existentes"
+                    : "Upgrade to higher ranks, keep existing prices"}
+                </div>
+              </button>
+
+              {/* Option 3: Overwrite */}
+              <button
+                onClick={() => confirmImport("overwrite")}
+                className="w-full p-3 rounded-lg border border-[#1a3f6e] text-left hover:border-red-400 hover:bg-red-400/10 transition-all"
+              >
+                <div className="font-bold text-red-400">
+                  {lang === "es" ? "⚠️ Sobrescribir todo" : "⚠️ Overwrite All"}
+                </div>
+                <div className="text-xs text-[#5a8aaa] mt-1">
+                  {lang === "es" 
+                    ? "Reemplazar todos los ranks y precios importados"
+                    : "Replace all ranks and prices with imported data"}
+                </div>
+              </button>
+            </div>
+
+            <button
+              onClick={() => setImportDialog({ show: false })}
+              className="w-full p-2 border border-[#1a3f6e] text-[#5a8aaa] rounded-lg hover:text-white transition-colors text-sm"
+            >
+              {lang === "es" ? "Cancelar" : "Cancel"}
+            </button>
+          </div>
+        </div>
+      )}
+
       <Analytics />
     </div>
   );

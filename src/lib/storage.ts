@@ -7,7 +7,7 @@
 //  - "izagi-seals-v2-user": SealUserData[] (user edits: currentRank, price)
 
 import type { AppData, SealBase, SealUserData } from "./types";
-import { ATTRIBUTES, RANKS } from "./types";
+import { ATTRIBUTES, RANKS, RANK_ORDER } from "./types";
 import { mergeSealData, migrateOldSeal } from "./sealMerger";
 
 const STORAGE_KEY_BASE = "izagi-seals-v2-base";
@@ -207,35 +207,82 @@ export async function loadDefaultData(): Promise<AppData | null> {
  * - Si el sello YA existe: actualiza currentRank y priceM en userData
  *   solo si el JSON importado trae valores válidos (rank distinto de null/Unopened o precio > 0).
  */
-export function smartImportData(newBaseData: SealBase[], newUserData?: Map<string, SealUserData>): void {
+/**
+ * Import strategy options:
+ * - "preserve": Keep existing user data, only add new seals (safest)
+ * - "update-ranks": Update ranks if incoming is higher, preserve prices
+ * - "overwrite": Fully overwrite with imported data (riskiest)
+ */
+export type ImportStrategy = "preserve" | "update-ranks" | "overwrite";
+
+export function smartImportData(
+  newBaseData: SealBase[],
+  newUserData?: Map<string, SealUserData>,
+  strategy: ImportStrategy = "update-ranks"
+): void {
   const existingBase = loadBaseData();
   const existingIds  = new Set(existingBase.map(b => b.id));
 
-  // Agregar solo base data nueva
+  // Agregar solo base data nueva (NUNCA sobrescribir base data)
   const toAdd = newBaseData.filter(b => !existingIds.has(b.id));
   if (toAdd.length > 0) {
     saveBaseData([...existingBase, ...toAdd]);
   }
 
-  // Actualizar user data si viene en el import
+  // Actualizar user data según estrategia
   if (newUserData && newUserData.size > 0) {
     const existingUser = loadUserData();
+
     for (const [id, incoming] of newUserData.entries()) {
       const current = existingUser.get(id);
-      const merged: SealUserData = {
-        sealId: id,
-        currentRank: incoming.currentRank ?? current?.currentRank ?? null,
-        priceM:      incoming.priceM > 0 ? incoming.priceM : (current?.priceM ?? 0),
-      };
-      existingUser.set(id, merged);
+
+      if (strategy === "preserve") {
+        // Solo agregar si no existe
+        if (!current) {
+          existingUser.set(id, {
+            sealId:      id,
+            currentRank: incoming.currentRank ?? null,
+            priceM:      incoming.priceM ?? 0,
+          });
+        }
+      } else if (strategy === "update-ranks") {
+        // Update rank si incoming es más alto, preservar precios existentes
+        const currentRank = current?.currentRank ?? null;
+        const currentPrice = current?.priceM ?? 0;
+
+        let newRank = currentRank;
+        if (incoming.currentRank && currentRank !== null) {
+          const currentIdx = RANK_ORDER[currentRank];
+          const incomingIdx = RANK_ORDER[incoming.currentRank];
+          if (incomingIdx > currentIdx) {
+            newRank = incoming.currentRank;
+          }
+        } else if (incoming.currentRank && !currentRank) {
+          newRank = incoming.currentRank;
+        }
+
+        existingUser.set(id, {
+          sealId: id,
+          currentRank: newRank,
+          priceM: incoming.priceM > 0 ? incoming.priceM : currentPrice,
+        });
+      } else if (strategy === "overwrite") {
+        // Fully overwrite
+        existingUser.set(id, {
+          sealId:      id,
+          currentRank: incoming.currentRank ?? null,
+          priceM:      incoming.priceM ?? 0,
+        });
+      }
     }
+
     saveUserData(existingUser);
   }
 }
 
 // DEPRECATED — kept for backward compat
-export function smartImportBaseData(newBaseData: SealBase[]): void {
-  smartImportData(newBaseData);
+export function smartImportBaseData(newBaseData: SealBase[], strategy: ImportStrategy = "update-ranks"): void {
+  smartImportData(newBaseData, undefined, strategy);
 }
 
 // Crea un sello vacío con todos los campos en 0

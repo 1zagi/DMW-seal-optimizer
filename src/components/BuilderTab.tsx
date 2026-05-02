@@ -22,7 +22,7 @@ export function BuilderTab({ data, lang }: Props) {
   const [useSlider, setUseSlider] = useState(false);
 
   const candidates = useMemo(
-    () => calcCandidates(data, selectedAttr, false),
+    () => calcCandidates(data, selectedAttr),
     [data, selectedAttr]
   );
 
@@ -51,7 +51,7 @@ export function BuilderTab({ data, lang }: Props) {
       const empty = { items: [], totalCost: 0, totalStats: 0, totalSeals: 0, isFeasible: false };
       return { cheapest: empty, fewest: empty };
     }
-    return optimizeBuild(candidates, internalTarget);
+    return optimizeBuild(candidates, internalTarget, selectedAttr);
   }, [candidates, internalTarget]);
 
   return (

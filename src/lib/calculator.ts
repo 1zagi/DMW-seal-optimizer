@@ -53,10 +53,10 @@ export interface Candidate {
   fEfficiency:string;
 }
 
-// Devuelve UN candidato por sello para el Build Planner.
-// Para cada sello elige el rank destino que maximiza stat/costo
-// (más AT por cada M gastado), tomando en cuenta el rank actual del jugador.
-export function calcCandidates(data: AppData, attribute: Attribute, forRanking: boolean = false): Candidate[] {
+// Devuelve todos los candidatos disponibles para un atributo.
+// Genera UN candidato por cada combinacion (sello x rank destino) alcanzable.
+// El Knapsack en optimizer.ts se encarga de elegir como mucho 1 rank por sello.
+export function calcCandidates(data: AppData, attribute: Attribute): Candidate[] {
   const results: Candidate[] = [];
 
   for (const seal of Object.values(data.seals)) {
@@ -69,9 +69,6 @@ export function calcCandidates(data: AppData, attribute: Attribute, forRanking: 
     const currentStat    = seal.currentRank ? (attrStats[seal.currentRank] ?? 0) : 0;
     const currentRankQty = seal.currentRank ? (seal.qty[seal.currentRank] ?? 0) : 0;
 
-    // Evaluar todos los ranks superiores al actual
-    let bestCandidate: Candidate | null = null;
-
     for (const rank of RANKS) {
       if (RANK_ORDER[rank] <= currentOrder) continue;
 
@@ -83,15 +80,10 @@ export function calcCandidates(data: AppData, attribute: Attribute, forRanking: 
       if (qty <= 0 || statBonus <= 0) continue;
 
       const totalCostM = seal.priceM * qty;
+      const efficiency = totalCostM / statBonus;
 
-      // Métrica: stat ganado por M invertido (mayor = mejor rank destino)
-      // statBonus / totalCostM = (statTo - currentStat) / (priceM * qty_adicional)
-      // statBonus / totalCostM = (statTo - currentStat) / (priceM * qty_adicional)
-
-      const efficiency = totalCostM / statBonus; // para UI y ranking tab (menor = mejor)
-
-      const candidate: Candidate = {
-        name: seal.name,
+      results.push({
+        name:        seal.name,
         rank,
         priceM:      seal.priceM,
         qty,
@@ -103,24 +95,9 @@ export function calcCandidates(data: AppData, attribute: Attribute, forRanking: 
         fPrice:      formatM(seal.priceM),
         fTotal:      formatM(totalCostM),
         fEfficiency: formatM(efficiency),
-      };
-
-      // Para el Builder: Elegir el rank con MAYOR statBonus absoluto.
-      // Para el Ranking: Elegir el rank con MEJOR eficiencia (menor costo por stat).
-      if (forRanking) {
-        if (!bestCandidate || efficiency < bestCandidate.efficiency) {
-          bestCandidate = candidate;
-        }
-      } else {
-        if (!bestCandidate || statBonus > bestCandidate.statBonus) {
-          bestCandidate = candidate;
-        }
-      }
+      });
     }
-
-    if (bestCandidate) results.push(bestCandidate);
   }
 
-  // Ordenar por efficiency (menor costo/stat = mejor) para el ranking tab
   return results.sort((a, b) => a.efficiency - b.efficiency);
 }

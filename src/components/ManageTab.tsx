@@ -1,13 +1,12 @@
-﻿// ============================================================
-//  ManageTab.tsx  —  Gestionar sellos (agregar, editar, borrar)
+// ============================================================
+//  ManageTab.tsx  —  Gestionar sellos (grid de cuadritos)
 // ============================================================
 
 import { useState, useMemo } from "react";
 import type { AppData, Rank, Attribute } from "../lib/types";
-import { RANKS, ATTRIBUTES, RANK_COLOR, ATTR_SHORT, ATTR_ICON, PERCENT_ATTRS, parseStat, formatStat } from "../lib/types";
+import { RANKS, RANK_COLOR, ATTRIBUTES, ATTR_SHORT, ATTR_ICON, PERCENT_ATTRS } from "../lib/types";
 import { CurrencyInput } from "./CurrencyInput";
 import { emptySeal } from "../lib/storage";
-import { formatM } from "../lib/currency";
 import { TRANSLATIONS, type Lang } from "../lib/i18n";
 
 interface Props {
@@ -22,7 +21,6 @@ export function ManageTab({ data, onUpdate, lang }: Props) {
   const t = TRANSLATIONS[lang];
 
   const [search,       setSearch]       = useState("");
-  const [expandedSeal, setExpandedSeal] = useState<string | null>(null);
   const [showForm,     setShowForm]     = useState(false);
   const [newName,      setNewName]      = useState("");
   const [attrFilter,   setAttrFilter]   = useState<Attribute | null>(null);
@@ -77,19 +75,6 @@ export function ManageTab({ data, onUpdate, lang }: Props) {
   const setPrice = (name: string, priceM: number) =>
     updateSeal(name, { priceM });
 
-  const setQty = (name: string, rank: Rank, val: string) =>
-    updateSeal(name, { qty: { ...data.seals[name].qty, [rank]: Number(val) || 0 } });
-
-  const setStat = (name: string, attr: Attribute, rank: Rank, raw: string) => {
-    const stored = parseStat(attr, raw);
-    updateSeal(name, {
-      stats: {
-        ...data.seals[name].stats,
-        [attr]: { ...data.seals[name].stats[attr], [rank]: stored },
-      },
-    });
-  };
-
   const setCurrentRank = (name: string, rank: Rank) =>
     updateSeal(name, { currentRank: rank });
 
@@ -113,7 +98,6 @@ export function ManageTab({ data, onUpdate, lang }: Props) {
     });
     setNewName("");
     setShowForm(false);
-    setExpandedSeal(name);
   };
 
   // ── Borrar sello ──
@@ -121,7 +105,6 @@ export function ManageTab({ data, onUpdate, lang }: Props) {
     if (!confirm(t.confirmDelete(name))) return;
     const { [name]: _removed, ...rest } = data.seals;
     onUpdate({ ...data, seals: rest, lastUpdated: Date.now() });
-    if (expandedSeal === name) setExpandedSeal(null);
   };
 
   const handleAttrFilter = (attr: Attribute | null) => {
@@ -252,188 +235,103 @@ export function ManageTab({ data, onUpdate, lang }: Props) {
         </div>
       )}
 
-      {/* ── Lista de sellos ── */}
-      <div className="space-y-2">
-        {seals.map(seal => {
-          const activeAttrMaster = attrFilter
-            ? (seal.stats?.[attrFilter]?.["Master"] ?? 0)
-            : null;
-          const activeAttrCurrent = attrFilter && seal.currentRank
-            ? (seal.stats?.[attrFilter]?.[seal.currentRank] ?? 0)
-            : null;
-
-          return (
-            <div key={seal.name} className="border border-[#1a3f6e] rounded-xl overflow-hidden">
-
-              {/* Cabecera del sello */}
+      {/* ── GRID DE TARJETAS ── */}
+      {seals.length === 0 ? (
+        <div className="py-16 text-center text-[#2a4558] font-mono text-sm">
+          {search || attrFilter ? t.noResults : t.noSealsYet}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {seals.map(seal => {
+            const rankColor = seal.currentRank ? RANK_COLOR[seal.currentRank] : "#4b4b4bff";
+            const bgOpacity = `${rankColor}20`;
+            
+            return (
               <div
-                className="flex items-center gap-3 px-4 py-3 bg-[#09141f] cursor-pointer hover:bg-[#1a3f6e]/40 transition-colors"
-                onClick={() => setExpandedSeal(expandedSeal === seal.name ? null : seal.name)}
+                key={seal.name}
+                className="rounded-lg border-2 transition-all duration-200 p-4"
+                style={{
+                  borderColor: rankColor,
+                  backgroundColor: bgOpacity,
+                }}
               >
-                <span className="text-[#5a8aaa] text-xs w-3">{expandedSeal === seal.name ? "▼" : "▶"}</span>
-                <span className="font-bold text-white flex-1">{seal.name}</span>
-
-                {/* Stat del atributo activo */}
-                {attrFilter && activeAttrMaster !== null && activeAttrMaster > 0 && (
-                  <span className="font-mono text-xs text-[#7ab0cc] hidden sm:inline">
-                    {ATTR_ICON[attrFilter]}{" "}
-                    <span className="text-[#00c8f0]">
-                      {formatStat(attrFilter, activeAttrCurrent ?? 0)}
-                    </span>
-                    <span className="text-[#2a4558]"> / {formatStat(attrFilter, activeAttrMaster)}</span>
-                  </span>
-                )}
-
-                {/* Rank actual */}
-                {seal.currentRank && (
-                  <span className="px-2 py-0.5 rounded text-xs font-bold" style={{
-                    color: RANK_COLOR[seal.currentRank],
-                    border: `1px solid ${RANK_COLOR[seal.currentRank]}40`,
-                    background: `${RANK_COLOR[seal.currentRank]}15`,
-                  }}>{seal.currentRank}</span>
-                )}
-
-                {/* Precio rápido */}
-                <span className="font-mono text-[#00c8f0] text-sm">
-                  {seal.priceM > 0
-                    ? `${formatM(seal.priceM)}/seal`
-                    : <span className="text-[#2a4558]">{t.noPrice}</span>}
-                </span>
-
-                <button
-                  onClick={e => { e.stopPropagation(); deleteSeal(seal.name); }}
-                  className="px-2 py-0.5 text-xs font-mono text-[#2a4558] rounded hover:text-red-400 transition-colors"
-                  title={t.deleteSeal}
-                >✕</button>
-              </div>
-
-              {/* Panel expandido de edición */}
-              {expandedSeal === seal.name && (
-                <div className="p-5 border-t border-[#1a3f6e] bg-[#060e17] space-y-6">
-
-                  {/* ── Precio por sello ── */}
-                  <div>
-                    <p className="text-[#5a8aaa] text-xs font-mono uppercase tracking-wider mb-2">{t.priceLabel}</p>
-                    <CurrencyInput
-                      valueM={seal.priceM}
-                      onChange={v => setPrice(seal.name, v)}
-                      className="max-w-[200px]"
-                    />
+                {/* ── Encabezado: nombre + badge de rank ── */}
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex-1">
+                    <h3 className="font-bold text-white text-sm mb-1">{seal.name}</h3>
+                    {seal.currentRank && (
+                      <span
+                        className="inline-block px-2 py-0.5 rounded text-xs font-bold"
+                        style={{
+                          color: rankColor,
+                          border: `1px solid ${rankColor}60`,
+                          backgroundColor: `${rankColor}15`,
+                        }}
+                      >
+                        {seal.currentRank}
+                      </span>
+                    )}
                   </div>
 
-                  {/* ── Rank actual del jugador — Unopened es el mínimo ── */}
-                  <div>
-                    <p className="text-[#5a8aaa] text-xs font-mono uppercase tracking-wider mb-2">{t.myRank}</p>
-                    <div className="flex gap-1 flex-wrap">
-                      {RANKS.map(rank => (
-                        <button
-                          key={rank}
-                          onClick={() => setCurrentRank(seal.name, rank)}
-                          className="px-3 py-1 rounded text-xs font-bold border transition-all"
-                          style={{
-                            color: RANK_COLOR[rank],
-                            borderColor: seal.currentRank === rank ? RANK_COLOR[rank] : `${RANK_COLOR[rank]}30`,
-                            background: seal.currentRank === rank ? `${RANK_COLOR[rank]}20` : "transparent",
-                            opacity: seal.currentRank === rank ? 1 : 0.5,
-                          }}
-                        >{rank}</button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* ── Cantidades por rank ── */}
-                  <div>
-                    <p className="text-[#5a8aaa] text-xs font-mono uppercase tracking-wider mb-2">{t.qtyLabel}</p>
-                    <div className="grid grid-cols-7 gap-2">
-                      {RANKS.map(rank => (
-                        <div key={rank}>
-                          <p className="text-xs font-mono mb-1 text-center truncate" style={{ color: RANK_COLOR[rank] }}>{rank}</p>
-                          <input
-                            type="number"
-                            value={seal.qty[rank] || ""}
-                            placeholder="0"
-                            onChange={e => setQty(seal.name, rank, e.target.value)}
-                            className="w-full bg-[#09141f] border border-[#1a3f6e] rounded px-1 py-1.5 text-white font-mono text-xs text-center focus:outline-none focus:border-[#00c8f0] transition-colors"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* ── Stats por atributo por rank ── */}
-                  <div>
-                    <p className="text-[#5a8aaa] text-xs font-mono uppercase tracking-wider mb-2">{t.statsLabel}</p>
-                    <div className="overflow-x-auto">
-                      <table className="text-xs w-full">
-                        <thead>
-                          <tr>
-                            <th className="text-left text-[#5a8aaa] font-mono pb-2 pr-4 w-16">{t.statHeader}</th>
-                            {RANKS.map(rank => (
-                              <th key={rank} className="text-center font-mono pb-2 px-1" style={{ color: RANK_COLOR[rank] }}>
-                                {rank}
-                              </th>
-                            ))}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {ATTRIBUTES.map(attr => {
-                            const isPct = PERCENT_ATTRS.has(attr);
-                            return (
-                              <tr key={attr} className={attrFilter === attr ? "bg-[#00c8f0]/5 rounded" : ""}>
-                                <td className={`font-mono pr-4 py-1 ${attrFilter === attr ? "text-[#00c8f0]" : "text-[#5a8aaa]"}`}>
-                                  {ATTR_SHORT[attr]}
-                                  {isPct && <span className="text-[#2a4558] ml-0.5">%</span>}
-                                </td>
-                                {RANKS.map(rank => {
-                                  const stored = seal.stats[attr]?.[rank] ?? 0;
-                                  // Para % attrs: muestra valor * 100 en el input
-                                  const displayVal = isPct && stored !== 0
-                                    ? parseFloat((stored * 100).toPrecision(4))
-                                    : stored || "";
-                                  return (
-                                    <td key={rank} className="px-1 py-1">
-                                      <input
-                                        type="number"
-                                        step={isPct ? "0.001" : "1"}
-                                        value={displayVal}
-                                        placeholder="0"
-                                        onChange={e => setStat(seal.name, attr, rank, e.target.value)}
-                                        className={`w-full bg-[#09141f] border rounded px-1 py-1 text-white font-mono text-xs text-center focus:outline-none transition-colors ${
-                                          attrFilter === attr
-                                            ? "border-[#00c8f0]/40 focus:border-[#00c8f0]"
-                                            : "border-[#1a3f6e] focus:border-[#00c8f0]"
-                                        }`}
-                                      />
-                                    </td>
-                                  );
-                                })}
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                      {ATTRIBUTES.some(a => PERCENT_ATTRS.has(a)) && (
-                        <p className="text-[#2a4558] text-xs font-mono mt-2">
-                          🎯 CT / 🔰 BL / 💨 EV — {lang === "es"
-                            ? "ingresar en % (ej. 0.3 = 0.3%)"
-                            : "enter as % (e.g. 0.3 = 0.3%)"}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
+                  {/* Botón borrar */}
+                  <button
+                    onClick={() => deleteSeal(seal.name)}
+                    className="ml-2 text-[#2a4558] hover:text-red-400 transition-colors text-lg leading-none"
+                    title={t.deleteSeal}
+                  >
+                    ✕
+                  </button>
                 </div>
-              )}
-            </div>
-          );
-        })}
 
-        {seals.length === 0 && (
-          <div className="py-16 text-center text-[#2a4558] font-mono text-sm">
-            {search || attrFilter ? t.noResults : t.noSealsYet}
-          </div>
-        )}
-      </div>
+                {/* ── Separador ── */}
+                <div className="border-t border-[#1a3f6e]/50 my-3"></div>
+
+                {/* ── BOTÓN 1: Cambiar Rank ── */}
+                <div className="mb-4">
+                  <p className="text-[#5a8aaa] text-xs font-mono uppercase tracking-wider mb-2">
+                    {t.myRank}
+                  </p>
+                  <div className="flex flex-wrap gap-1">
+                    {RANKS.map(rank => (
+                      <button
+                        key={rank}
+                        onClick={() => setCurrentRank(seal.name, rank)}
+                        className="px-2 py-1 rounded text-xs font-bold border transition-all"
+                        style={{
+                          color: RANK_COLOR[rank],
+                          borderColor:
+                            seal.currentRank === rank
+                              ? RANK_COLOR[rank]
+                              : `${RANK_COLOR[rank]}30`,
+                          backgroundColor:
+                            seal.currentRank === rank
+                              ? `${RANK_COLOR[rank]}20`
+                              : "transparent",
+                          opacity: seal.currentRank === rank ? 1 : 0.6,
+                        }}
+                      >
+                        {rank.slice(0, 3)}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* ── BOTÓN 2: Cambiar Precio ── */}
+                <div>
+                  <p className="text-[#5a8aaa] text-xs font-mono uppercase tracking-wider mb-2">
+                    {t.priceLabel}
+                  </p>
+                  <CurrencyInput
+                    valueM={seal.priceM}
+                    onChange={v => setPrice(seal.name, v)}
+                    className="w-full"
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
