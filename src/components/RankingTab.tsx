@@ -264,7 +264,10 @@ export function RankingTab({ data, lang, selectedAttr, onAttrChange, simpleMode,
               {includeOpener && openerPrice > 0 && (
                 <>
                   <br />
-                  💡 {lang === "es" ? "Incluye costo de opener:" : "Includes opener cost:"} {formatM(openerPrice / 50)}/sello
+                  💡 {lang === "es"
+                    ? `Opener incluido: ${formatM(openerPrice)}/opener ÷ 50 sellos. Ej: 1 sello = 1 opener completo (${formatM(openerPrice)} extra); 50 sellos = 1 opener (${formatM(openerPrice / 50)}/sello).`
+                    : `Opener included: ${formatM(openerPrice)}/opener ÷ 50 seals. E.g.: 1 seal = 1 full opener (${formatM(openerPrice)} extra); 50 seals = 1 opener (${formatM(openerPrice / 50)}/seal).`
+                  }
                 </>
               )}
             </p>

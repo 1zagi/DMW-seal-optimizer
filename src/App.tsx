@@ -369,7 +369,7 @@ export default function App() {
                 <span className="text-[#5a8aaa] text-xs font-mono">M</span>
                 {openerPrice > 0 && (
                   <span className="text-[#00c8f0] text-xs font-mono">
-                    → {(openerPrice / 50).toFixed(2)} M {lang === "es" ? "extra por sello" : "extra per seal"}
+                    → 1 opener {lang === "es" ? "por cada 50 sellos" : "per 50 seals"}
                   </span>
                 )}
               </div>

@@ -270,6 +270,9 @@ function SolutionCard({
   const finalStats = currentStats + solution.totalStats;
   const isMet = solution.isFeasible;
 
+  // Total openers necesarios para todos los sellos de la solución (siempre se muestra)
+  const totalOpeners = solution.items.reduce((sum, item) => sum + Math.ceil(item.qty / 50), 0);
+
   // Progress bar: en modo "add" comparamos el delta logrado vs delta pedido
   // En modo "total" comparamos el total final vs el total objetivo
   const progressNumerator   = builderMode === "add" ? solution.totalStats : finalStats;
@@ -294,20 +297,24 @@ function SolutionCard({
       </div>
 
       {/* Resumen rápido */}
-      <div className={`grid gap-2 mb-4 text-sm ${builderMode === "total" ? "grid-cols-3" : "grid-cols-2"}`}>
+      <div className={`grid gap-2 mb-4 text-sm grid-cols-2`}>
         <div className="bg-black bg-opacity-30 p-2 rounded">
           <p className="text-[#5a8aaa] text-xs font-mono uppercase">{lang === "es" ? "Costo" : "Cost"}</p>
           <p className="text-white font-semibold">{formatM(solution.totalCost)}</p>
         </div>
         <div className="bg-black bg-opacity-30 p-2 rounded">
-          <p className="text-[#5a8aaa] text-xs font-mono uppercase">{type === "cost" ? "Stats" : (lang === "es" ? "Sellos" : "Seals")}</p>
-          <p className="text-white font-semibold">
-            {type === "seals" ? `${solution.totalSeals}x` : isPct ? formatStat(attr, solution.totalStats) : solution.totalStats}
-          </p>
+          <p className="text-[#5a8aaa] text-xs font-mono uppercase">{lang === "es" ? "Sellos" : "Seals"}</p>
+          <p className="text-white font-semibold">{solution.totalSeals.toLocaleString()}x</p>
         </div>
+        {totalOpeners > 0 && (
+          <div className="bg-black bg-opacity-30 p-2 rounded col-span-2 flex items-center justify-between">
+            <p className="text-[#5a8aaa] text-xs font-mono uppercase">📦 {lang === "es" ? "Openers necesarios" : "Openers needed"}</p>
+            <p className="text-[#ffd700] font-bold text-base">{totalOpeners}x</p>
+          </div>
+        )}
         {builderMode === "total" && (
-          <div className="bg-black bg-opacity-30 p-2 rounded">
-            <p className="text-[#5a8aaa] text-xs font-mono uppercase">{lang === "es" ? "Necesario" : "Needed"}</p>
+          <div className="bg-black bg-opacity-30 p-2 rounded col-span-2">
+            <p className="text-[#5a8aaa] text-xs font-mono uppercase">{lang === "es" ? "Stats a ganar" : "Stats to gain"}</p>
             <p className="text-[#00c8f0] font-semibold">
               +{isPct ? `${parseFloat(((targetValue - currentStats) * 100).toPrecision(4))}%` : (targetValue - currentStats).toLocaleString()}
             </p>

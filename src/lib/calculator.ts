@@ -54,18 +54,21 @@ export interface Candidate {
 }
 
 /**
- * Calcula el costo efectivo de un sello, incluyendo el costo del opener si está habilitado.
+ * Calcula el costo total real incluyendo openers.
  * 
- * @param sealPrice - Precio del sello individual en M
- * @param qty - Cantidad de sellos para este rank
- * @param openerPrice - Precio del opener (0 = deshabilitado)
- * @returns { sealCost, totalCost, openerCostPerSeal }
+ * La lógica correcta: cada opener abre hasta 50 sellos.
+ * Si compras 1 sello, necesitas 1 opener completo (no 1/50 de opener).
+ * Si compras 51 sellos, necesitas 2 openers.
+ * 
+ * totalCost = (qty × sealPrice) + (ceil(qty / 50) × openerPrice)
  */
 export function calcEffectiveCost(sealPrice: number, qty: number, openerPrice: number) {
-  const openerCostPerSeal = openerPrice > 0 ? openerPrice / 50 : 0;
-  const sealCost = sealPrice + openerCostPerSeal;
-  const totalCost = sealCost * qty;
-  return { sealCost, totalCost, openerCostPerSeal };
+  const openersNeeded = openerPrice > 0 ? Math.ceil(qty / 50) : 0;
+  const totalOpenerCost = openersNeeded * openerPrice;
+  const totalCost = sealPrice * qty + totalOpenerCost;
+  // Para mostrar en UI: costo promedio por sello incluyendo opener
+  const effectivePricePerSeal = qty > 0 ? totalCost / qty : sealPrice;
+  return { totalCost, openersNeeded, totalOpenerCost, effectivePricePerSeal };
 }
 
 // Devuelve todos los candidatos disponibles para un atributo.
