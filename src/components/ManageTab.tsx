@@ -1,18 +1,23 @@
 // ============================================================
 //  ManageTab.tsx  —  Gestionar sellos (grid de cuadritos)
+//  + indicador de precio desactualizado (+7 días)
+//  + onPriceChange para sincronizar a Supabase
 // ============================================================
 
 import { useState, useMemo } from "react";
 import type { AppData, Rank, Attribute } from "../lib/types";
 import { RANKS, ATTRIBUTES, RANK_COLOR, ATTR_SHORT, ATTR_ICON, PERCENT_ATTRS, formatStat } from "../lib/types";
 import { CurrencyInput } from "./CurrencyInput";
-import { emptySeal } from "../lib/storage";
 import { formatM } from "../lib/currency";
 import { TRANSLATIONS, type Lang } from "../lib/i18n";
+
+const STALE_MS = 7 * 24 * 60 * 60 * 1000; // 7 días
 
 interface Props {
   data: AppData;
   onUpdate: (data: AppData) => void;
+  /** Callback para sincronizar precio al servidor en Supabase */
+  onPriceChange?: (sealId: string, priceM: number) => Promise<void>;
   lang: Lang;
   search: string;
   onSearchChange: (v: string) => void;
@@ -20,51 +25,60 @@ interface Props {
   onAttrFilterChange: (v: Attribute | null) => void;
   sortKey: "name-asc"|"name-desc"|"stat-desc"|"stat-asc";
   onSortKeyChange: (v: "name-asc"|"name-desc"|"stat-desc"|"stat-asc") => void;
+  /** Timestamps de cuando se actualizó cada precio individualmente */
+  priceTimestamps?: Record<string, number>;
 }
 
 type SortKey = "name-asc" | "name-desc" | "stat-desc" | "stat-asc";
 
+// ── Helpers de frescura de precio ─────────────────────────────
+
+function priceAge(ts?: number): "fresh" | "stale" | "unknown" {
+  if (!ts) return "unknown";
+  return Date.now() - ts > STALE_MS ? "stale" : "fresh";
+}
+
+function priceAgeLabel(ts: number, lang: Lang): string {
+  const diff  = Date.now() - ts;
+  const mins  = Math.floor(diff / 60_000);
+  const hours = Math.floor(diff / 3_600_000);
+  const days  = Math.floor(diff / 86_400_000);
+  if (mins  < 60) return lang === "es" ? `hace ${mins}min`  : `${mins}min ago`;
+  if (hours < 24) return lang === "es" ? `hace ${hours}h`   : `${hours}h ago`;
+  return lang === "es" ? `hace ${days}d` : `${days}d ago`;
+}
+
 // ── Modal: cambiar rank ──────────────────────────────────────
-function RankModal({
-  seal, onSelect, onClose,
-}: {
-  seal: AppData["seals"][string];
-  onSelect: (r: Rank) => void;
-  onClose: () => void;
+function RankModal({ seal, onSelect, onClose, lang }: {
+  seal: AppData["seals"][string]; onSelect: (r: Rank) => void;
+  onClose: () => void; lang: Lang;
 }) {
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center"
-      style={{ background: "rgba(0,0,0,0.78)" }}
-      onClick={onClose}
-    >
-      <div
-        className="bg-[#09141f] border border-[#1a3f6e] rounded-2xl p-6 w-72 space-y-3"
-        onClick={e => e.stopPropagation()}
-      >
+    <div className="fixed inset-0 z-50 flex items-center justify-center"
+      style={{ background: "rgba(0,0,0,0.78)" }} onClick={onClose}>
+      <div className="bg-[#09141f] border border-[#1a3f6e] rounded-2xl p-6 w-72 space-y-3"
+        onClick={e => e.stopPropagation()}>
         <p className="text-white font-bold text-sm truncate">{seal.name}</p>
-        <p className="text-[#5a8aaa] text-xs font-mono uppercase tracking-wider">Mi rank actual</p>
+        <p className="text-[#5a8aaa] text-xs font-mono uppercase tracking-wider">
+          {lang === "es" ? "Mi rank actual" : "My current rank"}
+        </p>
         <div className="grid grid-cols-2 gap-2">
           {RANKS.map(rank => (
-            <button
-              key={rank}
-              onClick={() => { onSelect(rank); onClose(); }}
+            <button key={rank} onClick={() => { onSelect(rank); onClose(); }}
               className="py-2.5 px-3 rounded-lg text-sm font-bold border transition-all"
               style={{
-                color: RANK_COLOR[rank],
+                color:       RANK_COLOR[rank],
                 borderColor: seal.currentRank === rank ? RANK_COLOR[rank] : `${RANK_COLOR[rank]}40`,
-                background: seal.currentRank === rank ? `${RANK_COLOR[rank]}25` : `${RANK_COLOR[rank]}08`,
-              }}
-            >
+                background:  seal.currentRank === rank ? `${RANK_COLOR[rank]}25` : `${RANK_COLOR[rank]}08`,
+              }}>
               {rank}
+              {seal.currentRank === rank && <span className="ml-1 text-[10px]">✓</span>}
             </button>
           ))}
         </div>
-        <button
-          onClick={onClose}
-          className="w-full mt-1 py-1.5 text-xs font-mono text-[#5a8aaa] border border-[#1a3f6e] rounded-lg hover:text-white transition-colors"
-        >
-          Cancelar
+        <button onClick={onClose}
+          className="w-full mt-1 py-1.5 text-xs font-mono text-[#5a8aaa] border border-[#1a3f6e] rounded-lg hover:text-white transition-colors">
+          {lang === "es" ? "Cancelar" : "Cancel"}
         </button>
       </div>
     </div>
@@ -72,65 +86,67 @@ function RankModal({
 }
 
 // ── Modal: cambiar precio ────────────────────────────────────
-function PriceModal({
-  seal, onSave, onClose,
-}: {
-  seal: AppData["seals"][string];
-  onSave: (v: number) => void;
-  onClose: () => void;
+function PriceModal({ seal, onSave, onClose, lang, priceTs }: {
+  seal: AppData["seals"][string]; onSave: (v: number) => void;
+  onClose: () => void; lang: Lang; priceTs?: number;
 }) {
+  const age = priceAge(priceTs);
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center"
-      style={{ background: "rgba(0,0,0,0.78)" }}
-      onClick={onClose}
-    >
-      <div
-        className="bg-[#09141f] border border-[#1a3f6e] rounded-2xl p-6 w-72 space-y-4"
-        onClick={e => e.stopPropagation()}
-      >
-        <p className="text-white font-bold text-sm truncate">{seal.name}</p>
-        <p className="text-[#5a8aaa] text-xs font-mono uppercase tracking-wider">Precio por sello</p>
-        <CurrencyInput
-          valueM={seal.priceM}
-          onChange={onSave}
-          className="w-full"
-        />
-        <button
-          onClick={onClose}
-          className="w-full py-1.5 text-xs font-mono text-[#5a8aaa] border border-[#1a3f6e] rounded-lg hover:text-white transition-colors"
-        >
-          Listo
+    <div className="fixed inset-0 z-50 flex items-center justify-center"
+      style={{ background: "rgba(0,0,0,0.78)" }} onClick={onClose}>
+      <div className="bg-[#09141f] border border-[#1a3f6e] rounded-2xl p-6 w-72 space-y-4"
+        onClick={e => e.stopPropagation()}>
+        <div>
+          <p className="text-white font-bold text-sm truncate mb-1">{seal.name}</p>
+          <p className="text-[#5a8aaa] text-xs font-mono uppercase tracking-wider mb-1">
+            {lang === "es" ? "Precio por sello (global)" : "Price per seal (global)"}
+          </p>
+          <p className="text-[#2a4558] text-xs font-mono">
+            {lang === "es"
+              ? "Este precio aplica para todos los jugadores del servidor"
+              : "This price applies to all players on the server"}
+          </p>
+          {/* Antigüedad del precio */}
+          {priceTs && (
+            <p className={`text-[10px] font-mono mt-2 ${age === "stale" ? "text-orange-400" : "text-[#5a8aaa]"}`}>
+              {age === "stale" ? "⚠ " : "✓ "}
+              {lang === "es" ? "Última actualización: " : "Last updated: "}
+              {priceAgeLabel(priceTs, lang)}
+            </p>
+          )}
+        </div>
+        <CurrencyInput valueM={seal.priceM} onChange={onSave} className="w-full" />
+        <button onClick={onClose}
+          className="w-full py-1.5 text-xs font-mono text-[#5a8aaa] border border-[#1a3f6e] rounded-lg hover:text-white transition-colors">
+          {lang === "es" ? "Listo" : "Done"}
         </button>
       </div>
     </div>
   );
 }
 
-// ── Componente principal ─────────────────────────────────────
-export function ManageTab({ data, onUpdate, lang, search, onSearchChange, attrFilter, onAttrFilterChange, sortKey, onSortKeyChange }: Props) {
+// ── Componente principal ──────────────────────────────────────
+export function ManageTab({
+  data, onUpdate, onPriceChange, lang, search, onSearchChange,
+  attrFilter, onAttrFilterChange, sortKey, onSortKeyChange,
+  priceTimestamps = {},
+}: Props) {
   const t = TRANSLATIONS[lang];
 
-  const [showForm,   setShowForm]   = useState(false);
-  const [newName,    setNewName]    = useState("");
   const [rankModal,  setRankModal]  = useState<string | null>(null);
   const [priceModal, setPriceModal] = useState<string | null>(null);
 
   const SORT_OPTIONS: { key: SortKey; label: string }[] = [
-    { key: "name-asc",  label: t.sortNameAsc },
+    { key: "name-asc",  label: t.sortNameAsc  },
     { key: "name-desc", label: t.sortNameDesc },
     { key: "stat-desc", label: t.sortStatDesc },
-    { key: "stat-asc",  label: t.sortStatAsc },
+    { key: "stat-asc",  label: t.sortStatAsc  },
   ];
 
   const seals = useMemo(() => {
     let list = Object.values(data.seals);
-    if (search) list = list.filter(s => s.name.toLowerCase().includes(search.toLowerCase()));
-    if (attrFilter) {
-      list = list.filter(s =>
-        Object.values(s.stats?.[attrFilter] ?? {}).some(v => (v ?? 0) > 0)
-      );
-    }
+    if (search)     list = list.filter(s => s.name.toLowerCase().includes(search.toLowerCase()));
+    if (attrFilter) list = list.filter(s => Object.values(s.stats?.[attrFilter] ?? {}).some(v => (v ?? 0) > 0));
     const attr = attrFilter;
     return [...list].sort((a, b) => {
       if (sortKey === "name-asc")  return a.name.localeCompare(b.name);
@@ -141,11 +157,15 @@ export function ManageTab({ data, onUpdate, lang, search, onSearchChange, attrFi
     });
   }, [data.seals, search, attrFilter, sortKey]);
 
-  const updateSeal = (name: string, patch: Partial<typeof data.seals[string]>) =>
+  const updateSeal = (name: string, patch: Partial<AppData["seals"][string]>) =>
     onUpdate({ ...data, seals: { ...data.seals, [name]: { ...data.seals[name], ...patch } }, lastUpdated: Date.now() });
 
   const setCurrentRank = (name: string, rank: Rank) => updateSeal(name, { currentRank: rank });
-  const setPrice       = (name: string, v: number)  => updateSeal(name, { priceM: v });
+
+  const setPrice = (name: string, v: number) => {
+    updateSeal(name, { priceM: v });
+    onPriceChange?.(name, v);
+  };
 
   const resetAllToUnopened = () => {
     if (!confirm(t.confirmUnopened)) return;
@@ -153,18 +173,6 @@ export function ManageTab({ data, onUpdate, lang, search, onSearchChange, attrFi
       Object.entries(data.seals).map(([k, s]) => [k, { ...s, currentRank: "Unopened" as Rank }])
     );
     onUpdate({ ...data, seals: updatedSeals, lastUpdated: Date.now() });
-  };
-
-  const addSeal = () => {
-    const name = newName.trim();
-    if (!name || data.seals[name]) return;
-    onUpdate({
-      ...data,
-      seals: { ...data.seals, [name]: emptySeal(name) as unknown as typeof data.seals[string] },
-      lastUpdated: Date.now(),
-    });
-    setNewName("");
-    setShowForm(false);
   };
 
   const deleteSeal = (name: string) => {
@@ -178,71 +186,72 @@ export function ManageTab({ data, onUpdate, lang, search, onSearchChange, attrFi
     if (!attr && (sortKey === "stat-asc" || sortKey === "stat-desc")) onSortKeyChange("name-asc");
   };
 
+  // Contadores de precios desactualizados
+  const staleCount   = seals.filter(s => s.priceM > 0 && priceAge(priceTimestamps[s.name]) === "stale").length;
+  const unknownCount = seals.filter(s => s.priceM > 0 && !priceTimestamps[s.name]).length;
+
   const rankModalSeal  = rankModal  ? data.seals[rankModal]  : null;
   const priceModalSeal = priceModal ? data.seals[priceModal] : null;
 
   return (
     <div>
-      {/* Modales */}
       {rankModal && rankModalSeal && (
-        <RankModal
-          seal={rankModalSeal}
-          onSelect={r => setCurrentRank(rankModal, r)}
-          onClose={() => setRankModal(null)}
-        />
+        <RankModal seal={rankModalSeal} lang={lang}
+          onSelect={r => setCurrentRank(rankModal, r)} onClose={() => setRankModal(null)} />
       )}
       {priceModal && priceModalSeal && (
-        <PriceModal
-          seal={priceModalSeal}
-          onSave={v => setPrice(priceModal, v)}
-          onClose={() => setPriceModal(null)}
-        />
+        <PriceModal seal={priceModalSeal} lang={lang}
+          priceTs={priceTimestamps[priceModal]}
+          onSave={v => { setPrice(priceModal, v); }}
+          onClose={() => setPriceModal(null)} />
+      )}
+
+      {/* Banner de precios desactualizados */}
+      {(staleCount > 0 || unknownCount > 0) && (
+        <div className="mb-4 flex items-center gap-2 px-3 py-2 rounded-lg border border-orange-500/30 bg-orange-500/05">
+          <span>⚠</span>
+          <p className="text-orange-400 text-xs font-mono">
+            {staleCount > 0 && (lang === "es"
+              ? `${staleCount} precio${staleCount > 1 ? "s" : ""} sin actualizar hace más de 7 días`
+              : `${staleCount} price${staleCount > 1 ? "s" : ""} not updated in over 7 days`)}
+            {staleCount > 0 && unknownCount > 0 && " · "}
+            {unknownCount > 0 && (lang === "es"
+              ? `${unknownCount} sin fecha de actualización`
+              : `${unknownCount} with no update date`)}
+          </p>
+        </div>
       )}
 
       {/* Barra superior */}
       <div className="flex items-center gap-3 mb-4">
-        <input
-          type="text"
-          placeholder={t.searchPlaceholder}
-          value={search}
+        <input type="text" placeholder={t.searchPlaceholder} value={search}
           onChange={e => onSearchChange(e.target.value)}
           className="flex-1 bg-[#09141f] border border-[#1a3f6e] rounded-lg px-4 py-2.5 text-white placeholder-[#2a4558] font-mono text-sm focus:outline-none focus:border-[#00c8f0] transition-colors"
         />
         <span className="text-[#5a8aaa] font-mono text-xs whitespace-nowrap">{t.sealsCount(seals.length)}</span>
-        <button
-          onClick={resetAllToUnopened}
-          disabled={Object.keys(data.seals).length === 0}
-          className="px-3 py-2 text-xs font-mono border border-[#5a8aaa]/40 text-[#5a8aaa] rounded-lg hover:border-[#ffd700]/60 hover:text-[#ffd700] disabled:opacity-30 disabled:cursor-not-allowed transition-colors whitespace-nowrap"
-        >{t.resetToUnopened}</button>
-        <button
-          onClick={() => setShowForm(v => !v)}
-          className="px-4 py-2 text-xs font-mono font-bold border border-[#00e676] text-[#00e676] rounded-lg hover:bg-[#00e676]/10 transition-colors whitespace-nowrap"
-        >{t.addSeal}</button>
+        <button onClick={resetAllToUnopened} disabled={Object.keys(data.seals).length === 0}
+          className="px-3 py-2 text-xs font-mono border border-[#5a8aaa]/40 text-[#5a8aaa] rounded-lg hover:border-[#ffd700]/60 hover:text-[#ffd700] disabled:opacity-30 disabled:cursor-not-allowed transition-colors whitespace-nowrap">
+          {t.resetToUnopened}
+        </button>
       </div>
 
       {/* Filtros */}
       <div className="mb-5 flex flex-wrap items-center gap-2">
         <div className="flex flex-wrap gap-1.5 flex-1">
-          <button
-            onClick={() => handleAttrFilter(null)}
+          <button onClick={() => handleAttrFilter(null)}
             className={`px-3 py-1 rounded-full text-xs font-mono border transition-all ${
               attrFilter === null
                 ? "border-[#00c8f0] text-[#00c8f0] bg-[#00c8f0]/15"
                 : "border-[#1a3f6e] text-[#5a8aaa] hover:border-[#00c8f0]/50 hover:text-white"
-            }`}
-          >{t.filterAll}</button>
+            }`}>{t.filterAll}</button>
           {ATTRIBUTES.map(attr => (
-            <button
-              key={attr}
-              onClick={() => handleAttrFilter(attrFilter === attr ? null : attr)}
+            <button key={attr} onClick={() => handleAttrFilter(attrFilter === attr ? null : attr)}
               className={`px-3 py-1 rounded-full text-xs font-mono border transition-all flex items-center gap-1 ${
                 attrFilter === attr
                   ? "border-[#00c8f0] text-[#00c8f0] bg-[#00c8f0]/15"
                   : "border-[#1a3f6e] text-[#5a8aaa] hover:border-[#00c8f0]/50 hover:text-white"
-              }`}
-            >
-              <span>{ATTR_ICON[attr]}</span>
-              <span>{ATTR_SHORT[attr]}</span>
+              }`}>
+              <span>{ATTR_ICON[attr]}</span><span>{ATTR_SHORT[attr]}</span>
               {PERCENT_ATTRS.has(attr) && <span className="text-[#2a4558]">%</span>}
             </button>
           ))}
@@ -252,139 +261,99 @@ export function ManageTab({ data, onUpdate, lang, search, onSearchChange, attrFi
           {SORT_OPTIONS.map(opt => {
             const disabled = (opt.key === "stat-asc" || opt.key === "stat-desc") && !attrFilter;
             return (
-              <button
-                key={opt.key}
-                onClick={() => !disabled && onSortKeyChange(opt.key)}
-                disabled={disabled}
+              <button key={opt.key} onClick={() => !disabled && onSortKeyChange(opt.key)} disabled={disabled}
                 className={`px-2.5 py-1 rounded text-xs font-mono border transition-all ${
                   sortKey === opt.key
                     ? "border-[#00c8f0] text-[#00c8f0] bg-[#00c8f0]/15"
                     : disabled
                     ? "border-[#1a3f6e]/40 text-[#2a4558]/40 cursor-not-allowed"
                     : "border-[#1a3f6e] text-[#5a8aaa] hover:border-[#00c8f0]/50 hover:text-white"
-                }`}
-              >{opt.label}</button>
+                }`}>{opt.label}</button>
             );
           })}
         </div>
       </div>
 
-      {/* Formulario nuevo sello */}
-      {showForm && (
-        <div className="mb-5 p-5 bg-[#0a2a1a] border border-[#00e676]/30 rounded-xl">
-          <p className="text-[#00e676] font-bold text-sm uppercase tracking-wider mb-3">{t.newSeal}</p>
-          <div className="flex gap-3">
-            <input
-              type="text"
-              placeholder={t.sealNamePlaceholder}
-              value={newName}
-              onChange={e => setNewName(e.target.value)}
-              onKeyDown={e => e.key === "Enter" && addSeal()}
-              className="flex-1 bg-[#09141f] border border-[#1a3f6e] rounded px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-[#00c8f0]"
-            />
-            <button
-              onClick={addSeal}
-              disabled={!newName.trim() || !!data.seals[newName.trim()]}
-              className="px-5 py-2 text-sm font-bold font-mono bg-[#00e676]/20 border border-[#00e676] text-[#00e676] rounded-lg disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#00e676]/30 transition-colors"
-            >{t.create}</button>
-            <button
-              onClick={() => { setShowForm(false); setNewName(""); }}
-              className="px-4 py-2 text-sm font-mono border border-[#1a3f6e] text-[#5a8aaa] rounded-lg hover:text-red-400 transition-colors"
-            >{t.cancel}</button>
-          </div>
-          {data.seals[newName.trim()] && (
-            <p className="text-red-400 text-xs font-mono mt-2">{t.duplicateName}</p>
-          )}
-        </div>
-      )}
-
-      {/* Grid de cuadritos */}
+      {/* Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
         {seals.map(seal => {
           const rank      = seal.currentRank;
           const rankColor = rank ? RANK_COLOR[rank] : "#1a3f6e";
           const attrStat  = attrFilter && rank ? (seal.stats?.[attrFilter]?.[rank] ?? 0) : null;
           const attrMax   = attrFilter ? (seal.stats?.[attrFilter]?.["Master"] ?? 0) : null;
+          const ts        = priceTimestamps[seal.name];
+          const age       = seal.priceM > 0 ? priceAge(ts) : null;
 
           return (
-            <div
-              key={seal.name}
-              className="relative rounded-xl overflow-hidden border transition-all"
-              style={{
-                borderColor: `${rankColor}60`,
-                background: `linear-gradient(145deg, #09141f 55%, ${rankColor}14)`,
-              }}
-            >
-              {/* Barra de color del rank en el tope */}
-              <div
-                className="h-1 w-full"
-                style={{ background: rank ? rankColor : "#1a3f6e40" }}
-              />
-
+            <div key={seal.name} className="relative rounded-xl overflow-hidden border transition-all"
+              style={{ borderColor: `${rankColor}60`, background: `linear-gradient(145deg, #09141f 55%, ${rankColor}14)` }}>
+              <div className="h-1 w-full" style={{ background: rank ? rankColor : "#1a3f6e40" }} />
               <div className="p-3">
-                {/* Nombre */}
-                <p
-                  className="text-white text-xs font-bold leading-tight mb-2 line-clamp-2"
-                  title={seal.name}
-                  style={{ minHeight: "2.2em" }}
-                >
-                  {seal.name}
-                </p>
+                <p className="text-white text-xs font-bold leading-tight mb-2 line-clamp-2"
+                  title={seal.name} style={{ minHeight: "2.2em" }}>{seal.name}</p>
 
-                {/* Rank badge */}
                 <div className="mb-2 h-5">
-                  {rank ? (
-                    <span
-                      className="inline-block px-2 py-0.5 rounded text-[10px] font-bold leading-none"
-                      style={{
-                        color: rankColor,
-                        background: `${rankColor}20`,
-                        border: `1px solid ${rankColor}50`,
-                      }}
-                    >{rank}</span>
-                  ) : (
-                    <span className="text-[#2a4558] text-[10px] font-mono">sin rank</span>
-                  )}
+                  {rank
+                    ? <span className="inline-block px-2 py-0.5 rounded text-[10px] font-bold leading-none"
+                        style={{ color: rankColor, background: `${rankColor}20`, border: `1px solid ${rankColor}50` }}>{rank}</span>
+                    : <span className="text-[#2a4558] text-[10px] font-mono">
+                        {lang === "es" ? "sin rank" : "no rank"}
+                      </span>}
                 </div>
 
-                {/* Stat del atributo filtrado */}
                 {attrFilter && attrMax !== null && attrMax > 0 ? (
-                  <p className="text-[10px] font-mono text-[#5a8aaa] mb-2 h-4">
+                  <p className="text-[10px] font-mono text-[#5a8aaa] mb-1 h-4">
                     {ATTR_ICON[attrFilter]}{" "}
                     <span className="text-[#00c8f0]">{formatStat(attrFilter, attrStat ?? 0)}</span>
                     <span className="text-[#2a4558]"> / {formatStat(attrFilter, attrMax)}</span>
                   </p>
-                ) : (
-                  <div className="mb-2 h-4" />
-                )}
+                ) : <div className="mb-1 h-4" />}
 
-                {/* Precio */}
-                <p className="text-[10px] font-mono mb-3 h-4">
-                  {seal.priceM > 0
-                    ? <><span className="text-[#00c8f0]">{formatM(seal.priceM)}</span><span className="text-[#2a4558]">/seal</span></>
-                    : <span className="text-[#2a4558]">{t.noPrice}</span>
-                  }
-                </p>
+                {/* Precio con indicador de frescura */}
+                <div className="mb-3 h-8">
+                  <div className="flex items-center gap-1">
+                    {seal.priceM > 0 ? (
+                      <>
+                        <span className={`text-[10px] font-mono ${age === "stale" ? "text-orange-400" : "text-[#00c8f0]"}`}>
+                          {formatM(seal.priceM)}
+                        </span>
+                        <span className="text-[#2a4558] text-[10px] font-mono">/seal</span>
+                        {age === "stale" && (
+                          <span className="text-orange-400 text-[9px]"
+                            title={lang === "es" ? "Precio desactualizado (+7 días)" : "Stale price (+7 days)"}>⚠</span>
+                        )}
+                      </>
+                    ) : (
+                      <span className="text-[#2a4558] text-[10px] font-mono">{t.noPrice}</span>
+                    )}
+                  </div>
+                  {ts && seal.priceM > 0 && (
+                    <p className={`text-[9px] font-mono ${age === "stale" ? "text-orange-400/70" : "text-[#2a4558]"}`}>
+                      {priceAgeLabel(ts, lang)}
+                    </p>
+                  )}
+                </div>
 
-                {/* Botones: Rank | Precio | X */}
                 <div className="flex gap-1">
-                  <button
-                    onClick={() => setRankModal(seal.name)}
+                  <button onClick={() => setRankModal(seal.name)}
+                    className="flex-1 py-1 text-[10px] font-bold font-mono rounded border transition-all"
+                    style={{ color: rankColor, borderColor: `${rankColor}50`, background: `${rankColor}12` }}>
+                    {lang === "es" ? "Rank" : "Rank"}
+                  </button>
+                  <button onClick={() => setPriceModal(seal.name)}
                     className="flex-1 py-1 text-[10px] font-bold font-mono rounded border transition-all"
                     style={{
-                      color: rankColor,
-                      borderColor: `${rankColor}50`,
-                      background: `${rankColor}12`,
-                    }}
-                  >Rank</button>
-                  <button
-                    onClick={() => setPriceModal(seal.name)}
-                    className="flex-1 py-1 text-[10px] font-bold font-mono rounded border border-[#1a3f6e] text-[#5a8aaa] hover:border-[#00c8f0]/60 hover:text-[#00c8f0] transition-all"
-                  >Precio</button>
-                  <button
-                    onClick={() => deleteSeal(seal.name)}
-                    className="px-2 py-1 text-[10px] font-mono text-[#2a4558] rounded border border-[#1a3f6e] hover:text-red-400 hover:border-red-400/40 transition-all"
-                  >✕</button>
+                      color:        age === "stale" ? "#fb923c" : "#5a8aaa",
+                      borderColor:  age === "stale" ? "#fb923c50" : "#1a3f6e",
+                      background:   age === "stale" ? "#fb923c10" : "transparent",
+                    }}>
+                    {lang === "es" ? "Precio" : "Price"}
+                    {age === "stale" && " ⚠"}
+                  </button>
+                  <button onClick={() => deleteSeal(seal.name)}
+                    className="px-2 py-1 text-[10px] font-mono text-[#2a4558] rounded border border-[#1a3f6e] hover:text-red-400 hover:border-red-400/40 transition-all">
+                    ✕
+                  </button>
                 </div>
               </div>
             </div>

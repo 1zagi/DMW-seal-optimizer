@@ -8,7 +8,7 @@ export const TRANSLATIONS = {
   es: {
     // Header
     sealCount: (n: number) => `${n} sellos registrados`,
-    noSeals: "Sin sellos — importa un JSON o agrega manualmente",
+    noSeals: "Sin sellos — importa un JSON con datos de sellos",
     saved: "Guardado:",
     importJson: "↑ Importar JSON",
     exportJson: "↓ Exportar JSON",
@@ -34,7 +34,7 @@ export const TRANSLATIONS = {
     showTop: "Mostrar top",
     optionsFound: (n: number) => `${n} opciones encontradas`,
     noSealsAvail: "No hay sellos disponibles.",
-    noSealsHint: 'Agrega sellos en "Gestionar" y asegúrate de poner precio y cantidades.',
+    noSealsHint: 'Importa sellos desde un JSON en "Gestionar" y asegúrate de poner precio y cantidades.',
     colGain: "ATT+",
     colPrice: "Precio/Seal",
     colSeals: "Sellos",
@@ -48,13 +48,6 @@ export const TRANSLATIONS = {
     // ManageTab
     searchPlaceholder: "Buscar Digimon...",
     sealsCount: (n: number) => `${n} sellos`,
-    addSeal: "+ Agregar Sello",
-    newSeal: "Nuevo Sello",
-    sealNamePlaceholder: "Nombre del Digimon (ej. Agumon)",
-    create: "Crear",
-    cancel: "Cancelar",
-    duplicateName: "Ya existe un sello con ese nombre.",
-    afterCreate: 'Después de crearlo podrás editar precio, cantidades y stats directamente en la lista.',
     sortLabel: "Ordenar:",
     sortNameAsc: "A → Z",
     sortNameDesc: "Z → A",
@@ -72,7 +65,7 @@ export const TRANSLATIONS = {
     confirmDelete: (name: string) => `¿Eliminar el sello de ${name}?`,
     noPrice: "sin precio",
     noResults: "Sin resultados para los filtros activos.",
-    noSealsYet: 'No hay sellos aún. Usa "+ Agregar Sello" para comenzar.',
+    noSealsYet: 'No hay sellos aún. Importa un JSON con los datos de los sellos.',
     resetToUnopened: "⬜ Reset a Unopened",
     confirmUnopened: "¿Poner todos los sellos en rank Unopened?",
 
@@ -81,7 +74,7 @@ export const TRANSLATIONS = {
     progressDescBefore: "Los valores se derivan de los sellos en la pestaña",
     progressDescAfter: ". Actual = suma de stats en tu rank actual de cada sello. Máximo = suma de stats en rank Master de todos los sellos.",
     manageTabName: "🗂️ Gestionar Sellos",
-    noSealsMsg: "No hay sellos registrados. Importa un JSON o agrega sellos en",
+    noSealsMsg: "No hay sellos registrados. Importa un JSON con los datos en",
     noData: "sin datos",
     actualLabel: "Actual",
     maxLabel: "Máximo",
@@ -95,7 +88,7 @@ export const TRANSLATIONS = {
     builderFewest: "📦 Menos compras",
     builderFewestDesc: "La opción con menos sellos",
     builderNoSeals: "Sin sellos disponibles.",
-    builderAddSeals: 'Agrega sellos en "Gestionar" con precios y cantidades.',
+    builderAddSeals: 'Importa sellos desde un JSON en "Gestionar" con precios y cantidades.',
 
     // Confirm reset
     confirmReset: "¿Borrar todos los datos? Esta acción no se puede deshacer.",
@@ -103,7 +96,7 @@ export const TRANSLATIONS = {
 
   en: {
     sealCount: (n: number) => `${n} seals registered`,
-    noSeals: "No seals — import a JSON or add manually",
+    noSeals: "No seals — import a JSON with seal data",
     saved: "Saved:",
     importJson: "↑ Import JSON",
     exportJson: "↓ Export JSON",
@@ -127,7 +120,7 @@ export const TRANSLATIONS = {
     showTop: "Show top",
     optionsFound: (n: number) => `${n} options found`,
     noSealsAvail: "No seals available.",
-    noSealsHint: 'Add seals in "Manage" and make sure to set a price and quantities.',
+    noSealsHint: 'Import seals from a JSON in "Manage" and make sure to set prices and quantities.',
     colGain: "ATT+",
     colPrice: "Price/Seal",
     colSeals: "Seals",
@@ -140,13 +133,6 @@ export const TRANSLATIONS = {
 
     searchPlaceholder: "Search Digimon...",
     sealsCount: (n: number) => `${n} seals`,
-    addSeal: "+ Add Seal",
-    newSeal: "New Seal",
-    sealNamePlaceholder: "Digimon name (e.g. Agumon)",
-    create: "Create",
-    cancel: "Cancel",
-    duplicateName: "A seal with that name already exists.",
-    afterCreate: "After creating it you can edit price, quantities and stats directly in the list.",
     sortLabel: "Sort:",
     sortNameAsc: "A → Z",
     sortNameDesc: "Z → A",
@@ -164,7 +150,7 @@ export const TRANSLATIONS = {
     confirmDelete: (name: string) => `Delete seal ${name}?`,
     noPrice: "no price",
     noResults: "No results for the active filters.",
-    noSealsYet: 'No seals yet. Use "+ Add Seal" to start.',
+    noSealsYet: 'No seals yet. Import a JSON with the seal data.',
     resetToUnopened: "⬜ Reset to Unopened",
     confirmUnopened: "Set all seals to Unopened rank?",
 
@@ -172,7 +158,7 @@ export const TRANSLATIONS = {
     progressDescBefore: "Values are derived from seals in the",
     progressDescAfter: " tab. Current = sum of stats at your current rank per seal. Maximum = sum of Master rank stats across all seals.",
     manageTabName: "🗂️ Manage Seals",
-    noSealsMsg: "No seals registered. Import a JSON or add seals in",
+    noSealsMsg: "No seals registered. Import a JSON with seal data in",
     noData: "no data",
     actualLabel: "Current",
     maxLabel: "Maximum",
@@ -186,7 +172,7 @@ export const TRANSLATIONS = {
     builderFewest: "📦 Fewer seals",
     builderFewestDesc: "Buy the fewest seals",
     builderNoSeals: "No seals available.",
-    builderAddSeals: 'Add seals in "Manage" with prices and quantities.',
+    builderAddSeals: 'Import seals from a JSON in "Manage" with prices and quantities.',
 
     confirmReset: "Delete all data? This action cannot be undone.",
   },

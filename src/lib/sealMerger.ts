@@ -5,16 +5,19 @@
 import type { SealBase, SealUserData, MergedSeal, Seal } from "./types";
 
 /**
- * Combina datos base (inmutables) con datos de usuario (mutables)
+ * Combina datos base (inmutables) con datos de usuario (mutables) y precios globales
  * 
  * @param baseData Array de SealBase (stats, ranks, requirements)
- * @param userData Map de SealUserData (currentRank, price)
+ * @param userData Map de SealUserData (currentRank only - prices are now global)
+ * @param globalPrices Map de precios globales (sealId → priceM)
  * @returns Array de MergedSeal listo para usar en la app
  */
 export function mergeSealData(
   baseData: SealBase[],
-  userData: Map<string, SealUserData>
+  userData: Map<string, SealUserData>,
+  globalPrices?: Record<string, number>
 ): Record<string, MergedSeal> {
+  const prices = globalPrices || {};
   const result: Record<string, MergedSeal> = {};
 
   for (const base of baseData) {
@@ -26,7 +29,7 @@ export function mergeSealData(
       stats: base.stats,
       qty: base.qty,
       currentRank: user?.currentRank ?? null,
-      priceM: user?.priceM ?? 0,
+      priceM: prices[base.id] ?? prices[base.name] ?? 0,
     };
 
     result[base.name] = merged;
@@ -37,12 +40,12 @@ export function mergeSealData(
 
 /**
  * Extrae user data de un Seal (para guardar)
+ * Nota: priceM ahora es global, no por usuario
  */
 export function extractUserData(seal: Seal, sealId: string): SealUserData {
   return {
     sealId,
     currentRank: seal.currentRank,
-    priceM: seal.priceM,
   };
 }
 
@@ -61,7 +64,6 @@ export function migrateOldSeal(oldSeal: Seal, id: string): { base: SealBase; use
     user: {
       sealId: id,
       currentRank: oldSeal.currentRank,
-      priceM: oldSeal.priceM,
     },
   };
 }
