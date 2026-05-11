@@ -7,8 +7,6 @@ Basada en el Seal Optimizer de GDMO, adaptada para DMW.
 ## Diferencias vs GDMO
 - Atributo extra: **SK [Skill Damage]**
 - localStorage keys separadas (`dmw-*`) — no colisiona con GDMO
-- Sin Vercel Analytics
-- JSON de sellos generado con `scrape_dmw_seals.py`
 
 ## Setup
 
