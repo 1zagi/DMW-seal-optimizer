@@ -82,6 +82,7 @@ export const RANK_COLOR: Record<Rank, string> = {
 };
 
 export interface Seal {
+  id: string;
   name: string;
   priceM: number;
   qty: Record<Rank, number>;

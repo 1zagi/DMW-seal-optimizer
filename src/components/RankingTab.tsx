@@ -5,7 +5,7 @@
 import { useMemo } from "react";
 import type { AppData, Attribute, Rank } from "../lib/types";
 import { ATTRIBUTES, ATTR_SHORT, ATTR_ICON, RANK_COLOR, PERCENT_ATTRS, formatStat } from "../lib/types";
-import { calcCandidates, type Candidate } from "../lib/calculator";
+import { calcRankingCandidates, type Candidate } from "../lib/calculator";
 import type { BuildSolution } from "../lib/optimizer";
 import { TRANSLATIONS, type Lang } from "../lib/i18n";
 import { formatM } from "../lib/currency";
@@ -40,7 +40,7 @@ export function RankingTab({
   const t = TRANSLATIONS[lang];
 
   const candidates = useMemo(
-    () => calcCandidates(data, selectedAttr, includeOpener ? openerPrice : undefined),
+    () => calcRankingCandidates(data, selectedAttr, includeOpener ? openerPrice : undefined),
     [data, selectedAttr, includeOpener, openerPrice]
   );
 

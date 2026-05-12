@@ -6,6 +6,7 @@ import { useState, useEffect, useMemo } from "react";
 import type { AppData } from "../lib/types";
 import type { Lang } from "../lib/i18n";
 import { formatM } from "../lib/currency";
+import { isDMWNoMarket } from "../lib/noMarketSeals";
 
 interface TrendEntry {
   sealId:    string;
@@ -41,9 +42,10 @@ export function MarketTab({ data, lang, fetchPricesNDaysAgo, fetchPriceHistory }
     fetchPricesNDaysAgo(7).then(map => { setOldPrices(map); setLoading(false); });
   }, []);
 
+  // Excluye sellos sin mercado activo del análisis de tendencias
   const trends = useMemo<TrendEntry[]>(() => {
     return Object.values(data.seals)
-      .filter(s => s.priceM > 0)
+      .filter(s => s.priceM > 0 && !isDMWNoMarket(s.name))
       .map(s => {
         const current  = s.priceM;
         const previous = oldPrices.get(s.name);

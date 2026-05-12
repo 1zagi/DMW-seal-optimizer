@@ -204,17 +204,26 @@ function SolutionCard({
   const finalStats   = currentStats + solution.totalStats;
   const isMet        = solution.isFeasible;
   const totalOpeners = solution.items.reduce((s, i) => s + Math.ceil(i.qty / 50), 0);
-  const itemKey      = (name: string, rank: string) => `${name}::${rank}`;
-  const checkedCount = checkedKeys.size;
-  const totalCount   = solution.items.length;
-  const allDone      = checkedCount === totalCount && totalCount > 0;
 
   const sortedItems = useMemo(() => {
-    const items = [...solution.items];
+    // Deduplicar por (name, rank) - solo mantener la primera ocurrencia
+    const seen = new Set<string>();
+    const items = solution.items.filter(item => {
+      const key = `${item.name}::${item.rank}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+    
     if (sortType === "efficiency") return items.sort((a, b) => (a.statBonus > 0 ? a.totalCostM / a.statBonus : Infinity) - (b.statBonus > 0 ? b.totalCostM / b.statBonus : Infinity));
     if (sortType === "price") return items.sort((a, b) => b.totalCostM - a.totalCostM);
     return items;
   }, [solution.items, sortType]);
+
+  const itemKey      = (name: string, rank: string) => `${name}::${rank}`;
+  const checkedCount = checkedKeys.size;
+  const totalCount   = sortedItems.length;
+  const allDone      = checkedCount === totalCount && totalCount > 0;
 
   const progressPct = targetValue > 0 ? Math.min(((builderMode === "add" ? solution.totalStats : finalStats) / targetValue) * 100, 100) : 0;
   const borderColor = isMet ? "border-[#00e676]" : "border-[#ff6b6b]";
@@ -287,12 +296,12 @@ function SolutionCard({
           </div>
         )}
 
-        {sortedItems.map((item, i) => {
+        {sortedItems.map((item) => {
           const key    = itemKey(item.name, item.rank);
           const isDone = checkedKeys.has(key);
           const eff    = item.statBonus > 0 ? item.totalCostM / item.statBonus : 0;
           return (
-            <div key={`${key}-${i}`} onClick={() => onToggleCheck(key, item.name, item.rank as Rank)}
+            <div key={key} onClick={() => onToggleCheck(key, item.name, item.rank as Rank)}
               className={`flex items-start gap-2.5 p-2 rounded cursor-pointer transition-all select-none ${isDone ? "bg-[#00e676]/08 border border-[#00e676]/20 opacity-60" : "bg-black/30 border border-transparent hover:border-[#1a3f6e]"}`}>
               <div className={`mt-0.5 w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 transition-all ${isDone ? "border-[#00e676] bg-[#00e676]" : "border-[#1a3f6e] hover:border-[#5a8aaa]"}`}>
                 {isDone && <span className="text-black text-[10px] font-black leading-none">✓</span>}

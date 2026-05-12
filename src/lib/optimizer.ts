@@ -1,17 +1,26 @@
 // ============================================================
-//  optimizer.ts  —  Knapsack discretizado para Build Planner
+//  optimizer.ts  —  Multiple-Choice Knapsack estable
 // ============================================================
 //
-// Discretizamos los stats dividiendo entre el GCD del atributo,
-// convirtiendo floats a enteros manejables:
-//   AT/HP/DS/DE/HT: GCD=5  ->  max ~4150 estados
-//   CT/EV/BL:       GCD=0.0005 -> max ~3600 estados
-// Esto permite un Knapsack 0/1 exacto sin freezes.
-// Cada sello aparece como mucho 1 vez; sus ranks son opciones exclusivas.
+// Solución robusta:
+//   - Máximo 1 rank por seal
+//   - Sin traceback corrupto
+//   - Sin duplicados
+//   - Sin estados mezclados
 //
-// FIX: el dp ahora solo guarda (score, prevU, chosenOpt) por celda —
-// traceback al final en O(n) en vez de copiar arrays en cada paso.
-// Esto elimina el crash de memoria (pantalla negra) con targets grandes.
+// Estrategia:
+//   Cada celda del DP guarda:
+//
+//     {
+//       score,
+//       items
+//     }
+//
+//   Esto consume más memoria que un traceback optimizado,
+//   pero para ~300-400 seals sigue siendo perfectamente viable
+//   y muchísimo más estable.
+//
+// ============================================================
 
 import type { Candidate } from "./calculator";
 import type { Attribute } from "./types";
@@ -30,131 +39,223 @@ export interface BuildResult {
 }
 
 const ATTR_RESOLUTION: Partial<Record<Attribute, number>> = {
-  "AT [Attack Damage]":     5,
-  "HP [Health Points]":     5,
-  "DS [Digi-Soul Points]":  5,
-  "DE [Defense]":           5,
-  "HT [Hit Rate]":          5,
+  "AT [Attack Damage]": 5,
+  "HP [Health Points]": 5,
+  "DS [Digi-Soul Points]": 5,
+  "DE [Defense]": 5,
+  "HT [Hit Rate]": 5,
   "CT [Critical Hit Rate]": 0.0005,
-  "BL [Block Rate]":        0.0005,
-  "EV [Evasion]":           0.0005,
-  "SK [Skill Damage]":      5,
+  "BL [Block Rate]": 0.0005,
+  "EV [Evasion]": 0.0005,
+  "SK [Skill Damage]": 5,
 };
+
+const OVERSHOOT_UNITS = 200;
+
+type DPState = {
+  score: number;
+  items: Candidate[];
+} | null;
 
 export function optimizeBuild(
   candidates: Candidate[],
   targetStats: number,
   attribute: Attribute,
 ): BuildResult {
-  const empty: BuildSolution = { items: [], totalCost: 0, totalStats: 0, totalSeals: 0, isFeasible: false };
-  if (candidates.length === 0 || targetStats <= 0) return { cheapest: empty, fewest: empty };
+
+  const empty: BuildSolution = {
+    items: [],
+    totalCost: 0,
+    totalStats: 0,
+    totalSeals: 0,
+    isFeasible: false,
+  };
+
+  if (candidates.length === 0 || targetStats <= 0) {
+    return {
+      cheapest: empty,
+      fewest: empty,
+    };
+  }
 
   const resolution = ATTR_RESOLUTION[attribute] ?? 1;
-  const cheapest = knapsack(candidates, targetStats, resolution, "cost");
-  const fewest   = knapsack(candidates, targetStats, resolution, "seals");
-  return { cheapest, fewest };
+
+  return {
+    cheapest: knapsack(candidates, targetStats, resolution, "cost"),
+    fewest: knapsack(candidates, targetStats, resolution, "seals"),
+  };
 }
 
-/**
- * Knapsack 0/1 con discretización + traceback.
- *
- * score[u]     = mejor puntaje acumulado para llegar a u unidades
- * prevU[u]     = índice u del que venimos (para reconstruir la solución)
- * usedSeal[u]  = índice del sealGroup elegido al llegar a u
- * usedOpt[u]   = índice dentro del grupo elegido al llegar a u
- *
- * Al terminar, reconstruimos los items haciendo traceback desde bestU → 0.
- */
 function knapsack(
   candidates: Candidate[],
   targetStats: number,
   resolution: number,
   mode: "cost" | "seals",
 ): BuildSolution {
-  const targetUnits = Math.ceil(targetStats / resolution);
 
-  // Agrupar candidatos por sello (opciones mutuamente exclusivas por sello)
+  const targetUnits = Math.ceil(targetStats / resolution);
+  const maxUnits = targetUnits + OVERSHOOT_UNITS;
+
+  // ============================================================
+  // AGRUPAR POR SEAL
+  // ============================================================
+
   const bySeal = new Map<string, Candidate[]>();
+
   for (const c of candidates) {
-    if (!bySeal.has(c.name)) bySeal.set(c.name, []);
-    bySeal.get(c.name)!.push(c);
+
+    if (!bySeal.has(c.id)) {
+      bySeal.set(c.id, []);
+    }
+
+    bySeal.get(c.id)!.push(c);
   }
 
   const sealGroups = [...bySeal.values()];
 
-  // Pre-calcular units por candidato
-  type Opt = { c: Candidate; units: number };
-  const sealOpts: Opt[][] = sealGroups.map(group =>
-    group
-      .map(c => ({ c, units: Math.max(1, Math.round(c.statBonus / resolution)) }))
-      .filter(o => o.units > 0)
-  );
+  // ============================================================
+  // DP
+  // ============================================================
 
-  const INF = Infinity;
+  const dp: DPState[] = Array(maxUnits + 1).fill(null);
 
-  // dp arrays paralelos — solo números/índices, sin objetos anidados
-  const score    = new Float64Array(targetUnits + 1).fill(INF);
-  const prevU    = new Int32Array(targetUnits + 1).fill(-1);
-  const usedSeal = new Int16Array(targetUnits + 1).fill(-1);
-  const usedOpt  = new Int16Array(targetUnits + 1).fill(-1);
+  dp[0] = {
+    score: 0,
+    items: [],
+  };
 
-  score[0] = 0;
+  // ============================================================
+  // MULTIPLE-CHOICE KNAPSACK
+  // ============================================================
 
-  for (let si = 0; si < sealOpts.length; si++) {
-    const opts = sealOpts[si];
-    if (opts.length === 0) continue;
+  for (const group of sealGroups) {
 
-    // Recorrer de mayor a menor para garantía 0/1 (cada sello elegido una sola vez)
-    for (let u = targetUnits - 1; u >= 0; u--) {
-      if (score[u] === INF) continue;
+    // snapshot previo
+    const prev = [...dp];
 
-      for (let oi = 0; oi < opts.length; oi++) {
-        const { c, units } = opts[oi];
-        const newU     = Math.min(u + units, targetUnits);
-        const addScore = mode === "cost" ? c.totalCostM : c.qty;
-        const newScore = score[u] + addScore;
+    // copiar estados actuales
+    const next = [...dp];
 
-        if (newScore < score[newU]) {
-          score[newU]    = newScore;
-          prevU[newU]    = u;
-          usedSeal[newU] = si;
-          usedOpt[newU]  = oi;
+    for (const candidate of group) {
+
+      const units = Math.max(
+        1,
+        Math.round(candidate.statBonus / resolution)
+      );
+
+      const addScore =
+        mode === "cost"
+          ? candidate.totalCostM
+          : candidate.qty;
+
+      for (let u = 0; u <= maxUnits - units; u++) {
+
+        const state = prev[u];
+
+        if (!state) continue;
+
+        const newU = u + units;
+
+        // seguridad extra:
+        // nunca repetir mismo seal
+        const alreadyUsed = state.items.some(
+          i => i.id === candidate.id
+        );
+
+        if (alreadyUsed) continue;
+
+        const newScore = state.score + addScore;
+
+        const existing = next[newU];
+
+        if (!existing || newScore < existing.score) {
+
+          next[newU] = {
+            score: newScore,
+            items: [
+              ...state.items,
+              candidate,
+            ],
+          };
         }
+      }
+    }
+
+    // avanzar capa
+    for (let i = 0; i <= maxUnits; i++) {
+      dp[i] = next[i];
+    }
+  }
+
+  // ============================================================
+  // BUSCAR MEJOR SOLUCIÓN
+  // ============================================================
+
+  let bestState: DPState = null;
+
+  for (let u = targetUnits; u <= maxUnits; u++) {
+
+    const state = dp[u];
+
+    if (!state) continue;
+
+    if (!bestState || state.score < bestState.score) {
+      bestState = state;
+    }
+  }
+
+  // si no alcanza meta -> mejor parcial
+  if (!bestState) {
+
+    for (let u = maxUnits; u >= 0; u--) {
+
+      if (dp[u]) {
+        bestState = dp[u];
+        break;
       }
     }
   }
 
-  // Encontrar la mejor celda alcanzable (targetUnits o la más cercana por debajo)
-  let bestU = targetUnits;
-  if (score[bestU] === INF) {
-    for (let u = targetUnits - 1; u >= 0; u--) {
-      if (score[u] < INF) { bestU = u; break; }
-    }
+  if (!bestState) {
+
+    return {
+      items: [],
+      totalCost: 0,
+      totalStats: 0,
+      totalSeals: 0,
+      isFeasible: false,
+    };
   }
 
-  if (score[bestU] === INF || bestU === 0) {
-    return { items: [], totalCost: 0, totalStats: 0, totalSeals: 0, isFeasible: false };
-  }
+  // ============================================================
+  // RESULTADO
+  // ============================================================
 
-  // Traceback para reconstruir los items elegidos
-  const items: (Candidate & { count: number })[] = [];
-  let cur = bestU;
-  while (cur > 0 && prevU[cur] !== -1) {
-    const si = usedSeal[cur];
-    const oi = usedOpt[cur];
-    if (si >= 0 && oi >= 0) {
-      items.push({ ...sealOpts[si][oi].c, count: 1 });
-    }
-    cur = prevU[cur];
-  }
+  const items = bestState.items.map(i => ({
+    ...i,
+    count: 1,
+  }));
 
-  if (items.length === 0) {
-    return { items: [], totalCost: 0, totalStats: 0, totalSeals: 0, isFeasible: false };
-  }
+  const totalStats = items.reduce(
+    (s, i) => s + i.statBonus,
+    0
+  );
 
-  const totalStats = items.reduce((s, i) => s + i.statBonus, 0);
-  const totalCost  = items.reduce((s, i) => s + i.totalCostM, 0);
-  const totalSeals = items.reduce((s, i) => s + i.qty, 0);
+  const totalCost = items.reduce(
+    (s, i) => s + i.totalCostM,
+    0
+  );
 
-  return { items, totalCost, totalStats, totalSeals, isFeasible: totalStats >= targetStats };
+  const totalSeals = items.reduce(
+    (s, i) => s + i.qty,
+    0
+  );
+
+  return {
+    items,
+    totalCost,
+    totalStats,
+    totalSeals,
+    isFeasible: totalStats >= targetStats,
+  };
 }

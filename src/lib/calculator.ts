@@ -15,7 +15,7 @@ import { formatM } from "./currency";
 export function computeAttrProgress(data: AppData): AttrProgress[] {
   return ATTRIBUTES.map(attr => {
     let vActual = 0;
-    let vMax    = 0;
+    let vMax = 0;
 
     for (const seal of Object.values(data.seals)) {
       const attrStats = seal.stats?.[attr];
@@ -37,20 +37,21 @@ export function computeAttrProgress(data: AppData): AttrProgress[] {
 
 // Resultado de evaluar un sello+rank para un atributo
 export interface Candidate {
-  name:       string; // nombre del Digimon
-  rank:       Rank;   // rank objetivo a comprar
-  priceM:     number; // precio por sello individual (en M)
-  qty:        number; // sellos necesarios para ese rank
+  id: string; // id/nombre del Digimon
+  name: string; // nombre del Digimon
+  rank: Rank;   // rank objetivo a comprar
+  priceM: number; // precio por sello individual (en M)
+  qty: number; // sellos necesarios para ese rank
   totalCostM: number; // costo total = priceM * qty
-  statBonus:  number; // puntos de atributo que GANAS al subir a este rank (delta)
-  statFrom:   number; // stat del rank anterior (para mostrar en UI)
-  statTo:     number; // stat del rank objetivo (para mostrar en UI)
+  statBonus: number; // puntos de atributo que GANAS al subir a este rank (delta)
+  statFrom: number; // stat del rank anterior (para mostrar en UI)
+  statTo: number; // stat del rank objetivo (para mostrar en UI)
   efficiency: number; // totalCostM / statBonus (menor = mejor)
 
   // Versiones formateadas para mostrar en la UI
-  fPrice:     string;
-  fTotal:     string;
-  fEfficiency:string;
+  fPrice: string;
+  fTotal: string;
+  fEfficiency: string;
 }
 
 /**
@@ -78,22 +79,27 @@ export function calcCandidates(data: AppData, attribute: Attribute, openerPrice?
   const results: Candidate[] = [];
 
   for (const seal of Object.values(data.seals)) {
-    const currentOrder = seal.currentRank ? RANK_ORDER[seal.currentRank] : -1;
+    // Si no hay rank actual, asumir "Unopened" como inicio
+    const currentRank = seal.currentRank ?? "Unopened";
+    const currentOrder = RANK_ORDER[currentRank];
     const attrStats = seal.stats[attribute];
     if (!attrStats) continue;
     if (seal.priceM <= 0) continue;
-    if (seal.currentRank === "Master") continue;
+    if (currentRank === "Master") continue;
 
-    const currentStat    = seal.currentRank ? (attrStats[seal.currentRank] ?? 0) : 0;
-    const currentRankQty = seal.currentRank ? (seal.qty[seal.currentRank] ?? 0) : 0;
+    const currentStat = attrStats[currentRank] ?? 0;
+    const currentRankQty = seal.qty[currentRank] ?? 0;
 
     for (const rank of RANKS) {
       if (RANK_ORDER[rank] <= currentOrder) continue;
 
+      // Si el sello está sin abrir (Unopened), saltar Normal y empezar desde Bronze
+      if (currentRank === "Unopened" && rank === "Normal") continue;
+
       const totalQtyNeeded = seal.qty[rank] ?? 0;
-      const statTo         = attrStats[rank] ?? 0;
-      const statBonus      = statTo - currentStat;
-      const qty            = totalQtyNeeded - currentRankQty;
+      const statTo = attrStats[rank] ?? 0;
+      const statBonus = statTo - currentStat;
+      const qty = totalQtyNeeded - currentRankQty;
 
       if (qty <= 0 || statBonus <= 0) continue;
 
@@ -101,20 +107,80 @@ export function calcCandidates(data: AppData, attribute: Attribute, openerPrice?
       const efficiency = totalCostM / statBonus;
 
       results.push({
-        name:        seal.name,
+        id: seal.id,
+        name: seal.name,
         rank,
-        priceM:      seal.priceM,
+        priceM: seal.priceM,
         qty,
         totalCostM,
         statBonus,
-        statFrom:    currentStat,
+        statFrom: currentStat,
         statTo,
         efficiency,
-        fPrice:      formatM(seal.priceM),
-        fTotal:      formatM(totalCostM),
+        fPrice: formatM(seal.priceM),
+        fTotal: formatM(totalCostM),
         fEfficiency: formatM(efficiency),
       });
     }
+  }
+
+  return results.sort((a, b) => a.efficiency - b.efficiency);
+}
+
+/**
+ * Calcula candidatos para RankingTab - sin restricción de Normal.
+ * Para cada sello, solo devuelve el rank más barato (la mejor opción por sello).
+ */
+export function calcRankingCandidates(data: AppData, attribute: Attribute, openerPrice?: number): Candidate[] {
+  const results: Candidate[] = [];
+  for (const seal of Object.values(data.seals)) {
+    const currentRank = seal.currentRank ?? "Unopened";
+    const currentOrder = RANK_ORDER[currentRank];
+    const attrStats = seal.stats[attribute];
+    if (!attrStats) continue;
+    if (seal.priceM <= 0) continue;
+    if (currentRank === "Master") continue;
+
+    const currentStat = attrStats[currentRank] ?? 0;
+    const currentRankQty = seal.qty[currentRank] ?? 0;
+
+    let bestCandidate: Candidate | null = null;
+    let bestEfficiency = Infinity;
+
+    for (const rank of RANKS) {
+      if (RANK_ORDER[rank] <= currentOrder) continue;
+
+      const totalQtyNeeded = seal.qty[rank] ?? 0;
+      const statTo = attrStats[rank] ?? 0;
+      const statBonus = statTo - currentStat;
+      const qty = totalQtyNeeded - currentRankQty;
+      if (qty <= 0 || statBonus <= 0) continue;
+
+      const { totalCost: totalCostM } = calcEffectiveCost(seal.priceM, qty, openerPrice ?? 0);
+      const efficiency = totalCostM / statBonus;
+
+      // Solo guardar el más barato (mejor eficiencia)
+      if (efficiency < bestEfficiency) {
+        bestEfficiency = efficiency;
+        bestCandidate = {
+          id: seal.id,
+          name: seal.name,
+          rank,
+          priceM: seal.priceM,
+          qty,
+          totalCostM,
+          statBonus,
+          statFrom: currentStat,
+          statTo,
+          efficiency,
+          fPrice: formatM(seal.priceM),
+          fTotal: formatM(totalCostM),
+          fEfficiency: formatM(efficiency),
+        };
+      }
+    }
+
+    if (bestCandidate) results.push(bestCandidate);
   }
 
   return results.sort((a, b) => a.efficiency - b.efficiency);

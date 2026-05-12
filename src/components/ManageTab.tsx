@@ -1,6 +1,7 @@
 // ============================================================
 //  ManageTab.tsx  —  Gestionar sellos (grid de cuadritos)
 //  + indicador de precio desactualizado (+7 días)
+//  + badge "evento" para sellos sin mercado activo
 //  + onPriceChange para sincronizar a Supabase
 // ============================================================
 
@@ -10,13 +11,13 @@ import { RANKS, ATTRIBUTES, RANK_COLOR, ATTR_SHORT, ATTR_ICON, PERCENT_ATTRS, fo
 import { CurrencyInput } from "./CurrencyInput";
 import { formatM } from "../lib/currency";
 import { TRANSLATIONS, type Lang } from "../lib/i18n";
+import { isDMWNoMarket } from "../lib/noMarketSeals";
 
 const STALE_MS = 7 * 24 * 60 * 60 * 1000; // 7 días
 
 interface Props {
   data: AppData;
   onUpdate: (data: AppData) => void;
-  /** Callback para sincronizar precio al servidor en Supabase */
   onPriceChange?: (sealId: string, priceM: number) => Promise<void>;
   lang: Lang;
   search: string;
@@ -25,13 +26,10 @@ interface Props {
   onAttrFilterChange: (v: Attribute | null) => void;
   sortKey: "name-asc"|"name-desc"|"stat-desc"|"stat-asc";
   onSortKeyChange: (v: "name-asc"|"name-desc"|"stat-desc"|"stat-asc") => void;
-  /** Timestamps de cuando se actualizó cada precio individualmente */
   priceTimestamps?: Record<string, number>;
 }
 
 type SortKey = "name-asc" | "name-desc" | "stat-desc" | "stat-asc";
-
-// ── Helpers de frescura de precio ─────────────────────────────
 
 function priceAge(ts?: number): "fresh" | "stale" | "unknown" {
   if (!ts) return "unknown";
@@ -48,7 +46,6 @@ function priceAgeLabel(ts: number, lang: Lang): string {
   return lang === "es" ? `hace ${days}d` : `${days}d ago`;
 }
 
-// ── Modal: cambiar rank ──────────────────────────────────────
 function RankModal({ seal, onSelect, onClose, lang }: {
   seal: AppData["seals"][string]; onSelect: (r: Rank) => void;
   onClose: () => void; lang: Lang;
@@ -85,7 +82,6 @@ function RankModal({ seal, onSelect, onClose, lang }: {
   );
 }
 
-// ── Modal: cambiar precio ────────────────────────────────────
 function PriceModal({ seal, onSave, onClose, lang, priceTs }: {
   seal: AppData["seals"][string]; onSave: (v: number) => void;
   onClose: () => void; lang: Lang; priceTs?: number;
@@ -106,7 +102,6 @@ function PriceModal({ seal, onSave, onClose, lang, priceTs }: {
               ? "Este precio aplica para todos los jugadores del servidor"
               : "This price applies to all players on the server"}
           </p>
-          {/* Antigüedad del precio */}
           {priceTs && (
             <p className={`text-[10px] font-mono mt-2 ${age === "stale" ? "text-orange-400" : "text-[#5a8aaa]"}`}>
               {age === "stale" ? "⚠ " : "✓ "}
@@ -125,7 +120,6 @@ function PriceModal({ seal, onSave, onClose, lang, priceTs }: {
   );
 }
 
-// ── Componente principal ──────────────────────────────────────
 export function ManageTab({
   data, onUpdate, onPriceChange, lang, search, onSearchChange,
   attrFilter, onAttrFilterChange, sortKey, onSortKeyChange,
@@ -186,7 +180,6 @@ export function ManageTab({
     if (!attr && (sortKey === "stat-asc" || sortKey === "stat-desc")) onSortKeyChange("name-asc");
   };
 
-  // Contadores de precios desactualizados
   const staleCount   = seals.filter(s => s.priceM > 0 && priceAge(priceTimestamps[s.name]) === "stale").length;
   const unknownCount = seals.filter(s => s.priceM > 0 && !priceTimestamps[s.name]).length;
 
@@ -281,6 +274,7 @@ export function ManageTab({
           const rankColor = rank ? RANK_COLOR[rank] : "#1a3f6e";
           const attrStat  = attrFilter && rank ? (seal.stats?.[attrFilter]?.[rank] ?? 0) : null;
           const attrMax   = attrFilter ? (seal.stats?.[attrFilter]?.["Master"] ?? 0) : null;
+          const noMarket  = isDMWNoMarket(seal.name);
           const ts        = priceTimestamps[seal.name];
           const age       = seal.priceM > 0 ? priceAge(ts) : null;
 
@@ -309,7 +303,7 @@ export function ManageTab({
                   </p>
                 ) : <div className="mb-1 h-4" />}
 
-                {/* Precio con indicador de frescura */}
+                {/* Precio con indicador de frescura o badge evento */}
                 <div className="mb-3 h-8">
                   <div className="flex items-center gap-1">
                     {seal.priceM > 0 ? (
@@ -323,6 +317,8 @@ export function ManageTab({
                             title={lang === "es" ? "Precio desactualizado (+7 días)" : "Stale price (+7 days)"}>⚠</span>
                         )}
                       </>
+                    ) : noMarket ? (
+                      <span className="text-[#8855cc] text-[10px] font-mono px-1.5 py-0.5 rounded border border-[#8855cc]/30 bg-[#8855cc]/08">🎫 evento</span>
                     ) : (
                       <span className="text-[#2a4558] text-[10px] font-mono">{t.noPrice}</span>
                     )}
@@ -340,15 +336,20 @@ export function ManageTab({
                     style={{ color: rankColor, borderColor: `${rankColor}50`, background: `${rankColor}12` }}>
                     {lang === "es" ? "Rank" : "Rank"}
                   </button>
-                  <button onClick={() => setPriceModal(seal.name)}
-                    className="flex-1 py-1 text-[10px] font-bold font-mono rounded border transition-all"
+                  <button
+                    onClick={() => !noMarket && setPriceModal(seal.name)}
+                    disabled={noMarket}
+                    className={`flex-1 py-1 text-[10px] font-bold font-mono rounded border transition-all ${noMarket ? "cursor-not-allowed" : ""}`}
                     style={{
-                      color:        age === "stale" ? "#fb923c" : "#5a8aaa",
-                      borderColor:  age === "stale" ? "#fb923c50" : "#1a3f6e",
-                      background:   age === "stale" ? "#fb923c10" : "transparent",
-                    }}>
-                    {lang === "es" ? "Precio" : "Price"}
-                    {age === "stale" && " ⚠"}
+                      color:       noMarket ? "#8855cc80" : age === "stale" ? "#fb923c" : "#5a8aaa",
+                      borderColor: noMarket ? "#8855cc30" : age === "stale" ? "#fb923c50" : "#1a3f6e",
+                      background:  noMarket ? "#8855cc08" : age === "stale" ? "#fb923c10" : "transparent",
+                    }}
+                    title={noMarket
+                      ? (lang === "es" ? "Sello de evento — sin mercado activo" : "Event seal — no active market")
+                      : undefined}>
+                    {noMarket ? "🎫" : (lang === "es" ? "Precio" : "Price")}
+                    {!noMarket && age === "stale" && " ⚠"}
                   </button>
                   <button onClick={() => deleteSeal(seal.name)}
                     className="px-2 py-1 text-[10px] font-mono text-[#2a4558] rounded border border-[#1a3f6e] hover:text-red-400 hover:border-red-400/40 transition-all">
