@@ -3,17 +3,18 @@
 // ============================================================
 
 import { useState, useEffect, useCallback } from "react";
+import type { ServerPriceEntry } from "./supabase";
 import { fetchServerPrices, upsertSealPrice, subscribeToServerPrices } from "./supabase";
 
 export interface UseServerPricesResult {
-  prices:      Map<string, number>;
+  prices:      Map<string, ServerPriceEntry>;
   loading:     boolean;
   connected:   boolean;
   updatePrice: (sealId: string, priceM: number, prevPriceM?: number) => Promise<void>;
 }
 
 export function useServerPrices(): UseServerPricesResult {
-  const [prices,    setPrices]    = useState<Map<string, number>>(new Map());
+  const [prices,    setPrices]    = useState<Map<string, ServerPriceEntry>>(new Map());
   const [loading,   setLoading]   = useState(true);
   const [connected, setConnected] = useState(false);
 
@@ -23,8 +24,8 @@ export function useServerPrices(): UseServerPricesResult {
   }, []);
 
   useEffect(() => {
-    const unsubscribe = subscribeToServerPrices((sealId, priceM) => {
-      setPrices(prev => { const n = new Map(prev); n.set(sealId, priceM); return n; });
+    const unsubscribe = subscribeToServerPrices((sealId, entry) => {
+      setPrices(prev => { const n = new Map(prev); n.set(sealId, entry); return n; });
       setConnected(true);
     });
     const timer = setTimeout(() => setConnected(true), 2_000);
@@ -32,7 +33,8 @@ export function useServerPrices(): UseServerPricesResult {
   }, []);
 
   const updatePrice = useCallback(async (sealId: string, priceM: number, prevPriceM?: number) => {
-    setPrices(prev => { const n = new Map(prev); n.set(sealId, priceM); return n; });
+    const optimistic: ServerPriceEntry = { priceM, updatedAtMs: Date.now() };
+    setPrices(prev => { const n = new Map(prev); n.set(sealId, optimistic); return n; });
     await upsertSealPrice(sealId, priceM, prevPriceM);
   }, []);
 

@@ -98,10 +98,17 @@ export default function App() {
   useEffect(() => {
     if (!ready || serverPrices.size === 0) return;
     setData(prev => {
+      const localTsMap = loadPriceTimestamps();
       const seals = { ...prev.seals };
       let changed = false;
-      for (const [id, priceM] of serverPrices.entries()) {
-        if (seals[id] && seals[id].priceM !== priceM) { seals[id] = { ...seals[id], priceM }; changed = true; }
+      for (const [id, row] of serverPrices.entries()) {
+        if (!seals[id]) continue;
+        const localEditMs = localTsMap[id] ?? 0;
+        if (localEditMs > row.updatedAtMs) continue;
+        if (seals[id].priceM !== row.priceM) {
+          seals[id] = { ...seals[id], priceM: row.priceM };
+          changed = true;
+        }
       }
       if (!changed) return prev;
       const next = { ...prev, seals, lastUpdated: Date.now() };

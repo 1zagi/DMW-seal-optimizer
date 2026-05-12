@@ -14,6 +14,18 @@ export interface SealPriceRow {
   updated_at: string;
 }
 
+/** Precio remoto con instante de última escritura en Supabase (para no pisar ediciones locales más recientes). */
+export interface ServerPriceEntry {
+  priceM:      number;
+  updatedAtMs: number;
+}
+
+function parseUpdatedAtMs(iso: string | undefined): number {
+  if (!iso) return 0;
+  const t = Date.parse(iso);
+  return Number.isFinite(t) ? t : 0;
+}
+
 export interface PricePoint {
   price_m:     number;
   recorded_at: string;
@@ -34,15 +46,20 @@ const headersInsert = () => ({
 
 // ── Precios actuales ──────────────────────────────────────────
 
-export async function fetchServerPrices(): Promise<Map<string, number>> {
+export async function fetchServerPrices(): Promise<Map<string, ServerPriceEntry>> {
   try {
     const res = await fetch(
-      `${SUPABASE_URL}seal_prices?server_id=eq.${DMW_SERVER_ID}&select=seal_id,price_m`,
+      `${SUPABASE_URL}seal_prices?server_id=eq.${DMW_SERVER_ID}&select=seal_id,price_m,updated_at`,
       { headers: headers() }
     );
     if (!res.ok) throw new Error(await res.text());
-    const rows = (await res.json()) as { seal_id: string; price_m: number }[];
-    return new Map(rows.map(r => [r.seal_id, r.price_m]));
+    const rows = (await res.json()) as { seal_id: string; price_m: number; updated_at?: string }[];
+    return new Map(
+      rows.map(r => [
+        r.seal_id,
+        { priceM: r.price_m, updatedAtMs: parseUpdatedAtMs(r.updated_at) },
+      ]),
+    );
   } catch (err) {
     console.error("[supabase] fetchServerPrices:", err);
     return new Map();
@@ -131,10 +148,12 @@ export async function fetchPricesNDaysAgo(days = 7): Promise<Map<string, number>
 // ── Realtime ──────────────────────────────────────────────────
 
 export function subscribeToServerPrices(
-  onUpdate: (sealId: string, priceM: number) => void
+  onUpdate: (sealId: string, entry: ServerPriceEntry) => void
 ): () => void {
-  const wsBase = SUPABASE_URL.replace("https://", "wss://").replace("http://", "ws://");
-  const wsUrl  = `${wsBase}realtime/v1/websocket?apikey=${SUPABASE_ANON_KEY}&vsn=1.0.0`;
+  const { protocol, host } = new URL(SUPABASE_URL);
+  const wsProto = protocol === "https:" ? "wss:" : "ws:";
+  const wsUrl =
+    `${wsProto}//${host}/realtime/v1/websocket?apikey=${encodeURIComponent(SUPABASE_ANON_KEY)}&vsn=1.0.0`;
 
   let ws:        WebSocket | null = null;
   let heartbeat: ReturnType<typeof setInterval> | null = null;
@@ -152,7 +171,12 @@ export function subscribeToServerPrices(
         const msg = JSON.parse(evt.data);
         if (msg.event === "INSERT" || msg.event === "UPDATE" || msg.payload?.type === "INSERT" || msg.payload?.type === "UPDATE") {
           const record: SealPriceRow = msg.payload?.record ?? msg.record ?? msg.payload?.new;
-          if (record?.server_id === DMW_SERVER_ID && record.seal_id) onUpdate(record.seal_id, record.price_m);
+          if (record?.server_id === DMW_SERVER_ID && record.seal_id) {
+            onUpdate(record.seal_id, {
+              priceM:      record.price_m,
+              updatedAtMs: parseUpdatedAtMs(record.updated_at),
+            });
+          }
         }
       } catch { }
     };
