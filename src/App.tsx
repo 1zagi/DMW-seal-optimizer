@@ -26,6 +26,7 @@ import { PriceBackupModal } from "./components/PriceBackupModal";
 import { useServerPrices }  from "./lib/useServerPrices";
 import { fetchPricesNDaysAgo, fetchPriceHistory } from "./lib/supabase";
 import { TRANSLATIONS, type Lang } from "./lib/i18n";
+import { Analytics } from "@vercel/analytics/react";
 
 type Tab = "ranking" | "manage" | "progress" | "builder" | "market";
 type CheckMode = "mark-only" | "update-rank";
@@ -384,6 +385,7 @@ export default function App() {
           ✓ {lang === "es" ? "Precios restaurados desde" : "Prices restored from"} {backupRestored}
         </div>
       )}
+      <Analytics />
     </div>
   );
 }
