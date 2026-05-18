@@ -47,7 +47,8 @@ const ATTR_RESOLUTION: Partial<Record<Attribute, number>> = {
   "CT [Critical Hit Rate]": 0.0005,
   "BL [Block Rate]": 0.0005,
   "EV [Evasion]": 0.0005,
-  "SK [Skill Damage]": 5,
+  // Misma escala que CT/BL/EV: los valores en datos son fracción (p. ej. 0.01 = 1 %).
+  "SK [Skill Damage]": 0.0005,
 };
 
 const OVERSHOOT_UNITS = 200;

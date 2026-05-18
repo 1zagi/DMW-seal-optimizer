@@ -26,6 +26,7 @@ import { PriceBackupModal } from "./components/PriceBackupModal";
 import { useServerPrices }  from "./lib/useServerPrices";
 import { fetchPricesNDaysAgo, fetchPriceHistory } from "./lib/supabase";
 import { TRANSLATIONS, type Lang } from "./lib/i18n";
+import { SyncQRModal } from "./components/SyncQR";
 import { Analytics } from "@vercel/analytics/react";
 
 type Tab = "ranking" | "manage" | "progress" | "builder" | "market";
@@ -83,6 +84,7 @@ export default function App() {
   }>({ show: false });
   const [isSyncing,      setIsSyncing]      = useState(false);
   const [showBackups,    setShowBackups]    = useState(false);
+  const [showSyncQR,     setShowSyncQR]     = useState(false);
   const [backupRestored, setBackupRestored] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -225,6 +227,18 @@ export default function App() {
     } finally { setIsSyncing(false); }
   };
 
+  const handleQRImport = (userData: Map<string, SealUserData>, _fromServerId: string) => {
+    setData(prev => {
+      const seals = { ...prev.seals };
+      for (const [id, u] of userData.entries()) {
+        if (seals[id]) seals[id] = { ...seals[id], currentRank: u.currentRank };
+      }
+      const next = { ...prev, seals, lastUpdated: Date.now() };
+      return persist(next);
+    });
+    setShowSyncQR(false);
+  };
+
   const handleRestoreBackup = (label: string) => {
     const r = loadData();
     if (r) { updateData(r); setBackupRestored(label); setTimeout(() => setBackupRestored(null), 3000); alert(lang === "es" ? `✓ Precios restaurados desde ${label}` : `✓ Prices restored from ${label}`); }
@@ -281,6 +295,9 @@ export default function App() {
   const checkedCount = checkedKeys.size;
   const totalBuild   = buildSolution?.items.length ?? 0;
 
+  // DMW usa servidor único fijo
+  const DMW_SERVER_ID = "dmw";
+
   return (
     <div className="min-h-screen bg-[#060d18] text-white">
       <header className="flex items-center justify-between px-3 py-3 sm:px-6 sm:py-4 border-b border-[#1a3f6e] bg-[#09141f]">
@@ -313,6 +330,7 @@ export default function App() {
                   <MenuItem icon="📥" label={lang === "es" ? "Importar JSON" : "Import JSON"} onClick={() => { setShowMenu(false); fileRef.current?.click(); }} />
                   <MenuItem icon="📤" label={lang === "es" ? "Exportar JSON" : "Export JSON"} onClick={() => { setShowMenu(false); handleExport(); }} />
                   <MenuItem icon="↻" label={isSyncing ? (lang === "es" ? "Sincronizando..." : "Syncing...") : (lang === "es" ? "Sincronizar sellos" : "Sync seals")} disabled={isSyncing} onClick={() => { setShowMenu(false); handleSync(); }} />
+                  <MenuItem icon="📱" label={lang === "es" ? "Sincronizar con cel" : "Sync with mobile"} onClick={() => { setShowMenu(false); setShowSyncQR(true); }} />
                   {hasBackups && <><div className="border-t border-[#1a3f6e] my-0.5" /><MenuItem icon="📦" label={lang === "es" ? "Ver backups" : "View backups"} highlight="gold" onClick={() => { setShowMenu(false); setShowBackups(true); }} /></>}
                   <div className="border-t border-[#1a3f6e] my-0.5" />
                   <MenuItem icon="🌐" label={lang === "es" ? "English" : "Español"} onClick={() => { setShowMenu(false); toggleLang(); }} />
@@ -392,6 +410,17 @@ export default function App() {
           ✓ {lang === "es" ? "Precios restaurados desde" : "Prices restored from"} {backupRestored}
         </div>
       )}
+
+      {showSyncQR && (
+        <SyncQRModal
+          data={data}
+          serverId={DMW_SERVER_ID}
+          lang={lang}
+          onImport={handleQRImport}
+          onClose={() => setShowSyncQR(false)}
+        />
+      )}
+
       <Analytics />
     </div>
   );
