@@ -130,6 +130,8 @@ export function ManageTab({
   const [rankModal,  setRankModal]  = useState<string | null>(null);
   const [priceModal, setPriceModal] = useState<string | null>(null);
 
+  const [sealTypeFilter, setSealTypeFilter] = useState<"all" | "normal" | "event">("all");
+
   const SORT_OPTIONS: { key: SortKey; label: string }[] = [
     { key: "name-asc",  label: t.sortNameAsc  },
     { key: "name-desc", label: t.sortNameDesc },
@@ -141,6 +143,8 @@ export function ManageTab({
     let list = Object.values(data.seals);
     if (search)     list = list.filter(s => s.name.toLowerCase().includes(search.toLowerCase()));
     if (attrFilter) list = list.filter(s => Object.values(s.stats?.[attrFilter] ?? {}).some(v => (v ?? 0) > 0));
+    if (sealTypeFilter === "normal") list = list.filter(s => !isDMWNoMarket(s.name));
+    if (sealTypeFilter === "event")  list = list.filter(s => isDMWNoMarket(s.name));
     const attr = attrFilter;
     return [...list].sort((a, b) => {
       if (sortKey === "name-asc")  return a.name.localeCompare(b.name);
@@ -149,7 +153,7 @@ export function ManageTab({
       const diff = getMax(b) - getMax(a);
       return sortKey === "stat-desc" ? diff : -diff;
     });
-  }, [data.seals, search, attrFilter, sortKey]);
+  }, [data.seals, search, attrFilter, sortKey, sealTypeFilter]);
 
   const updateSeal = (name: string, patch: Partial<AppData["seals"][string]>) =>
     onUpdate({ ...data, seals: { ...data.seals, [name]: { ...data.seals[name], ...patch } }, lastUpdated: Date.now() });
@@ -221,6 +225,22 @@ export function ManageTab({
           onChange={e => onSearchChange(e.target.value)}
           className="flex-1 bg-[#09141f] border border-[#1a3f6e] rounded-lg px-4 py-2.5 text-white placeholder-[#2a4558] font-mono text-sm focus:outline-none focus:border-[#00c8f0] transition-colors"
         />
+        <div className="flex rounded-lg overflow-hidden border border-[#1a3f6e]">
+          {([
+            ["all",    lang === "es" ? "Todas"    : "All"   ],
+            ["normal", lang === "es" ? "Normales" : "Normal"],
+            ["event",  lang === "es" ? "Evento"   : "Event" ],
+          ] as ["all"|"normal"|"event", string][]).map(([key, label]) => (
+            <button key={key} onClick={() => setSealTypeFilter(key)}
+              className={`px-3 py-2 text-[11px] font-mono transition-all ${
+                sealTypeFilter === key
+                  ? key === "event"
+                    ? "bg-[#8855cc]/30 text-[#bb88ff] border-x border-[#8855cc]/40"
+                    : "bg-[#00c8f0]/15 text-[#00c8f0]"
+                  : "text-[#5a8aaa] hover:text-white"
+              }`}>{label}</button>
+          ))}
+        </div>
         <span className="text-[#5a8aaa] font-mono text-xs whitespace-nowrap">{t.sealsCount(seals.length)}</span>
         <button onClick={resetAllToUnopened} disabled={Object.keys(data.seals).length === 0}
           className="px-3 py-2 text-xs font-mono border border-[#5a8aaa]/40 text-[#5a8aaa] rounded-lg hover:border-[#ffd700]/60 hover:text-[#ffd700] disabled:opacity-30 disabled:cursor-not-allowed transition-colors whitespace-nowrap">
@@ -270,7 +290,7 @@ export function ManageTab({
       {/* Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
         {seals.map(seal => {
-          const rank      = seal.currentRank;
+          const rank      = seal.currentRank && seal.currentRank !== "Unopened" ? seal.currentRank : null;
           const rankColor = rank ? RANK_COLOR[rank] : "#1a3f6e";
           const attrStat  = attrFilter && rank ? (seal.stats?.[attrFilter]?.[rank] ?? 0) : null;
           const attrMax   = attrFilter ? (seal.stats?.[attrFilter]?.["Master"] ?? 0) : null;
