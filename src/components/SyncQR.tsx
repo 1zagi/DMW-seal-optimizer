@@ -89,29 +89,18 @@ export function SyncQRModal({ data, serverId, lang, onImport, onClose }: Props) 
     setQrUrl(QR_API(encodeRanks(userData, serverId)));
   }, [data, serverId]);
 
-  const handleImageFile = (file: File) => {
+  const handleImageFile = async (file: File) => {
     setScanError(""); setScanResult(null);
-    const img = new Image();
-    const url = URL.createObjectURL(file);
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = img.width; canvas.height = img.height;
-      canvas.getContext("2d")!.drawImage(img, 0, 0);
-      URL.revokeObjectURL(url);
-      if ("BarcodeDetector" in window) {
-        new (window as any).BarcodeDetector({ formats: ["qr_code"] })
-          .detect(canvas)
-          .then((codes: any[]) => {
-            if (!codes.length) { setScanError(t.error); return; }
-            processQRText(codes[0].rawValue);
-          })
-          .catch(() => setScanError(t.error));
-      } else {
-        setScanError("warning: " + t.noBarcodeDetector);
-      }
-    };
-    img.onerror = () => setScanError(t.error);
-    img.src = url;
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("https://api.qrserver.com/v1/read-qr-code/", { method: "POST", body: formData });
+      if (!res.ok) { setScanError(t.error); return; }
+      const json = await res.json() as { symbol: { data: string | null }[] }[];
+      const text = json?.[0]?.symbol?.[0]?.data;
+      if (!text) { setScanError(t.error); return; }
+      processQRText(text);
+    } catch { setScanError(t.error); }
   };
 
   const processQRText = (raw: string) => {
