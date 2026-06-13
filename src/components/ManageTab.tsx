@@ -12,6 +12,7 @@ import { CurrencyInput } from "./CurrencyInput";
 import { formatM } from "../lib/currency";
 import { TRANSLATIONS, type Lang } from "../lib/i18n";
 import { isDMWNoMarket } from "../lib/noMarketSeals";
+import { isDMWNew, markDMWSeen } from "../lib/newSeals";
 
 const STALE_MS = 7 * 24 * 60 * 60 * 1000; // 7 días
 
@@ -147,6 +148,12 @@ export function ManageTab({
     if (sealTypeFilter === "event")  list = list.filter(s => isDMWNoMarket(s.name));
     const attr = attrFilter;
     return [...list].sort((a, b) => {
+      const aNew   = isDMWNew(a.name)      ? 0 : 1;
+      const bNew   = isDMWNew(b.name)      ? 0 : 1;
+      const aEvent = isDMWNoMarket(a.name) ? 0 : 1;
+      const bEvent = isDMWNoMarket(b.name) ? 0 : 1;
+      if (aNew   !== bNew)   return aNew   - bNew;
+      if (aEvent !== bEvent) return aEvent - bEvent;
       if (sortKey === "name-asc")  return a.name.localeCompare(b.name);
       if (sortKey === "name-desc") return b.name.localeCompare(a.name);
       const getMax = (s: typeof a) => attr ? (s.stats?.[attr]?.["Master"] ?? 0) : 0;
@@ -295,13 +302,27 @@ export function ManageTab({
           const attrStat  = attrFilter && rank ? (seal.stats?.[attrFilter]?.[rank] ?? 0) : null;
           const attrMax   = attrFilter ? (seal.stats?.[attrFilter]?.["Master"] ?? 0) : null;
           const noMarket  = isDMWNoMarket(seal.name);
+          const isNew     = isDMWNew(seal.name);
           const ts        = priceTimestamps[seal.name];
           const age       = seal.priceM > 0 ? priceAge(ts) : null;
 
           return (
-            <div key={seal.name} className="relative rounded-xl overflow-hidden border transition-all"
-              style={{ borderColor: `${rankColor}60`, background: `linear-gradient(145deg, #09141f 55%, ${rankColor}14)` }}>
-              <div className="h-1 w-full" style={{ background: rank ? rankColor : "#1a3f6e40" }} />
+            <div key={seal.name}
+              onClick={() => isNew && markDMWSeen(seal.name)}
+              className="relative rounded-xl overflow-hidden border transition-all"
+              style={{
+                borderColor: isNew ? "#f59e0b" : `${rankColor}60`,
+                background: isNew
+                  ? `linear-gradient(145deg, #1a1200 55%, #f59e0b18)`
+                  : `linear-gradient(145deg, #09141f 55%, ${rankColor}14)`,
+                boxShadow: isNew ? "0 0 12px #f59e0b30" : undefined,
+              }}>
+              {isNew && (
+                <div className="absolute top-1.5 right-1.5 z-10 px-1.5 py-0.5 rounded text-[9px] font-bold font-mono bg-[#f59e0b] text-black leading-none">
+                  ✨ nueva
+                </div>
+              )}
+              <div className="h-1 w-full" style={{ background: isNew ? "#f59e0b" : rank ? rankColor : "#1a3f6e40" }} />
               <div className="p-3">
                 <p className="text-white text-xs font-bold leading-tight mb-2 line-clamp-2"
                   title={seal.name} style={{ minHeight: "2.2em" }}>{seal.name}</p>

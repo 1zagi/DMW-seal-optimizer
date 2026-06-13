@@ -5,13 +5,13 @@
       "name": "Tanemon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 10,
-          "Bronze": 20,
-          "Silver": 40,
-          "Gold": 60,
-          "Platinum": 80,
-          "Master": 100
+          "Unopened": 0.0,
+          "Normal": 10.0,
+          "Bronze": 20.0,
+          "Silver": 40.0,
+          "Gold": 60.0,
+          "Platinum": 80.0,
+          "Master": 100.0
         }
       },
       "qty": {
@@ -31,13 +31,13 @@
       "name": "Guilmon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -57,13 +57,13 @@
       "name": "Patamon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -83,13 +83,13 @@
       "name": "Mushroomon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -109,13 +109,13 @@
       "name": "Monodramon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -135,13 +135,13 @@
       "name": "Hawkmon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -161,13 +161,13 @@
       "name": "Mamemon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -187,13 +187,13 @@
       "name": "PicoDevimon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -213,13 +213,13 @@
       "name": "Garurumon (Black)",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -239,13 +239,13 @@
       "name": "Chrysalimon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -265,13 +265,13 @@
       "name": "Greymon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -291,13 +291,13 @@
       "name": "ExV-mon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -317,13 +317,13 @@
       "name": "Devimon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -343,13 +343,13 @@
       "name": "Gigadramon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -369,13 +369,13 @@
       "name": "Numemon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -395,13 +395,13 @@
       "name": "Giromon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 25,
-          "Bronze": 50,
-          "Silver": 100,
-          "Gold": 150,
-          "Platinum": 200,
-          "Master": 250
+          "Unopened": 0.0,
+          "Normal": 25.0,
+          "Bronze": 50.0,
+          "Silver": 100.0,
+          "Gold": 150.0,
+          "Platinum": 200.0,
+          "Master": 250.0
         }
       },
       "qty": {
@@ -421,13 +421,13 @@
       "name": "Cherrymon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 25,
-          "Bronze": 50,
-          "Silver": 100,
-          "Gold": 150,
-          "Platinum": 200,
-          "Master": 250
+          "Unopened": 0.0,
+          "Normal": 25.0,
+          "Bronze": 50.0,
+          "Silver": 100.0,
+          "Gold": 150.0,
+          "Platinum": 200.0,
+          "Master": 250.0
         }
       },
       "qty": {
@@ -447,13 +447,13 @@
       "name": "MarineDevimon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 25,
-          "Bronze": 50,
-          "Silver": 100,
-          "Gold": 150,
-          "Platinum": 200,
-          "Master": 250
+          "Unopened": 0.0,
+          "Normal": 25.0,
+          "Bronze": 50.0,
+          "Silver": 100.0,
+          "Gold": 150.0,
+          "Platinum": 200.0,
+          "Master": 250.0
         }
       },
       "qty": {
@@ -473,13 +473,13 @@
       "name": "Myotismon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 25,
-          "Bronze": 50,
-          "Silver": 100,
-          "Gold": 150,
-          "Platinum": 200,
-          "Master": 250
+          "Unopened": 0.0,
+          "Normal": 25.0,
+          "Bronze": 50.0,
+          "Silver": 100.0,
+          "Gold": 150.0,
+          "Platinum": 200.0,
+          "Master": 250.0
         }
       },
       "qty": {
@@ -499,13 +499,13 @@
       "name": "Calumon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 25,
-          "Bronze": 50,
-          "Silver": 100,
-          "Gold": 150,
-          "Platinum": 200,
-          "Master": 250
+          "Unopened": 0.0,
+          "Normal": 25.0,
+          "Bronze": 50.0,
+          "Silver": 100.0,
+          "Gold": 150.0,
+          "Platinum": 200.0,
+          "Master": 250.0
         }
       },
       "qty": {
@@ -525,13 +525,13 @@
       "name": "Silphymon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 25,
-          "Bronze": 50,
-          "Silver": 100,
-          "Gold": 150,
-          "Platinum": 200,
-          "Master": 250
+          "Unopened": 0.0,
+          "Normal": 25.0,
+          "Bronze": 50.0,
+          "Silver": 100.0,
+          "Gold": 150.0,
+          "Platinum": 200.0,
+          "Master": 250.0
         }
       },
       "qty": {
@@ -551,13 +551,13 @@
       "name": "Orochimon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 25,
-          "Bronze": 50,
-          "Silver": 100,
-          "Gold": 150,
-          "Platinum": 200,
-          "Master": 250
+          "Unopened": 0.0,
+          "Normal": 25.0,
+          "Bronze": 50.0,
+          "Silver": 100.0,
+          "Gold": 150.0,
+          "Platinum": 200.0,
+          "Master": 250.0
         }
       },
       "qty": {
@@ -577,13 +577,13 @@
       "name": "MetalGarurumon (Shin)",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 25,
-          "Bronze": 50,
-          "Silver": 100,
-          "Gold": 150,
-          "Platinum": 200,
-          "Master": 250
+          "Unopened": 0.0,
+          "Normal": 25.0,
+          "Bronze": 50.0,
+          "Silver": 100.0,
+          "Gold": 150.0,
+          "Platinum": 200.0,
+          "Master": 250.0
         }
       },
       "qty": {
@@ -603,13 +603,13 @@
       "name": "Qinglongmon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -629,13 +629,13 @@
       "name": "Examon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -655,13 +655,13 @@
       "name": "Omegamon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -681,13 +681,13 @@
       "name": "Dexmon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -707,13 +707,13 @@
       "name": "VenomMyotismon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -733,13 +733,13 @@
       "name": "Megidramon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -759,13 +759,13 @@
       "name": "MugenDramon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -785,13 +785,13 @@
       "name": "Chaosmon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -811,13 +811,13 @@
       "name": "ImperialDramon Fighter Mode",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -837,13 +837,13 @@
       "name": "MirageGaogamon (Burst Mode)",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -863,13 +863,13 @@
       "name": "Alphamon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -889,13 +889,13 @@
       "name": "Imperialdramon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -915,13 +915,13 @@
       "name": "Kuzuhamon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -941,13 +941,13 @@
       "name": "Omegamon X",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -967,13 +967,13 @@
       "name": "KingSukamon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -993,13 +993,13 @@
       "name": "Millenniumon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -1019,13 +1019,13 @@
       "name": "Beelzemon X",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -1045,13 +1045,13 @@
       "name": "Apocalymon",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -1071,13 +1071,13 @@
       "name": "Leviamon X",
       "stats": {
         "AT [Attack Damage]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -1097,7 +1097,7 @@
       "name": "Dracmon",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.001,
           "Bronze": 0.002,
           "Silver": 0.004,
@@ -1123,7 +1123,7 @@
       "name": "Tentomon",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.001,
           "Bronze": 0.002,
           "Silver": 0.004,
@@ -1149,7 +1149,7 @@
       "name": "Agumon(Starter)",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.001,
           "Bronze": 0.002,
           "Silver": 0.004,
@@ -1175,7 +1175,7 @@
       "name": "Falcomon",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.001,
           "Bronze": 0.002,
           "Silver": 0.004,
@@ -1201,7 +1201,7 @@
       "name": "Gabumon (Black)",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.001,
           "Bronze": 0.002,
           "Silver": 0.004,
@@ -1227,7 +1227,7 @@
       "name": "Gomamon",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.001,
           "Bronze": 0.002,
           "Silver": 0.004,
@@ -1253,7 +1253,7 @@
       "name": "Sangloupmon",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0015,
           "Bronze": 0.003,
           "Silver": 0.006,
@@ -1279,7 +1279,7 @@
       "name": "Waspmon",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0015,
           "Bronze": 0.003,
           "Silver": 0.006,
@@ -1305,7 +1305,7 @@
       "name": "Etemon",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -1331,7 +1331,7 @@
       "name": "MegaSeadramon",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -1357,7 +1357,7 @@
       "name": "Vikaralamon",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -1383,7 +1383,7 @@
       "name": "TankDramon",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -1409,7 +1409,7 @@
       "name": "Flybeemon",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -1435,7 +1435,7 @@
       "name": "Shakkoumon",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -1461,7 +1461,7 @@
       "name": "Lilamon",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -1487,7 +1487,7 @@
       "name": "Matadormon",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -1513,7 +1513,7 @@
       "name": "ShineGreymon",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0025,
           "Bronze": 0.005,
           "Silver": 0.01,
@@ -1539,7 +1539,7 @@
       "name": "Ophanimon",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0025,
           "Bronze": 0.005,
           "Silver": 0.01,
@@ -1565,7 +1565,7 @@
       "name": "Anomalocarimon",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0025,
           "Bronze": 0.005,
           "Silver": 0.01,
@@ -1591,7 +1591,7 @@
       "name": "WarGreymon (Shin)",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0025,
           "Bronze": 0.005,
           "Silver": 0.01,
@@ -1617,7 +1617,7 @@
       "name": "Fanglongmon",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0035,
           "Bronze": 0.007,
           "Silver": 0.014,
@@ -1643,7 +1643,7 @@
       "name": "Alphamon Ouryuken Awaken",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0035,
           "Bronze": 0.007,
           "Silver": 0.014,
@@ -1669,7 +1669,7 @@
       "name": "Gallantmon (Crimson Mode)",
       "stats": {
         "BL [Block Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.004,
           "Bronze": 0.008,
           "Silver": 0.016,
@@ -1695,7 +1695,7 @@
       "name": "Koromon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.001,
           "Bronze": 0.002,
           "Silver": 0.004,
@@ -1721,7 +1721,7 @@
       "name": "PawnChessmon B",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.001,
           "Bronze": 0.002,
           "Silver": 0.004,
@@ -1747,7 +1747,7 @@
       "name": "Otamamon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.001,
           "Bronze": 0.002,
           "Silver": 0.004,
@@ -1773,7 +1773,7 @@
       "name": "Lucemon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.001,
           "Bronze": 0.002,
           "Silver": 0.004,
@@ -1799,7 +1799,7 @@
       "name": "Kunemon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0015,
           "Bronze": 0.003,
           "Silver": 0.006,
@@ -1825,7 +1825,7 @@
       "name": "Sharmamon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0015,
           "Bronze": 0.003,
           "Silver": 0.006,
@@ -1851,7 +1851,7 @@
       "name": "CommanDramon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0015,
           "Bronze": 0.003,
           "Silver": 0.006,
@@ -1877,7 +1877,7 @@
       "name": "Lalamon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0015,
           "Bronze": 0.003,
           "Silver": 0.006,
@@ -1903,7 +1903,7 @@
       "name": "Paildramon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0015,
           "Bronze": 0.003,
           "Silver": 0.006,
@@ -1929,7 +1929,7 @@
       "name": "Kyuubimon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -1955,7 +1955,7 @@
       "name": "Togemon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -1981,7 +1981,7 @@
       "name": "Tylomon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -2007,7 +2007,7 @@
       "name": "Gaogamon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -2033,7 +2033,7 @@
       "name": "Seadramon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -2059,7 +2059,7 @@
       "name": "Datamon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0025,
           "Bronze": 0.005,
           "Silver": 0.01,
@@ -2085,7 +2085,7 @@
       "name": "Volcamon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0025,
           "Bronze": 0.005,
           "Silver": 0.01,
@@ -2111,7 +2111,7 @@
       "name": "Vajiramon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0025,
           "Bronze": 0.005,
           "Silver": 0.01,
@@ -2137,7 +2137,7 @@
       "name": "RizeGreymon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0025,
           "Bronze": 0.005,
           "Silver": 0.01,
@@ -2163,7 +2163,7 @@
       "name": "MagnaAngemon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0025,
           "Bronze": 0.005,
           "Silver": 0.01,
@@ -2189,7 +2189,7 @@
       "name": "Phantomon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.003,
           "Bronze": 0.006,
           "Silver": 0.012,
@@ -2215,7 +2215,7 @@
       "name": "SaberLeomon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.003,
           "Bronze": 0.006,
           "Silver": 0.012,
@@ -2241,7 +2241,7 @@
       "name": "MetalGarurumon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.003,
           "Bronze": 0.006,
           "Silver": 0.012,
@@ -2267,7 +2267,7 @@
       "name": "Alphamon (X-Antibody System)",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.003,
           "Bronze": 0.006,
           "Silver": 0.012,
@@ -2293,7 +2293,7 @@
       "name": "ChaosPiedmon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0035,
           "Bronze": 0.007,
           "Silver": 0.014,
@@ -2319,7 +2319,7 @@
       "name": "Jesmon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.003,
           "Bronze": 0.006,
           "Silver": 0.012,
@@ -2345,7 +2345,7 @@
       "name": "PrinceMamemon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0035,
           "Bronze": 0.007,
           "Silver": 0.014,
@@ -2371,7 +2371,7 @@
       "name": "Lilithmon X",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0035,
           "Bronze": 0.007,
           "Silver": 0.014,
@@ -2397,7 +2397,7 @@
       "name": "ShadowSeraphimon",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0035,
           "Bronze": 0.007,
           "Silver": 0.014,
@@ -2423,7 +2423,7 @@
       "name": "Ravemon (Burst Mode)",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0035,
           "Bronze": 0.007,
           "Silver": 0.014,
@@ -2449,7 +2449,7 @@
       "name": "Omegamon Zwart",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.004,
           "Bronze": 0.008,
           "Silver": 0.016,
@@ -2475,7 +2475,7 @@
       "name": "Shoutmon X2",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.004,
           "Bronze": 0.008,
           "Silver": 0.016,
@@ -2501,7 +2501,7 @@
       "name": "Alphamon Ouryuken X",
       "stats": {
         "CT [Critical Hit Rate]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.004,
           "Bronze": 0.008,
           "Silver": 0.016,
@@ -2527,13 +2527,13 @@
       "name": "Upamon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 8,
-          "Bronze": 16,
-          "Silver": 32,
-          "Gold": 48,
-          "Platinum": 64,
-          "Master": 80
+          "Unopened": 0.0,
+          "Normal": 8.0,
+          "Bronze": 16.0,
+          "Silver": 32.0,
+          "Gold": 48.0,
+          "Platinum": 64.0,
+          "Master": 80.0
         }
       },
       "qty": {
@@ -2553,13 +2553,13 @@
       "name": "Elecmon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 10,
-          "Bronze": 20,
-          "Silver": 40,
-          "Gold": 60,
-          "Platinum": 80,
-          "Master": 100
+          "Unopened": 0.0,
+          "Normal": 10.0,
+          "Bronze": 20.0,
+          "Silver": 40.0,
+          "Gold": 60.0,
+          "Platinum": 80.0,
+          "Master": 100.0
         }
       },
       "qty": {
@@ -2579,13 +2579,13 @@
       "name": "Goblimon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 10,
-          "Bronze": 20,
-          "Silver": 40,
-          "Gold": 60,
-          "Platinum": 80,
-          "Master": 100
+          "Unopened": 0.0,
+          "Normal": 10.0,
+          "Bronze": 20.0,
+          "Silver": 40.0,
+          "Gold": 60.0,
+          "Platinum": 80.0,
+          "Master": 100.0
         }
       },
       "qty": {
@@ -2605,13 +2605,13 @@
       "name": "Renamon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 10,
-          "Bronze": 20,
-          "Silver": 40,
-          "Gold": 60,
-          "Platinum": 80,
-          "Master": 100
+          "Unopened": 0.0,
+          "Normal": 10.0,
+          "Bronze": 20.0,
+          "Silver": 40.0,
+          "Gold": 60.0,
+          "Platinum": 80.0,
+          "Master": 100.0
         }
       },
       "qty": {
@@ -2631,13 +2631,13 @@
       "name": "Kamemon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 10,
-          "Bronze": 20,
-          "Silver": 40,
-          "Gold": 60,
-          "Platinum": 80,
-          "Master": 100
+          "Unopened": 0.0,
+          "Normal": 10.0,
+          "Bronze": 20.0,
+          "Silver": 40.0,
+          "Gold": 60.0,
+          "Platinum": 80.0,
+          "Master": 100.0
         }
       },
       "qty": {
@@ -2657,13 +2657,13 @@
       "name": "Syakomon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 10,
-          "Bronze": 20,
-          "Silver": 40,
-          "Gold": 60,
-          "Platinum": 80,
-          "Master": 100
+          "Unopened": 0.0,
+          "Normal": 10.0,
+          "Bronze": 20.0,
+          "Silver": 40.0,
+          "Gold": 60.0,
+          "Platinum": 80.0,
+          "Master": 100.0
         }
       },
       "qty": {
@@ -2683,13 +2683,13 @@
       "name": "Palmon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 10,
-          "Bronze": 20,
-          "Silver": 40,
-          "Gold": 60,
-          "Platinum": 80,
-          "Master": 100
+          "Unopened": 0.0,
+          "Normal": 10.0,
+          "Bronze": 20.0,
+          "Silver": 40.0,
+          "Gold": 60.0,
+          "Platinum": 80.0,
+          "Master": 100.0
         }
       },
       "qty": {
@@ -2709,13 +2709,13 @@
       "name": "Salamon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 10,
-          "Bronze": 20,
-          "Silver": 40,
-          "Gold": 60,
-          "Platinum": 80,
-          "Master": 100
+          "Unopened": 0.0,
+          "Normal": 10.0,
+          "Bronze": 20.0,
+          "Silver": 40.0,
+          "Gold": 60.0,
+          "Platinum": 80.0,
+          "Master": 100.0
         }
       },
       "qty": {
@@ -2735,13 +2735,13 @@
       "name": "PawnChessmon W",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 10,
-          "Bronze": 20,
-          "Silver": 40,
-          "Gold": 60,
-          "Platinum": 80,
-          "Master": 100
+          "Unopened": 0.0,
+          "Normal": 10.0,
+          "Bronze": 20.0,
+          "Silver": 40.0,
+          "Gold": 60.0,
+          "Platinum": 80.0,
+          "Master": 100.0
         }
       },
       "qty": {
@@ -2761,13 +2761,13 @@
       "name": "Flymon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -2787,13 +2787,13 @@
       "name": "Leomon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -2813,13 +2813,13 @@
       "name": "Meramon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -2839,13 +2839,13 @@
       "name": "Rockmon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -2865,13 +2865,13 @@
       "name": "Monochromon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -2891,13 +2891,13 @@
       "name": "Ankylomon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -2917,13 +2917,13 @@
       "name": "Shellmon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -2943,13 +2943,13 @@
       "name": "Thunderballmon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -2969,13 +2969,13 @@
       "name": "BaoHackmon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -2995,13 +2995,13 @@
       "name": "Labramon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -3021,13 +3021,13 @@
       "name": "Lotusmon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -3047,13 +3047,13 @@
       "name": "Meteormon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -3073,13 +3073,13 @@
       "name": "WaruMonzaemon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -3099,13 +3099,13 @@
       "name": "MetalTyrannomon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -3125,13 +3125,13 @@
       "name": "JewelBeemon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -3151,13 +3151,13 @@
       "name": "Evilmon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -3177,13 +3177,13 @@
       "name": "Chimairamon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 25,
-          "Bronze": 50,
-          "Silver": 100,
-          "Gold": 150,
-          "Platinum": 200,
-          "Master": 250
+          "Unopened": 0.0,
+          "Normal": 25.0,
+          "Bronze": 50.0,
+          "Silver": 100.0,
+          "Gold": 150.0,
+          "Platinum": 200.0,
+          "Master": 250.0
         }
       },
       "qty": {
@@ -3203,13 +3203,13 @@
       "name": "Sleipmon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 25,
-          "Bronze": 50,
-          "Silver": 100,
-          "Gold": 150,
-          "Platinum": 200,
-          "Master": 250
+          "Unopened": 0.0,
+          "Normal": 25.0,
+          "Bronze": 50.0,
+          "Silver": 100.0,
+          "Gold": 150.0,
+          "Platinum": 200.0,
+          "Master": 250.0
         }
       },
       "qty": {
@@ -3229,13 +3229,13 @@
       "name": "HerculesKabuterimon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 25,
-          "Bronze": 50,
-          "Silver": 100,
-          "Gold": 150,
-          "Platinum": 200,
-          "Master": 250
+          "Unopened": 0.0,
+          "Normal": 25.0,
+          "Bronze": 50.0,
+          "Silver": 100.0,
+          "Gold": 150.0,
+          "Platinum": 200.0,
+          "Master": 250.0
         }
       },
       "qty": {
@@ -3255,13 +3255,13 @@
       "name": "Seraphimon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 25,
-          "Bronze": 50,
-          "Silver": 100,
-          "Gold": 150,
-          "Platinum": 200,
-          "Master": 250
+          "Unopened": 0.0,
+          "Normal": 25.0,
+          "Bronze": 50.0,
+          "Silver": 100.0,
+          "Gold": 150.0,
+          "Platinum": 200.0,
+          "Master": 250.0
         }
       },
       "qty": {
@@ -3281,13 +3281,13 @@
       "name": "Cosmic Susanoomon",
       "stats": {
         "DE [Defense]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -3307,13 +3307,13 @@
       "name": "DemiMeramon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 10,
-          "Bronze": 20,
-          "Silver": 40,
-          "Gold": 60,
-          "Platinum": 80,
-          "Master": 100
+          "Unopened": 0.0,
+          "Normal": 10.0,
+          "Bronze": 20.0,
+          "Silver": 40.0,
+          "Gold": 60.0,
+          "Platinum": 80.0,
+          "Master": 100.0
         }
       },
       "qty": {
@@ -3333,13 +3333,13 @@
       "name": "Agumon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -3359,13 +3359,13 @@
       "name": "Candlemon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -3385,13 +3385,13 @@
       "name": "ToyAgumon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -3411,13 +3411,13 @@
       "name": "Dorumon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -3437,13 +3437,13 @@
       "name": "Biyomon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -3463,13 +3463,13 @@
       "name": "Gladimon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -3489,13 +3489,13 @@
       "name": "Kokuwamon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -3515,13 +3515,13 @@
       "name": "Mephismon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -3541,13 +3541,13 @@
       "name": "Coredramon (Green)",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -3567,13 +3567,13 @@
       "name": "Woodmon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -3593,13 +3593,13 @@
       "name": "Gesomon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -3619,13 +3619,13 @@
       "name": "Kabuterimon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -3645,13 +3645,13 @@
       "name": "Yukidarumon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -3671,13 +3671,13 @@
       "name": "Mikemon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -3697,13 +3697,13 @@
       "name": "Peckmon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -3723,13 +3723,13 @@
       "name": "Gawappamon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -3749,13 +3749,13 @@
       "name": "Kudamon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -3775,13 +3775,13 @@
       "name": "Angemon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 40,
-          "Bronze": 80,
-          "Silver": 160,
-          "Gold": 240,
-          "Platinum": 320,
-          "Master": 400
+          "Unopened": 0.0,
+          "Normal": 40.0,
+          "Bronze": 80.0,
+          "Silver": 160.0,
+          "Gold": 240.0,
+          "Platinum": 320.0,
+          "Master": 400.0
         }
       },
       "qty": {
@@ -3801,13 +3801,13 @@
       "name": "Asuramon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 40,
-          "Bronze": 80,
-          "Silver": 160,
-          "Gold": 240,
-          "Platinum": 320,
-          "Master": 400
+          "Unopened": 0.0,
+          "Normal": 40.0,
+          "Bronze": 80.0,
+          "Silver": 160.0,
+          "Gold": 240.0,
+          "Platinum": 320.0,
+          "Master": 400.0
         }
       },
       "qty": {
@@ -3827,13 +3827,13 @@
       "name": "SkullGreymon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 40,
-          "Bronze": 80,
-          "Silver": 160,
-          "Gold": 240,
-          "Platinum": 320,
-          "Master": 400
+          "Unopened": 0.0,
+          "Normal": 40.0,
+          "Bronze": 80.0,
+          "Silver": 160.0,
+          "Gold": 240.0,
+          "Platinum": 320.0,
+          "Master": 400.0
         }
       },
       "qty": {
@@ -3853,13 +3853,13 @@
       "name": "WereGarurumon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 40,
-          "Bronze": 80,
-          "Silver": 160,
-          "Gold": 240,
-          "Platinum": 320,
-          "Master": 400
+          "Unopened": 0.0,
+          "Normal": 40.0,
+          "Bronze": 80.0,
+          "Silver": 160.0,
+          "Gold": 240.0,
+          "Platinum": 320.0,
+          "Master": 400.0
         }
       },
       "qty": {
@@ -3879,13 +3879,13 @@
       "name": "MachGaogamon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 40,
-          "Bronze": 80,
-          "Silver": 160,
-          "Gold": 240,
-          "Platinum": 320,
-          "Master": 400
+          "Unopened": 0.0,
+          "Normal": 40.0,
+          "Bronze": 80.0,
+          "Silver": 160.0,
+          "Gold": 240.0,
+          "Platinum": 320.0,
+          "Master": 400.0
         }
       },
       "qty": {
@@ -3905,13 +3905,13 @@
       "name": "Chirinmon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 40,
-          "Bronze": 80,
-          "Silver": 160,
-          "Gold": 240,
-          "Platinum": 320,
-          "Master": 400
+          "Unopened": 0.0,
+          "Normal": 40.0,
+          "Bronze": 80.0,
+          "Silver": 160.0,
+          "Gold": 240.0,
+          "Platinum": 320.0,
+          "Master": 400.0
         }
       },
       "qty": {
@@ -3931,13 +3931,13 @@
       "name": "Diablomon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 50,
-          "Bronze": 100,
-          "Silver": 200,
-          "Gold": 300,
-          "Platinum": 400,
-          "Master": 500
+          "Unopened": 0.0,
+          "Normal": 50.0,
+          "Bronze": 100.0,
+          "Silver": 200.0,
+          "Gold": 300.0,
+          "Platinum": 400.0,
+          "Master": 500.0
         }
       },
       "qty": {
@@ -3957,13 +3957,13 @@
       "name": "Piedmon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 50,
-          "Bronze": 100,
-          "Silver": 200,
-          "Gold": 300,
-          "Platinum": 400,
-          "Master": 500
+          "Unopened": 0.0,
+          "Normal": 50.0,
+          "Bronze": 100.0,
+          "Silver": 200.0,
+          "Gold": 300.0,
+          "Platinum": 400.0,
+          "Master": 500.0
         }
       },
       "qty": {
@@ -3983,13 +3983,13 @@
       "name": "Puppetmon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 50,
-          "Bronze": 100,
-          "Silver": 200,
-          "Gold": 300,
-          "Platinum": 400,
-          "Master": 500
+          "Unopened": 0.0,
+          "Normal": 50.0,
+          "Bronze": 100.0,
+          "Silver": 200.0,
+          "Gold": 300.0,
+          "Platinum": 400.0,
+          "Master": 500.0
         }
       },
       "qty": {
@@ -4009,13 +4009,13 @@
       "name": "Barbamon X",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 50,
-          "Bronze": 100,
-          "Silver": 200,
-          "Gold": 300,
-          "Platinum": 400,
-          "Master": 500
+          "Unopened": 0.0,
+          "Normal": 50.0,
+          "Bronze": 100.0,
+          "Silver": 200.0,
+          "Gold": 300.0,
+          "Platinum": 400.0,
+          "Master": 500.0
         }
       },
       "qty": {
@@ -4035,13 +4035,13 @@
       "name": "Rosemon X",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 50,
-          "Bronze": 100,
-          "Silver": 200,
-          "Gold": 300,
-          "Platinum": 400,
-          "Master": 500
+          "Unopened": 0.0,
+          "Normal": 50.0,
+          "Bronze": 100.0,
+          "Silver": 200.0,
+          "Gold": 300.0,
+          "Platinum": 400.0,
+          "Master": 500.0
         }
       },
       "qty": {
@@ -4061,13 +4061,13 @@
       "name": "GrandisKuwagamon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 60,
-          "Bronze": 120,
-          "Silver": 240,
-          "Gold": 360,
-          "Platinum": 480,
-          "Master": 600
+          "Unopened": 0.0,
+          "Normal": 60.0,
+          "Bronze": 120.0,
+          "Silver": 240.0,
+          "Gold": 360.0,
+          "Platinum": 480.0,
+          "Master": 600.0
         }
       },
       "qty": {
@@ -4087,13 +4087,13 @@
       "name": "Zhuqiaomon",
       "stats": {
         "DS [Digi-Soul Points]": {
-          "Unopened": 0,
-          "Normal": 60,
-          "Bronze": 120,
-          "Silver": 240,
-          "Gold": 360,
-          "Platinum": 480,
-          "Master": 600
+          "Unopened": 0.0,
+          "Normal": 60.0,
+          "Bronze": 120.0,
+          "Silver": 240.0,
+          "Gold": 360.0,
+          "Platinum": 480.0,
+          "Master": 600.0
         }
       },
       "qty": {
@@ -4113,8 +4113,8 @@
       "name": "Armadillomon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
-          "Normal": 0.0001,
+          "Unopened": 0.0,
+          "Normal": 0.0002,
           "Bronze": 0.0002,
           "Silver": 0.0004,
           "Gold": 0.0006,
@@ -4139,8 +4139,8 @@
       "name": "Impmon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
-          "Normal": 0.0001,
+          "Unopened": 0.0,
+          "Normal": 0.0002,
           "Bronze": 0.0002,
           "Silver": 0.0004,
           "Gold": 0.0006,
@@ -4165,13 +4165,13 @@
       "name": "Hagurumon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
-          "Normal": 0.0001,
-          "Bronze": 0.0003,
-          "Silver": 0.0006,
-          "Gold": 0.0009,
-          "Platinum": 0.0012,
-          "Master": 0.0015
+          "Unopened": 0.0,
+          "Normal": 0.0002,
+          "Bronze": 0.0004,
+          "Silver": 0.0008,
+          "Gold": 0.0012,
+          "Platinum": 0.0016,
+          "Master": 0.002
         }
       },
       "qty": {
@@ -4191,7 +4191,7 @@
       "name": "Digmon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0002,
           "Bronze": 0.0004,
           "Silver": 0.0008,
@@ -4217,7 +4217,7 @@
       "name": "Veedramon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0002,
           "Bronze": 0.0004,
           "Silver": 0.0008,
@@ -4243,7 +4243,7 @@
       "name": "Gatomon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0002,
           "Bronze": 0.0004,
           "Silver": 0.0008,
@@ -4269,7 +4269,7 @@
       "name": "Allomon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0002,
           "Bronze": 0.0004,
           "Silver": 0.0008,
@@ -4295,7 +4295,7 @@
       "name": "Growlmon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0002,
           "Bronze": 0.0004,
           "Silver": 0.0008,
@@ -4321,7 +4321,7 @@
       "name": "Yasyamon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0002,
           "Bronze": 0.0004,
           "Silver": 0.0008,
@@ -4347,7 +4347,7 @@
       "name": "BlackGatomon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0002,
           "Bronze": 0.0004,
           "Silver": 0.0008,
@@ -4373,7 +4373,7 @@
       "name": "Reppamon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0002,
           "Bronze": 0.0004,
           "Silver": 0.0008,
@@ -4399,7 +4399,7 @@
       "name": "SealsDramon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0002,
           "Bronze": 0.0004,
           "Silver": 0.0008,
@@ -4425,7 +4425,7 @@
       "name": "Lillymon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0003,
           "Bronze": 0.0006,
           "Silver": 0.0012,
@@ -4451,7 +4451,7 @@
       "name": "Mystimon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0003,
           "Bronze": 0.0006,
           "Silver": 0.0012,
@@ -4477,7 +4477,7 @@
       "name": "NeoDevimon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0003,
           "Bronze": 0.0006,
           "Silver": 0.0012,
@@ -4503,7 +4503,7 @@
       "name": "Rapidmon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0003,
           "Bronze": 0.0006,
           "Silver": 0.0012,
@@ -4529,7 +4529,7 @@
       "name": "SaviorHackmon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0003,
           "Bronze": 0.0006,
           "Silver": 0.0012,
@@ -4555,7 +4555,7 @@
       "name": "MegaKabuterimon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0003,
           "Bronze": 0.0006,
           "Silver": 0.0012,
@@ -4581,7 +4581,7 @@
       "name": "LadyDevimon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0003,
           "Bronze": 0.0006,
           "Silver": 0.0012,
@@ -4607,7 +4607,7 @@
       "name": "Dynasmon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0003,
           "Bronze": 0.0007,
           "Silver": 0.0014,
@@ -4633,7 +4633,7 @@
       "name": "DexDorugoramon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0003,
           "Bronze": 0.0007,
           "Silver": 0.0014,
@@ -4659,7 +4659,7 @@
       "name": "Bokomon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0003,
           "Bronze": 0.0007,
           "Silver": 0.0014,
@@ -4685,7 +4685,7 @@
       "name": "MirageGaogamon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0003,
           "Bronze": 0.0007,
           "Silver": 0.0014,
@@ -4711,7 +4711,7 @@
       "name": "Ravemon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0003,
           "Bronze": 0.0007,
           "Silver": 0.0014,
@@ -4737,7 +4737,7 @@
       "name": "Justimon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0003,
           "Bronze": 0.0007,
           "Silver": 0.0014,
@@ -4763,7 +4763,7 @@
       "name": "Marsmon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0004,
           "Bronze": 0.0008,
           "Silver": 0.0016,
@@ -4789,7 +4789,7 @@
       "name": "Mastemon",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0004,
           "Bronze": 0.0009,
           "Silver": 0.0018,
@@ -4815,7 +4815,7 @@
       "name": "Rosemon (Burst Mode)",
       "stats": {
         "EV [Evasion]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0004,
           "Bronze": 0.0008,
           "Silver": 0.0016,
@@ -4841,13 +4841,13 @@
       "name": "Gazimon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -4867,13 +4867,13 @@
       "name": "Keramon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -4893,13 +4893,13 @@
       "name": "Tsunomon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -4919,13 +4919,13 @@
       "name": "Veemon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -4945,13 +4945,13 @@
       "name": "Jyagamon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -4971,13 +4971,13 @@
       "name": "Gaomon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 15,
-          "Bronze": 30,
-          "Silver": 60,
-          "Gold": 90,
-          "Platinum": 120,
-          "Master": 150
+          "Unopened": 0.0,
+          "Normal": 15.0,
+          "Bronze": 30.0,
+          "Silver": 60.0,
+          "Gold": 90.0,
+          "Platinum": 120.0,
+          "Master": 150.0
         }
       },
       "qty": {
@@ -4997,13 +4997,13 @@
       "name": "Guardromon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -5023,13 +5023,13 @@
       "name": "Kentarumon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -5049,13 +5049,13 @@
       "name": "Soulmon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -5075,13 +5075,13 @@
       "name": "ReptileDramon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -5101,13 +5101,13 @@
       "name": "Raremon (Champion)",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -5127,13 +5127,13 @@
       "name": "Garurumon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -5153,13 +5153,13 @@
       "name": "Ikkakumon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -5179,13 +5179,13 @@
       "name": "SunFlowmon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -5205,13 +5205,13 @@
       "name": "Kuwagamon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -5231,13 +5231,13 @@
       "name": "Ogremon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -5257,13 +5257,13 @@
       "name": "Sinduramon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 25,
-          "Bronze": 50,
-          "Silver": 100,
-          "Gold": 150,
-          "Platinum": 200,
-          "Master": 250
+          "Unopened": 0.0,
+          "Normal": 25.0,
+          "Bronze": 50.0,
+          "Silver": 100.0,
+          "Gold": 150.0,
+          "Platinum": 200.0,
+          "Master": 250.0
         }
       },
       "qty": {
@@ -5283,13 +5283,13 @@
       "name": "SkullSatamon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 25,
-          "Bronze": 50,
-          "Silver": 100,
-          "Gold": 150,
-          "Platinum": 200,
-          "Master": 250
+          "Unopened": 0.0,
+          "Normal": 25.0,
+          "Bronze": 50.0,
+          "Silver": 100.0,
+          "Gold": 150.0,
+          "Platinum": 200.0,
+          "Master": 250.0
         }
       },
       "qty": {
@@ -5309,13 +5309,13 @@
       "name": "Whamon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 25,
-          "Bronze": 50,
-          "Silver": 100,
-          "Gold": 150,
-          "Platinum": 200,
-          "Master": 250
+          "Unopened": 0.0,
+          "Normal": 25.0,
+          "Bronze": 50.0,
+          "Silver": 100.0,
+          "Gold": 150.0,
+          "Platinum": 200.0,
+          "Master": 250.0
         }
       },
       "qty": {
@@ -5335,13 +5335,13 @@
       "name": "Angewomon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 25,
-          "Bronze": 50,
-          "Silver": 100,
-          "Gold": 150,
-          "Platinum": 200,
-          "Master": 250
+          "Unopened": 0.0,
+          "Normal": 25.0,
+          "Bronze": 50.0,
+          "Silver": 100.0,
+          "Gold": 150.0,
+          "Platinum": 200.0,
+          "Master": 250.0
         }
       },
       "qty": {
@@ -5361,13 +5361,13 @@
       "name": "DexDoruGreymon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -5387,13 +5387,13 @@
       "name": "Valdurmon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 40,
-          "Bronze": 80,
-          "Silver": 160,
-          "Gold": 240,
-          "Platinum": 320,
-          "Master": 400
+          "Unopened": 0.0,
+          "Normal": 40.0,
+          "Bronze": 80.0,
+          "Silver": 160.0,
+          "Gold": 240.0,
+          "Platinum": 320.0,
+          "Master": 400.0
         }
       },
       "qty": {
@@ -5413,13 +5413,13 @@
       "name": "Cherubimon (White)",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 40,
-          "Bronze": 80,
-          "Silver": 160,
-          "Gold": 240,
-          "Platinum": 320,
-          "Master": 450
+          "Unopened": 0.0,
+          "Normal": 40.0,
+          "Bronze": 80.0,
+          "Silver": 160.0,
+          "Gold": 240.0,
+          "Platinum": 320.0,
+          "Master": 450.0
         }
       },
       "qty": {
@@ -5439,13 +5439,13 @@
       "name": "Xuanwumon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 50,
-          "Bronze": 100,
-          "Silver": 200,
-          "Gold": 300,
-          "Platinum": 400,
-          "Master": 500
+          "Unopened": 0.0,
+          "Normal": 50.0,
+          "Bronze": 100.0,
+          "Silver": 200.0,
+          "Gold": 300.0,
+          "Platinum": 400.0,
+          "Master": 500.0
         }
       },
       "qty": {
@@ -5465,13 +5465,13 @@
       "name": "UlforceVeedramon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 50,
-          "Bronze": 100,
-          "Silver": 200,
-          "Gold": 300,
-          "Platinum": 400,
-          "Master": 500
+          "Unopened": 0.0,
+          "Normal": 50.0,
+          "Bronze": 100.0,
+          "Silver": 200.0,
+          "Gold": 300.0,
+          "Platinum": 400.0,
+          "Master": 500.0
         }
       },
       "qty": {
@@ -5491,13 +5491,13 @@
       "name": "WarGreymon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 50,
-          "Bronze": 100,
-          "Silver": 200,
-          "Gold": 300,
-          "Platinum": 400,
-          "Master": 500
+          "Unopened": 0.0,
+          "Normal": 50.0,
+          "Bronze": 100.0,
+          "Silver": 200.0,
+          "Gold": 300.0,
+          "Platinum": 400.0,
+          "Master": 500.0
         }
       },
       "qty": {
@@ -5517,13 +5517,13 @@
       "name": "Sakuyamon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 50,
-          "Bronze": 100,
-          "Silver": 200,
-          "Gold": 300,
-          "Platinum": 400,
-          "Master": 500
+          "Unopened": 0.0,
+          "Normal": 50.0,
+          "Bronze": 100.0,
+          "Silver": 200.0,
+          "Gold": 300.0,
+          "Platinum": 400.0,
+          "Master": 500.0
         }
       },
       "qty": {
@@ -5543,13 +5543,13 @@
       "name": "BanchouLeomon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 50,
-          "Bronze": 100,
-          "Silver": 200,
-          "Gold": 300,
-          "Platinum": 400,
-          "Master": 500
+          "Unopened": 0.0,
+          "Normal": 50.0,
+          "Bronze": 100.0,
+          "Silver": 200.0,
+          "Gold": 300.0,
+          "Platinum": 400.0,
+          "Master": 500.0
         }
       },
       "qty": {
@@ -5569,13 +5569,13 @@
       "name": "MetalSeadramon",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 50,
-          "Bronze": 100,
-          "Silver": 200,
-          "Gold": 300,
-          "Platinum": 400,
-          "Master": 500
+          "Unopened": 0.0,
+          "Normal": 50.0,
+          "Bronze": 100.0,
+          "Silver": 200.0,
+          "Gold": 300.0,
+          "Platinum": 400.0,
+          "Master": 500.0
         }
       },
       "qty": {
@@ -5595,13 +5595,13 @@
       "name": "Lucemon 2nd Mode",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 50,
-          "Bronze": 100,
-          "Silver": 200,
-          "Gold": 300,
-          "Platinum": 400,
-          "Master": 500
+          "Unopened": 0.0,
+          "Normal": 50.0,
+          "Bronze": 100.0,
+          "Silver": 200.0,
+          "Gold": 300.0,
+          "Platinum": 400.0,
+          "Master": 500.0
         }
       },
       "qty": {
@@ -5621,13 +5621,13 @@
       "name": "UlforceVeedramon Future Mode",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 50,
-          "Bronze": 100,
-          "Silver": 200,
-          "Gold": 300,
-          "Platinum": 400,
-          "Master": 500
+          "Unopened": 0.0,
+          "Normal": 50.0,
+          "Bronze": 100.0,
+          "Silver": 200.0,
+          "Gold": 300.0,
+          "Platinum": 400.0,
+          "Master": 500.0
         }
       },
       "qty": {
@@ -5647,13 +5647,13 @@
       "name": "Imperialdramon Paladin Mode",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 50,
-          "Bronze": 100,
-          "Silver": 200,
-          "Gold": 300,
-          "Platinum": 400,
-          "Master": 500
+          "Unopened": 0.0,
+          "Normal": 50.0,
+          "Bronze": 100.0,
+          "Silver": 200.0,
+          "Gold": 300.0,
+          "Platinum": 400.0,
+          "Master": 500.0
         }
       },
       "qty": {
@@ -5673,13 +5673,13 @@
       "name": "ShineGreymon (Burst Mode)",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 55,
-          "Bronze": 110,
-          "Silver": 220,
-          "Gold": 330,
-          "Platinum": 440,
-          "Master": 550
+          "Unopened": 0.0,
+          "Normal": 55.0,
+          "Bronze": 110.0,
+          "Silver": 220.0,
+          "Gold": 330.0,
+          "Platinum": 440.0,
+          "Master": 550.0
         }
       },
       "qty": {
@@ -5699,13 +5699,13 @@
       "name": "Belphemon (Rage Mode) (Shin)",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 55,
-          "Bronze": 110,
-          "Silver": 220,
-          "Gold": 330,
-          "Platinum": 440,
-          "Master": 550
+          "Unopened": 0.0,
+          "Normal": 55.0,
+          "Bronze": 110.0,
+          "Silver": 220.0,
+          "Gold": 330.0,
+          "Platinum": 440.0,
+          "Master": 550.0
         }
       },
       "qty": {
@@ -5725,13 +5725,13 @@
       "name": "Omegamon Alter-S",
       "stats": {
         "HP [Health Points]": {
-          "Unopened": 0,
-          "Normal": 60,
-          "Bronze": 120,
-          "Silver": 240,
-          "Gold": 360,
-          "Platinum": 480,
-          "Master": 600
+          "Unopened": 0.0,
+          "Normal": 60.0,
+          "Bronze": 120.0,
+          "Silver": 240.0,
+          "Gold": 360.0,
+          "Platinum": 480.0,
+          "Master": 600.0
         }
       },
       "qty": {
@@ -5751,13 +5751,13 @@
       "name": "Drimogemon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 10,
-          "Bronze": 20,
-          "Silver": 40,
-          "Gold": 60,
-          "Platinum": 80,
-          "Master": 100
+          "Unopened": 0.0,
+          "Normal": 10.0,
+          "Bronze": 20.0,
+          "Silver": 40.0,
+          "Gold": 60.0,
+          "Platinum": 80.0,
+          "Master": 100.0
         }
       },
       "qty": {
@@ -5777,13 +5777,13 @@
       "name": "FanBeemon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 10,
-          "Bronze": 20,
-          "Silver": 40,
-          "Gold": 60,
-          "Platinum": 80,
-          "Master": 100
+          "Unopened": 0.0,
+          "Normal": 10.0,
+          "Bronze": 20.0,
+          "Silver": 40.0,
+          "Gold": 60.0,
+          "Platinum": 80.0,
+          "Master": 100.0
         }
       },
       "qty": {
@@ -5803,13 +5803,13 @@
       "name": "Gabumon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 10,
-          "Bronze": 20,
-          "Silver": 40,
-          "Gold": 60,
-          "Platinum": 80,
-          "Master": 100
+          "Unopened": 0.0,
+          "Normal": 10.0,
+          "Bronze": 20.0,
+          "Silver": 40.0,
+          "Gold": 60.0,
+          "Platinum": 80.0,
+          "Master": 100.0
         }
       },
       "qty": {
@@ -5829,13 +5829,13 @@
       "name": "Floramon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 10,
-          "Bronze": 20,
-          "Silver": 40,
-          "Gold": 60,
-          "Platinum": 80,
-          "Master": 100
+          "Unopened": 0.0,
+          "Normal": 10.0,
+          "Bronze": 20.0,
+          "Silver": 40.0,
+          "Gold": 60.0,
+          "Platinum": 80.0,
+          "Master": 100.0
         }
       },
       "qty": {
@@ -5855,13 +5855,13 @@
       "name": "Hackmon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 10,
-          "Bronze": 20,
-          "Silver": 40,
-          "Gold": 60,
-          "Platinum": 80,
-          "Master": 100
+          "Unopened": 0.0,
+          "Normal": 10.0,
+          "Bronze": 20.0,
+          "Silver": 40.0,
+          "Gold": 60.0,
+          "Platinum": 80.0,
+          "Master": 100.0
         }
       },
       "qty": {
@@ -5881,13 +5881,13 @@
       "name": "Coredramon (Blue)",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -5907,13 +5907,13 @@
       "name": "Dorugamon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -5933,13 +5933,13 @@
       "name": "DarkTyrannomon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -5959,13 +5959,13 @@
       "name": "Witchmon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -5985,13 +5985,13 @@
       "name": "GeoGreymon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -6011,13 +6011,13 @@
       "name": "Megadramon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -6037,13 +6037,13 @@
       "name": "Pumpkinmon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 20,
-          "Bronze": 40,
-          "Silver": 80,
-          "Gold": 120,
-          "Platinum": 160,
-          "Master": 200
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
         }
       },
       "qty": {
@@ -6063,13 +6063,13 @@
       "name": "Garudamon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -6089,13 +6089,13 @@
       "name": "Knightmon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -6115,13 +6115,13 @@
       "name": "BlackWereGarurumon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -6141,13 +6141,13 @@
       "name": "Crowmon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -6167,13 +6167,13 @@
       "name": "MetalGreymon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -6193,13 +6193,13 @@
       "name": "Antylamon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -6219,13 +6219,13 @@
       "name": "Blossomon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 30,
-          "Bronze": 60,
-          "Silver": 120,
-          "Gold": 180,
-          "Platinum": 240,
-          "Master": 300
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
         }
       },
       "qty": {
@@ -6245,13 +6245,13 @@
       "name": "Parasimon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 40,
-          "Bronze": 80,
-          "Silver": 160,
-          "Gold": 240,
-          "Platinum": 320,
-          "Master": 400
+          "Unopened": 0.0,
+          "Normal": 40.0,
+          "Bronze": 80.0,
+          "Silver": 160.0,
+          "Gold": 240.0,
+          "Platinum": 320.0,
+          "Master": 400.0
         }
       },
       "qty": {
@@ -6271,13 +6271,13 @@
       "name": "Rosemon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 40,
-          "Bronze": 80,
-          "Silver": 160,
-          "Gold": 240,
-          "Platinum": 320,
-          "Master": 400
+          "Unopened": 0.0,
+          "Normal": 40.0,
+          "Bronze": 80.0,
+          "Silver": 160.0,
+          "Gold": 240.0,
+          "Platinum": 320.0,
+          "Master": 400.0
         }
       },
       "qty": {
@@ -6297,13 +6297,13 @@
       "name": "Magnadramon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 40,
-          "Bronze": 80,
-          "Silver": 160,
-          "Gold": 240,
-          "Platinum": 320,
-          "Master": 400
+          "Unopened": 0.0,
+          "Normal": 40.0,
+          "Bronze": 80.0,
+          "Silver": 160.0,
+          "Gold": 240.0,
+          "Platinum": 320.0,
+          "Master": 400.0
         }
       },
       "qty": {
@@ -6323,13 +6323,13 @@
       "name": "LordKnightmon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 40,
-          "Bronze": 80,
-          "Silver": 160,
-          "Gold": 240,
-          "Platinum": 320,
-          "Master": 400
+          "Unopened": 0.0,
+          "Normal": 40.0,
+          "Bronze": 80.0,
+          "Silver": 160.0,
+          "Gold": 240.0,
+          "Platinum": 320.0,
+          "Master": 400.0
         }
       },
       "qty": {
@@ -6349,13 +6349,13 @@
       "name": "Beelzemon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 40,
-          "Bronze": 80,
-          "Silver": 160,
-          "Gold": 240,
-          "Platinum": 320,
-          "Master": 400
+          "Unopened": 0.0,
+          "Normal": 40.0,
+          "Bronze": 80.0,
+          "Silver": 160.0,
+          "Gold": 240.0,
+          "Platinum": 320.0,
+          "Master": 400.0
         }
       },
       "qty": {
@@ -6375,13 +6375,13 @@
       "name": "Gaioumon Itto Mode",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 40,
-          "Bronze": 80,
-          "Silver": 160,
-          "Gold": 240,
-          "Platinum": 320,
-          "Master": 400
+          "Unopened": 0.0,
+          "Normal": 40.0,
+          "Bronze": 80.0,
+          "Silver": 160.0,
+          "Gold": 240.0,
+          "Platinum": 320.0,
+          "Master": 400.0
         }
       },
       "qty": {
@@ -6401,13 +6401,13 @@
       "name": "Baihumon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 50,
-          "Bronze": 100,
-          "Silver": 200,
-          "Gold": 300,
-          "Platinum": 400,
-          "Master": 500
+          "Unopened": 0.0,
+          "Normal": 50.0,
+          "Bronze": 100.0,
+          "Silver": 200.0,
+          "Gold": 300.0,
+          "Platinum": 400.0,
+          "Master": 500.0
         }
       },
       "qty": {
@@ -6427,13 +6427,13 @@
       "name": "Craniamon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 50,
-          "Bronze": 100,
-          "Silver": 200,
-          "Gold": 300,
-          "Platinum": 400,
-          "Master": 500
+          "Unopened": 0.0,
+          "Normal": 50.0,
+          "Bronze": 100.0,
+          "Silver": 200.0,
+          "Gold": 300.0,
+          "Platinum": 400.0,
+          "Master": 500.0
         }
       },
       "qty": {
@@ -6453,13 +6453,13 @@
       "name": "TyrantKabuterimon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 50,
-          "Bronze": 100,
-          "Silver": 200,
-          "Gold": 300,
-          "Platinum": 400,
-          "Master": 500
+          "Unopened": 0.0,
+          "Normal": 50.0,
+          "Bronze": 100.0,
+          "Silver": 200.0,
+          "Gold": 300.0,
+          "Platinum": 400.0,
+          "Master": 500.0
         }
       },
       "qty": {
@@ -6479,13 +6479,13 @@
       "name": "MaloMyotismon",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 50,
-          "Bronze": 100,
-          "Silver": 200,
-          "Gold": 300,
-          "Platinum": 400,
-          "Master": 500
+          "Unopened": 0.0,
+          "Normal": 50.0,
+          "Bronze": 100.0,
+          "Silver": 200.0,
+          "Gold": 300.0,
+          "Platinum": 400.0,
+          "Master": 500.0
         }
       },
       "qty": {
@@ -6505,13 +6505,13 @@
       "name": "Alphamon Ouryuken",
       "stats": {
         "HT [Hit Rate]": {
-          "Unopened": 0,
-          "Normal": 55,
-          "Bronze": 110,
-          "Silver": 220,
-          "Gold": 330,
-          "Platinum": 440,
-          "Master": 550
+          "Unopened": 0.0,
+          "Normal": 55.0,
+          "Bronze": 110.0,
+          "Silver": 220.0,
+          "Gold": 330.0,
+          "Platinum": 440.0,
+          "Master": 550.0
         }
       },
       "qty": {
@@ -6531,7 +6531,7 @@
       "name": "Betamon",
       "stats": {
         "SK [Skill Damage]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.001,
           "Bronze": 0.002,
           "Silver": 0.004,
@@ -6557,7 +6557,7 @@
       "name": "Kiwimon",
       "stats": {
         "SK [Skill Damage]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.001,
           "Bronze": 0.002,
           "Silver": 0.004,
@@ -6583,7 +6583,7 @@
       "name": "Mammothmon",
       "stats": {
         "SK [Skill Damage]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0012,
           "Bronze": 0.0024,
           "Silver": 0.0048,
@@ -6609,7 +6609,7 @@
       "name": "Tankmon",
       "stats": {
         "SK [Skill Damage]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0012,
           "Bronze": 0.0024,
           "Silver": 0.0048,
@@ -6635,7 +6635,7 @@
       "name": "Wizardmon",
       "stats": {
         "SK [Skill Damage]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0012,
           "Bronze": 0.0024,
           "Silver": 0.0048,
@@ -6661,7 +6661,7 @@
       "name": "Andromon",
       "stats": {
         "SK [Skill Damage]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0014,
           "Bronze": 0.0028,
           "Silver": 0.0056,
@@ -6687,7 +6687,7 @@
       "name": "Devidramon",
       "stats": {
         "SK [Skill Damage]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.0014,
           "Bronze": 0.0028,
           "Silver": 0.0056,
@@ -6713,7 +6713,7 @@
       "name": "Gallantmon X",
       "stats": {
         "SK [Skill Damage]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.001,
           "Bronze": 0.002,
           "Silver": 0.004,
@@ -6739,7 +6739,7 @@
       "name": "Boltboutamon",
       "stats": {
         "SK [Skill Damage]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -6765,7 +6765,7 @@
       "name": "Sukamon",
       "stats": {
         "SK [Skill Damage]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -6791,7 +6791,7 @@
       "name": "GigaSeadramon",
       "stats": {
         "SK [Skill Damage]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -6817,7 +6817,7 @@
       "name": "Housemon",
       "stats": {
         "SK [Skill Damage]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -6843,7 +6843,7 @@
       "name": "Chaosdramon",
       "stats": {
         "SK [Skill Damage]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -6869,7 +6869,7 @@
       "name": "Moon Millenniumon",
       "stats": {
         "SK [Skill Damage]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -6895,7 +6895,7 @@
       "name": "Jesmon X",
       "stats": {
         "SK [Skill Damage]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -6921,7 +6921,7 @@
       "name": "Gankoomon X",
       "stats": {
         "SK [Skill Damage]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -6947,7 +6947,7 @@
       "name": "LordKnightmon X",
       "stats": {
         "SK [Skill Damage]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -6973,7 +6973,7 @@
       "name": "UlforceVeedramon X",
       "stats": {
         "SK [Skill Damage]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -6999,7 +6999,7 @@
       "name": "Delumon",
       "stats": {
         "SK [Skill Damage]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -7025,7 +7025,7 @@
       "name": "Lucemon X",
       "stats": {
         "SK [Skill Damage]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.002,
           "Bronze": 0.004,
           "Silver": 0.008,
@@ -7051,7 +7051,7 @@
       "name": "Examon X",
       "stats": {
         "SK [Skill Damage]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.003,
           "Bronze": 0.006,
           "Silver": 0.012,
@@ -7077,7 +7077,7 @@
       "name": "Omegamon Merciful Mode",
       "stats": {
         "SK [Skill Damage]": {
-          "Unopened": 0,
+          "Unopened": 0.0,
           "Normal": 0.003,
           "Bronze": 0.006,
           "Silver": 0.012,
@@ -7097,63 +7097,136 @@
       },
       "currentRank": "Unopened",
       "priceM": 1
+    },
+    "Meicoomon": {
+      "id": "Meicoomon",
+      "name": "Meicoomon",
+      "stats": {
+        "HT [Hit Rate]": {
+          "Unopened": 0.0,
+          "Normal": 10.0,
+          "Bronze": 20.0,
+          "Silver": 40.0,
+          "Gold": 60.0,
+          "Platinum": 80.0,
+          "Master": 100.0
+        }
+      },
+      "qty": {
+        "Unopened": 0,
+        "Normal": 1,
+        "Bronze": 50,
+        "Silver": 200,
+        "Gold": 500,
+        "Platinum": 1000,
+        "Master": 3000
+      },
+      "currentRank": null,
+      "priceM": 0
+    },
+    "Fanglongmon (Shin)": {
+      "id": "Fanglongmon (Shin)",
+      "name": "Fanglongmon (Shin)",
+      "stats": {
+        "AT [Attack Damage]": {
+          "Unopened": 0.0,
+          "Normal": 30.0,
+          "Bronze": 60.0,
+          "Silver": 120.0,
+          "Gold": 180.0,
+          "Platinum": 240.0,
+          "Master": 300.0
+        }
+      },
+      "qty": {
+        "Unopened": 0,
+        "Normal": 1,
+        "Bronze": 50,
+        "Silver": 200,
+        "Gold": 500,
+        "Platinum": 1000,
+        "Master": 3000
+      },
+      "currentRank": null,
+      "priceM": 0
+    },
+    "Meicrackmon Vicious Mode": {
+      "id": "Meicrackmon Vicious Mode",
+      "name": "Meicrackmon Vicious Mode",
+      "stats": {
+        "EV [Evasion]": {
+          "Unopened": 0.0,
+          "Normal": 0.0002,
+          "Bronze": 0.0004,
+          "Silver": 0.0008,
+          "Gold": 0.0012,
+          "Platinum": 0.0016,
+          "Master": 0.002
+        }
+      },
+      "qty": {
+        "Unopened": 0,
+        "Normal": 1,
+        "Bronze": 50,
+        "Silver": 200,
+        "Gold": 500,
+        "Platinum": 1000,
+        "Master": 3000
+      },
+      "currentRank": null,
+      "priceM": 0
+    },
+    "Raguelmon": {
+      "id": "Raguelmon",
+      "name": "Raguelmon",
+      "stats": {
+        "DE [Defense]": {
+          "Unopened": 0.0,
+          "Normal": 20.0,
+          "Bronze": 40.0,
+          "Silver": 80.0,
+          "Gold": 120.0,
+          "Platinum": 160.0,
+          "Master": 200.0
+        }
+      },
+      "qty": {
+        "Unopened": 0,
+        "Normal": 1,
+        "Bronze": 50,
+        "Silver": 200,
+        "Gold": 500,
+        "Platinum": 1000,
+        "Master": 3000
+      },
+      "currentRank": null,
+      "priceM": 0
+    },
+    "Ordinemon": {
+      "id": "Ordinemon",
+      "name": "Ordinemon",
+      "stats": {
+        "SK [Skill Damage]": {
+          "Unopened": 0.0,
+          "Normal": 0.002,
+          "Bronze": 0.004,
+          "Silver": 0.008,
+          "Gold": 0.012,
+          "Platinum": 0.016,
+          "Master": 0.02
+        }
+      },
+      "qty": {
+        "Unopened": 0,
+        "Normal": 1,
+        "Bronze": 50,
+        "Silver": 200,
+        "Gold": 500,
+        "Platinum": 1000,
+        "Master": 3000
+      },
+      "currentRank": null,
+      "priceM": 0
     }
-  },
-  "attrProgress": [
-    {
-      "attribute": "AT [Attack Damage]",
-      "vActual": 0,
-      "vMax": 10250,
-      "progress": 0
-    },
-    {
-      "attribute": "CT [Critical Hit Rate]",
-      "vActual": 0,
-      "vMax": 0.7850000000000004,
-      "progress": 0
-    },
-    {
-      "attribute": "HT [Hit Rate]",
-      "vActual": 0,
-      "vMax": 8950,
-      "progress": 0
-    },
-    {
-      "attribute": "HP [Health Points]",
-      "vActual": 0,
-      "vMax": 11250,
-      "progress": 0
-    },
-    {
-      "attribute": "DS [Digi-Soul Points]",
-      "vActual": 0,
-      "vMax": 10500,
-      "progress": 0
-    },
-    {
-      "attribute": "DE [Defense]",
-      "vActual": 0,
-      "vMax": 4830,
-      "progress": 0
-    },
-    {
-      "attribute": "BL [Block Rate]",
-      "vActual": 0,
-      "vMax": 0.46,
-      "progress": 0
-    },
-    {
-      "attribute": "EV [Evasion]",
-      "vActual": 0,
-      "vMax": 0.07600000000000004,
-      "progress": 0
-    },
-    {
-      "attribute": "SK [Skill Damage]",
-      "vActual": 0,
-      "vMax": 0.399,
-      "progress": 0
-    }
-  ],
-  "lastUpdated": 1778466480690
+  }
 }
