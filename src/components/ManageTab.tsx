@@ -12,7 +12,7 @@ import { CurrencyInput } from "./CurrencyInput";
 import { formatM } from "../lib/currency";
 import { TRANSLATIONS, type Lang } from "../lib/i18n";
 import { isDMWNoMarket } from "../lib/noMarketSeals";
-import { isDMWNew, markDMWSeen } from "../lib/newSeals";
+import { isDMWNew } from "../lib/newSeals";
 
 const STALE_MS = 7 * 24 * 60 * 60 * 1000; // 7 días
 
@@ -308,7 +308,6 @@ export function ManageTab({
 
           return (
             <div key={seal.name}
-              onClick={() => isNew && markDMWSeen(seal.name)}
               className="relative rounded-xl overflow-hidden border transition-all"
               style={{
                 borderColor: isNew ? "#f59e0b" : `${rankColor}60`,

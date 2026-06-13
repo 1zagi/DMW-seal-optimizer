@@ -4,7 +4,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import type { AppData, SealBase, SealUserData, Attribute, Rank } from "./lib/types";
-import { ATTRIBUTES, PERCENT_ATTRS } from "./lib/types";
+import { ATTRIBUTES } from "./lib/types";
 import {
   loadData, clearData, emptyAppData, loadDefaultData,
   loadBaseData, loadUserData, saveUserData,
@@ -15,8 +15,6 @@ import {
 } from "./lib/storage";
 import { extractUserData } from "./lib/sealMerger";
 import { computeAttrProgress } from "./lib/calculator";
-import { optimizeBuild, type BuildSolution } from "./lib/optimizer";
-import { calcCandidates } from "./lib/calculator";
 import { RankingTab }       from "./components/RankingTab";
 import { ManageTab }        from "./components/ManageTab";
 import { ProgressTab }      from "./components/ProgressTab";
@@ -73,10 +71,11 @@ export default function App() {
   const [lang, setLang] = useState<Lang>(() => (localStorage.getItem(LANG_KEY) as Lang | null) ?? "es");
   const [priceTimestamps, setPriceTimestamps] = useState<Record<string, number>>(() => loadPriceTimestamps());
 
-  const [buildSolution,  setBuildSolution]  = useState<BuildSolution | null>(null);
   const [activeSolution, setActiveSolution] = useState<"cheapest" | "fewest">("cheapest");
   const [checkedKeys,    setCheckedKeys]    = useState<Set<string>>(new Set());
   const [checkMode,      setCheckMode]      = useState<CheckMode>("mark-only");
+  const [rankingCheckedKeys, setRankingCheckedKeys] = useState<Set<string>>(new Set());
+  const [rankingCheckMode,   setRankingCheckMode]   = useState<CheckMode>("mark-only");
 
   const [importDialog, setImportDialog] = useState<{
     show: boolean; baseData?: SealBase[];
@@ -146,17 +145,6 @@ export default function App() {
 
   useEffect(() => {
     if (!ready) return;
-    const candidates = calcCandidates(data, builderAttr, includeOpener ? openerPrice : undefined);
-    const progress   = data.attrProgress.find(p => p.attribute === builderAttr);
-    const isPct      = PERCENT_ATTRS.has(builderAttr);
-    const toInternal = (v: number) => isPct ? v / 100 : v;
-    const currentStats   = progress?.vActual ?? 0;
-    const displayTarget  = builderTarget !== "" ? parseFloat(builderTarget) : 0;
-    const internalTarget = toInternal(displayTarget);
-    const targetNeeded   = builderMode === "total" ? Math.max(0, internalTarget - currentStats) : internalTarget;
-    if (targetNeeded <= 0 || candidates.length === 0) { setBuildSolution(null); return; }
-    const solutions = optimizeBuild(candidates, targetNeeded, builderAttr);
-    setBuildSolution(activeSolution === "cheapest" ? solutions.cheapest : solutions.fewest);
     setCheckedKeys(new Set());
   }, [data, builderAttr, builderTarget, builderMode, includeOpener, openerPrice, activeSolution, ready]);
 
@@ -206,6 +194,24 @@ export default function App() {
 
   const handleClearChecks = () => setCheckedKeys(new Set());
 
+  const handleToggleRankingCheck = (key: string, sealName: string, rank: Rank) => {
+    setRankingCheckedKeys(prev => {
+      const next = new Set(prev);
+      const wasChecked = next.has(key);
+      wasChecked ? next.delete(key) : next.add(key);
+      if (!wasChecked && rankingCheckMode === "update-rank") {
+        setData(prevData => {
+          if (!prevData.seals[sealName]) return prevData;
+          setHistory(h => [...h.slice(-MAX_HISTORY + 1), prevData]);
+          return persist({ ...prevData, seals: { ...prevData.seals, [sealName]: { ...prevData.seals[sealName], currentRank: rank } }, lastUpdated: Date.now() });
+        });
+      }
+      return next;
+    });
+  };
+
+  const handleClearRankingChecks = () => setRankingCheckedKeys(new Set());
+
   const handleUndo = () => {
     if (!history.length) return;
     const prev = history[history.length - 1];
@@ -215,7 +221,7 @@ export default function App() {
 
   const handleReset = () => {
     if (!confirm(t.confirmReset)) return;
-    clearData(); setHistory([]); setData(emptyAppData()); setCheckedKeys(new Set()); setBuildSolution(null);
+    clearData(); setHistory([]); setData(emptyAppData()); setCheckedKeys(new Set());
   };
 
   const handleSync = async () => {
@@ -292,9 +298,6 @@ export default function App() {
 
   const sealCount    = Object.keys(data.seals).length;
   const hasBackups   = getAvailableBackups().length > 0;
-  const checkedCount = checkedKeys.size;
-  const totalBuild   = buildSolution?.items.length ?? 0;
-
   // DMW usa servidor único fijo
   const DMW_SERVER_ID = "dmw";
 
@@ -348,11 +351,6 @@ export default function App() {
           <button key={tb.key} onClick={() => setTab(tb.key)}
             className={`relative px-5 py-3 text-sm font-semibold tracking-wider uppercase transition-all border-b-2 whitespace-nowrap ${tab === tb.key ? "border-[#00c8f0] text-[#00c8f0]" : "border-transparent text-[#5a8aaa] hover:text-white"}`}>
             {tb.label}
-            {tb.key === "ranking" && totalBuild > 0 && (
-              <span className={`absolute -top-0.5 -right-0.5 text-[9px] font-bold px-1 rounded-full min-w-[16px] text-center leading-4 ${checkedCount === totalBuild ? "bg-[#00e676] text-black" : "bg-[#00c8f0] text-black"}`}>
-                {checkedCount}/{totalBuild}
-              </span>
-            )}
           </button>
         ))}
       </nav>
@@ -380,7 +378,7 @@ export default function App() {
           </div>
         )}
 
-        {tab === "ranking"  && <RankingTab  data={data} lang={lang} selectedAttr={rankAttr} onAttrChange={setRankAttr} simpleMode={rankSimple} onSimpleModeChange={setRankSimple} topN={rankTopN} onTopNChange={setRankTopN} openerPrice={openerPrice} includeOpener={includeOpener} buildSolution={buildSolution} checkedKeys={checkedKeys} checkMode={checkMode} onCheckModeChange={setCheckMode} onToggleCheck={handleToggleCheck} onClearChecks={handleClearChecks} onPriceChange={handlePriceChange} />}
+        {tab === "ranking"  && <RankingTab  data={data} lang={lang} selectedAttr={rankAttr} onAttrChange={setRankAttr} simpleMode={rankSimple} onSimpleModeChange={setRankSimple} topN={rankTopN} onTopNChange={setRankTopN} openerPrice={openerPrice} includeOpener={includeOpener} checkedKeys={rankingCheckedKeys} checkMode={rankingCheckMode} onCheckModeChange={setRankingCheckMode} onToggleCheck={handleToggleRankingCheck} onClearChecks={handleClearRankingChecks} onPriceChange={handlePriceChange} />}
         {tab === "manage"   && <ManageTab   data={data} onUpdate={updateData} onPriceChange={handlePriceChange} lang={lang} search={manageSearch} onSearchChange={setManageSearch} attrFilter={manageFilter} onAttrFilterChange={setManageFilter} sortKey={manageSort} onSortKeyChange={setManageSort} priceTimestamps={priceTimestamps} />}
         {tab === "progress" && <ProgressTab data={data} onUpdate={updateData} lang={lang} />}
         {tab === "builder"  && <BuilderTab  data={data} lang={lang} selectedAttr={builderAttr} onAttrChange={attr => { setBuilderAttr(attr); setBuilderTarget(""); setCheckedKeys(new Set()); }} targetStat={builderTarget} onTargetStatChange={setBuilderTarget} useSlider={builderSlider} onUseSliderChange={setBuilderSlider} builderMode={builderMode} onBuilderModeChange={setBuilderMode} openerPrice={openerPrice} includeOpener={includeOpener} checkedKeys={checkedKeys} checkMode={checkMode} activeSolution={activeSolution} onActiveSolutionChange={s => { setActiveSolution(s); setCheckedKeys(new Set()); }} onToggleCheck={handleToggleCheck} onClearChecks={handleClearChecks} onCheckModeChange={setCheckMode} onPriceChange={handlePriceChange} />}

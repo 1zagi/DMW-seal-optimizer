@@ -9,6 +9,7 @@ import { calcCandidates } from "../lib/calculator";
 import { optimizeBuild, type BuildSolution } from "../lib/optimizer";
 import { TRANSLATIONS, type Lang } from "../lib/i18n";
 import { formatM } from "../lib/currency";
+import { isDMWNew } from "../lib/newSeals";
 
 type CheckMode = "mark-only" | "update-rank";
 
@@ -124,11 +125,12 @@ function SolutionCard({ solution, label, sublabel, attr, isPct, targetValue, cur
           const key = itemKey(item.name, item.rank); const isDone = checkedKeys.has(key);
           const efficiency = item.statBonus > 0 ? item.totalCostM / item.statBonus : 0;
           const currentPrice = data.seals[item.name]?.priceM ?? item.priceM ?? item.totalCostM / (item.qty || 1);
+          const isNew = isDMWNew(item.name);
           return (
-            <div key={key} onClick={() => onToggleCheck(key, item.name, item.rank as Rank)} className={`flex items-start gap-2.5 p-2 rounded cursor-pointer transition-all select-none ${isDone ? "bg-[#00e676]/08 border border-[#00e676]/20 opacity-60" : "bg-black/30 border border-transparent hover:border-[#1a3f6e]"}`}>
+            <div key={key} onClick={() => onToggleCheck(key, item.name, item.rank as Rank)} className={`flex items-start gap-2.5 p-2 rounded cursor-pointer transition-all select-none ${isDone ? "bg-[#00e676]/08 border border-[#00e676]/20 opacity-60" : isNew ? "bg-[#f59e0b]/10 border border-[#f59e0b] shadow-[0_0_10px_#f59e0b30]" : "bg-black/30 border border-transparent hover:border-[#1a3f6e]"}`}>
               <div className={`mt-0.5 w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 transition-all ${isDone ? "border-[#00e676] bg-[#00e676]" : "border-[#1a3f6e] hover:border-[#5a8aaa]"}`}>{isDone && <span className="text-black text-[10px] font-black leading-none">✓</span>}</div>
               <div className="flex-1 min-w-0">
-                <p className={`font-semibold truncate transition-all ${isDone ? "line-through text-[#5a8aaa]" : "text-white"}`}>{item.name}</p>
+                <p className={`font-semibold truncate transition-all ${isDone ? "line-through text-[#5a8aaa]" : "text-white"}`}>{item.name}{isNew && <span className="ml-2 px-1.5 py-0.5 rounded bg-[#f59e0b] text-black text-[9px] font-bold font-mono align-middle">{lang === "es" ? "nueva" : "new"}</span>}</p>
                 <p className="text-[#5a8aaa] text-[10px] mt-0.5"><span className="px-1.5 py-0.5 rounded text-[10px] font-bold mr-1" style={{ color: RANK_COLOR[item.rank as Rank] ?? "#fff", background: `${RANK_COLOR[item.rank as Rank] ?? "#fff"}20`, border: `1px solid ${RANK_COLOR[item.rank as Rank] ?? "#fff"}40` }}>{item.rank}</span>{item.qty.toLocaleString()} {lang === "es" ? "sellos" : "seals"}{Math.ceil(item.qty / 50) > 0 && <span className="text-[#2a4558] ml-1">· {Math.ceil(item.qty / 50)} opener{Math.ceil(item.qty / 50) > 1 ? "s" : ""}</span>}</p>
               </div>
               <div className="text-right shrink-0">
