@@ -4166,12 +4166,12 @@
       "stats": {
         "EV [Evasion]": {
           "Unopened": 0.0,
-          "Normal": 0.0002,
-          "Bronze": 0.0004,
-          "Silver": 0.0008,
-          "Gold": 0.0012,
-          "Platinum": 0.0016,
-          "Master": 0.002
+          "Normal": 0.00015,
+          "Bronze": 0.0003,
+          "Silver": 0.0006,
+          "Gold": 0.0009,
+          "Platinum": 0.0012,
+          "Master": 0.0015
         }
       },
       "qty": {
