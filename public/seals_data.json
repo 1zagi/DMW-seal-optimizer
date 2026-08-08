@@ -2383,11 +2383,11 @@
       "qty": {
         "Unopened": 0,
         "Normal": 1,
-        "Bronze": 50,
-        "Silver": 200,
-        "Gold": 500,
-        "Platinum": 1000,
-        "Master": 3000
+        "Bronze": 100,
+        "Silver": 250,
+        "Gold": 400,
+        "Platinum": 500,
+        "Master": 1000
       },
       "currentRank": "Unopened",
       "priceM": 1
