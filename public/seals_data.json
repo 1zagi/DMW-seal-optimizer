@@ -5414,11 +5414,11 @@
       "stats": {
         "HP [Health Points]": {
           "Unopened": 0.0,
-          "Normal": 40.0,
-          "Bronze": 80.0,
-          "Silver": 160.0,
-          "Gold": 240.0,
-          "Platinum": 320.0,
+          "Normal": 45.0,
+          "Bronze": 90.0,
+          "Silver": 180.0,
+          "Gold": 270.0,
+          "Platinum": 360.0,
           "Master": 450.0
         }
       },
