@@ -6,11 +6,11 @@
 //  Actualizar lista y fecha con cada patch nuevo.
 // ============================================================
 
-const RELEASE_DATE   = new Date("2026-07-23").getTime();
+const RELEASE_DATE   = new Date("2026-09-03").getTime();
 const HIGHLIGHT_DAYS = 30;
 
 export const NEW_SEALS_DMW = new Set<string>([
-  // sin seals nuevas por ahora
+  "Lucemon Larva Mode"
 ]);
 
 export function isDMWNew(sealName: string): boolean {

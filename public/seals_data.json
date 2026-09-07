@@ -2383,11 +2383,11 @@
       "qty": {
         "Unopened": 0,
         "Normal": 1,
-        "Bronze": 100,
-        "Silver": 250,
-        "Gold": 400,
-        "Platinum": 500,
-        "Master": 1000
+        "Bronze": 50,
+        "Silver": 200,
+        "Gold": 500,
+        "Platinum": 1000,
+        "Master": 3000
       },
       "currentRank": "Unopened",
       "priceM": 1
@@ -4166,12 +4166,12 @@
       "stats": {
         "EV [Evasion]": {
           "Unopened": 0.0,
-          "Normal": 0.00015,
-          "Bronze": 0.0003,
-          "Silver": 0.0006,
-          "Gold": 0.0009,
-          "Platinum": 0.0012,
-          "Master": 0.0015
+          "Normal": 0.0002,
+          "Bronze": 0.0004,
+          "Silver": 0.0008,
+          "Gold": 0.0012,
+          "Platinum": 0.0016,
+          "Master": 0.002
         }
       },
       "qty": {
@@ -7224,6 +7224,32 @@
         "Gold": 500,
         "Platinum": 1000,
         "Master": 3000
+      },
+      "currentRank": null,
+      "priceM": 0
+    },
+    "Lucemon Larva Mode": {
+      "id": "Lucemon Larva Mode",
+      "name": "Lucemon Larva Mode",
+      "stats": {
+        "SK [Skill Damage]": {
+          "Unopened": 0.0,
+          "Normal": 0.002,
+          "Bronze": 0.004,
+          "Silver": 0.008,
+          "Gold": 0.012,
+          "Platinum": 0.016,
+          "Master": 0.02
+        }
+      },
+      "qty": {
+        "Unopened": 0,
+        "Normal": 1,
+        "Bronze": 100,
+        "Silver": 250,
+        "Gold": 400,
+        "Platinum": 500,
+        "Master": 1000
       },
       "currentRank": null,
       "priceM": 0
